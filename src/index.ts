@@ -1,9 +1,27 @@
-import Koa from "koa";
+import express, { json } from "express";
+import morgan from "morgan";
+import compression from "compression";
+import helmet from "helmet";
+import cors from "cors";
 
-const app = new Koa();
+const app = express();
+const port = 3000;
 
-app.use(async (ctx) => {
-  ctx.body = "Hello World";
+app.use(morgan("dev"));
+app.use(compression());
+app.use(helmet());
+app.use(json());
+app.use(cors());
+
+app.use("/test", (_req, res) => {
+  res.send("test");
 });
 
-app.listen(3000);
+app.use((_req, res) => {
+  res.sendStatus(404);
+});
+
+app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server is running at https://localhost:${port}`);
+});
