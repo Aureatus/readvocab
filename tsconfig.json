@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "dist"],
+  "extends": "@tsconfig/node18-strictest/tsconfig.json"
+}
