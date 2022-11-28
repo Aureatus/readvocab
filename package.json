@@ -8,14 +8,14 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "serve": "ts-node src/index.ts",
-    "start": "nodemon"
+    "devserve": "ts-node src/index.ts",
+    "devstart": "DEBUG=koa* nodemon"
   },
   "nodemonConfig": {
     "watch": [
       "src"
     ],
-    "exec": "npm run serve",
+    "exec": "npm run devserve",
     "ext": "ts"
   },
   "keywords": [],
