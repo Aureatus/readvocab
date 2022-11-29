@@ -1,7 +1,16 @@
 import { corpusObject } from "corpus-word-freq";
 import removeDuplicates from "../utils/removeDuplicates";
 
-const findRareWords = (wordList: string[], numberOfWords: number): Object[] => {
+interface WordList {
+  word: string;
+  PoS: string;
+  freq: string;
+}
+
+const findRareWords = (
+  wordList: string[],
+  numberOfWords: number
+): WordList[] => {
   const corpus = corpusObject([
     "Prep",
     "Neg",
