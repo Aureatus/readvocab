@@ -1,9 +1,8 @@
 import { Router } from "express";
+import { getWords } from "../controllers/words";
 
 const wordsRouter = Router();
 
-wordsRouter.get("/", (_req, res) => {
-  res.send("This is the word route.");
-});
+wordsRouter.get("/", getWords);
 
 export default wordsRouter;
