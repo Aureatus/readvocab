@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "compression": "^1.7.4",
+    "corpus-word-freq": "^4.3.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^6.0.0",
