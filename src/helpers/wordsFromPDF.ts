@@ -1,10 +1,9 @@
-import { join } from "path";
 import { getDocument } from "pdfjs-dist";
 import punctuationFilter from "../utils/punctuationFilter";
 import removeDuplicates from "../utils/removeDuplicates";
 
 const wordsFromPDF = async (dir: string): Promise<string[]> => {
-  const doc = await getDocument(join(__dirname, dir)).promise;
+  const doc = await getDocument(dir).promise;
   const docPages = doc.numPages;
   let array: string[] = [];
   for (let i = 1; i <= docPages; i++) {
