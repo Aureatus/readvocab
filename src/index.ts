@@ -1,30 +1,18 @@
-import express, { json } from "express";
-import morgan from "morgan";
-import compression from "compression";
-import helmet from "helmet";
-import cors from "cors";
+import { fastify } from "fastify";
 import wordsRouter from "./routes/wordsRouter.js";
 
-const app = express();
+const app = fastify({ logger: true });
 const port = 3000;
 
-app.use(morgan("dev"));
-app.use(compression());
-app.use(helmet());
-app.use(json());
-app.use(cors());
+await app.register(wordsRouter, { prefix: "/words" });
 
-app.use("/test", (_req, res) => {
-  res.send("test");
-});
+const start = async (): Promise<void> => {
+  try {
+    await app.listen({ port });
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
 
-app.use("/words", wordsRouter);
-
-app.use((_req, res) => {
-  res.sendStatus(404);
-});
-
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server is running at https://localhost:${port}`);
-});
+await start();

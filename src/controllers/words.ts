@@ -1,7 +1,10 @@
-import type { Request, Response } from "express";
+import type { FastifyReply, FastifyRequest } from "fastify";
 
-const getWords = (_req: Request, res: Response): Response => {
-  return res.send("This is a get request on the word route.");
+const getWords = async (
+  _request: FastifyRequest,
+  _reply: FastifyReply
+): Promise<string> => {
+  return "This is a get request on the word route";
 };
 
 export { getWords };
