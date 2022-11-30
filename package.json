@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "serve": "node dist/index.js",
     "devserve": "ts-node-esm src/index.ts",
     "dev": "nodemon"
   },
