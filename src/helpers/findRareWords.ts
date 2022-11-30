@@ -1,5 +1,5 @@
 import { corpusObject } from "corpus-word-freq";
-import removeDuplicates from "../utils/removeDuplicates";
+import removeDuplicates from "../utils/removeDuplicates.js";
 
 interface WordObject {
   word: string;

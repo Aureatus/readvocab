@@ -1,6 +1,6 @@
 import { getDocument } from "pdfjs-dist";
-import punctuationFilter from "../utils/punctuationFilter";
-import removeDuplicates from "../utils/removeDuplicates";
+import punctuationFilter from "../utils/punctuationFilter.js";
+import removeDuplicates from "../utils/removeDuplicates.js";
 
 const wordsFromPDF = async (dir: string): Promise<string[]> => {
   const doc = await getDocument(dir).promise;

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/return-await */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const WordPOS = require("wordpos");
+import WordPOS from "wordpos";
 
 interface WordObject {
   word: string;
