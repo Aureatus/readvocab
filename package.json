@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "devserve": "ts-node-esm src/index.ts",
-    "devstart": "nodemon"
+    "dev": "nodemon"
   },
   "nodemonConfig": {
     "watch": [
