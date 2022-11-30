@@ -3,7 +3,7 @@ import morgan from "morgan";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
-import wordsRouter from "./routes/wordsRouter";
+import wordsRouter from "./routes/wordsRouter.js";
 
 const app = express();
 const port = 3000;
