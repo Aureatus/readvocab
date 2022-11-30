@@ -6,9 +6,10 @@
   },
   "description": "",
   "main": "src/index.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "devserve": "ts-node src/index.ts",
+    "devserve": "ts-node-esm src/index.ts",
     "devstart": "nodemon"
   },
   "nodemonConfig": {
@@ -22,7 +23,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tsconfig/node18-strictest": "^1.0.0",
+    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
