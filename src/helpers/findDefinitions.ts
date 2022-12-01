@@ -2,11 +2,7 @@
 
 import WordPOS from "wordpos";
 
-interface WordObject {
-  word: string;
-  PoS: string;
-  freq: string;
-}
+import type { WordObject } from "../types.js";
 
 const findDefinitions = async (
   wordList: WordObject[]

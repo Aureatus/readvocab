@@ -1,14 +1,10 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
 import findDefinitions from "../helpers/findDefinitions.js";
 import findRareWords from "../helpers/findRareWords.js";
 import getWordsAndDefinitions from "../helpers/getWordsAndDefinitions.js";
 import wordsFromPDF from "../helpers/wordsFromPDF.js";
 
-interface DefinitionObject {
-  word: string;
-  PoS: string;
-  definition: string;
-}
+import type { FastifyReply, FastifyRequest } from "fastify";
+import type { DefinitionObject } from "../types.js";
 
 const getWords = async (
   request: FastifyRequest,

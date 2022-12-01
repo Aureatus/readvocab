@@ -1,14 +1,4 @@
-interface WordObject {
-  word: string;
-  PoS: string;
-  freq: string;
-}
-
-interface DefinitionObject {
-  word: string;
-  PoS: string;
-  definition: string;
-}
+import type { DefinitionObject, WordObject } from "../types.js";
 
 const getWordsAndDefinitions = (
   rareWords: WordObject[],
