@@ -1,8 +1,11 @@
+import { fastifyMultipart } from "@fastify/multipart";
 import { fastify } from "fastify";
 import wordsRouter from "./routes/wordsRouter.js";
 
 const app = fastify({ logger: true });
 const port = 3000;
+
+await app.register(fastifyMultipart);
 
 await app.register(wordsRouter, { prefix: "/words" });
 
