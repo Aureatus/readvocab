@@ -11,7 +11,7 @@ const mergeWordsAndDefs = (
 
       const object = {
         word: e.word,
-        PoS: e.PoS,
+        wordClass: e.PoS,
         definition,
       };
       return object;

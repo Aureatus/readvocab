@@ -6,6 +6,6 @@ export interface CorpusWord {
 
 export interface DefinitionWord {
   word: string;
-  PoS: string;
+  wordClass: string;
   definition: string;
 }
