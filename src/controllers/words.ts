@@ -12,7 +12,9 @@ const getWords = async (
 ): Promise<DefinitionWord[]> => {
   const files = await request.saveRequestFiles();
   const filePath = files[0]?.filepath;
+  const fileExtension = files[0]?.mimetype;
   if (filePath === undefined) throw Error("File not found");
+  if (fileExtension !== "application/pdf") throw Error("Please upload a PDF.");
   const words = await wordsFromPDF(filePath);
   const rareWords = findRareWords(words, 20);
   const rareWordDefinitions = await findDefinitions(rareWords);
