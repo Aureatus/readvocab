@@ -1,6 +1,6 @@
 import type { DefinitionObject, WordObject } from "../types.js";
 
-const getWordsAndDefinitions = (
+const mergeWordsAndDefs = (
   rareWords: WordObject[],
   rareWordDefinitions: Array<string | null | undefined>
 ): DefinitionObject[] => {
@@ -19,4 +19,4 @@ const getWordsAndDefinitions = (
     .filter((e): e is DefinitionObject => e !== null);
 };
 
-export default getWordsAndDefinitions;
+export default mergeWordsAndDefs;

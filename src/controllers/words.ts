@@ -1,6 +1,6 @@
 import findDefinitions from "../helpers/findDefinitions.js";
 import findRareWords from "../helpers/findRareWords.js";
-import getWordsAndDefinitions from "../helpers/getWordsAndDefinitions.js";
+import mergeWordsAndDefs from "../helpers/mergeWordsAndDefs.js";
 import wordsFromPDF from "../helpers/wordsFromPDF.js";
 
 import type { FastifyReply, FastifyRequest } from "fastify";
@@ -17,7 +17,7 @@ const getWords = async (
   const rareWords = findRareWords(words, 20);
   const rareWordDefinitions = await findDefinitions(rareWords);
 
-  return getWordsAndDefinitions(rareWords, rareWordDefinitions);
+  return mergeWordsAndDefs(rareWords, rareWordDefinitions);
 };
 
 export { getWords };
