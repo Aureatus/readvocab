@@ -26,7 +26,7 @@ const findDefinitions = async (
       const wordInfo = await getWordInfo();
       if (wordInfo.length === 0) return null;
 
-      return wordInfo[0]?.def;
+      return wordInfo[0]?.def.trim();
     })
   );
   return definitions;
