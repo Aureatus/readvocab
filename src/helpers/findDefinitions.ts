@@ -2,10 +2,10 @@
 
 import WordPOS from "wordpos";
 
-import type { WordObject } from "../types.js";
+import type { CorpusWord } from "../types.js";
 
 const findDefinitions = async (
-  wordList: WordObject[]
+  wordList: CorpusWord[]
 ): Promise<Array<string | null | undefined>> => {
   const wordSearch = new WordPOS();
   const definitions = await Promise.all(

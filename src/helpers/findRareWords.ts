@@ -1,12 +1,12 @@
 import { corpusObject } from "corpus-word-freq";
 import removeDuplicates from "../utils/removeDuplicates.js";
 
-import type { WordObject } from "../types.js";
+import type { CorpusWord } from "../types.js";
 
 const findRareWords = (
   wordList: string[],
   numberOfWords: number
-): WordObject[] => {
+): CorpusWord[] => {
   const corpus = corpusObject([
     "Prep",
     "Neg",

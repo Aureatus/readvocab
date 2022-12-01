@@ -1,9 +1,9 @@
-import type { DefinitionObject, WordObject } from "../types.js";
+import type { CorpusWord, DefinitionWord } from "../types.js";
 
 const mergeWordsAndDefs = (
-  rareWords: WordObject[],
+  rareWords: CorpusWord[],
   rareWordDefinitions: Array<string | null | undefined>
-): DefinitionObject[] => {
+): DefinitionWord[] => {
   return rareWords
     .map((e, index) => {
       const definition = rareWordDefinitions[index];
@@ -16,7 +16,7 @@ const mergeWordsAndDefs = (
       };
       return object;
     })
-    .filter((e): e is DefinitionObject => e !== null);
+    .filter((e): e is DefinitionWord => e !== null);
 };
 
 export default mergeWordsAndDefs;
