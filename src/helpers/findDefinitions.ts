@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/return-await */
-
 import WordPOS from "wordpos";
 
 import type { CorpusWord } from "../types.js";
@@ -13,13 +11,13 @@ const findDefinitions = async (
       const getWordInfo = async (): Promise<Array<{ def: string }>> => {
         switch (wordObject.PoS) {
           case "Verb":
-            return await wordSearch.lookupVerb(wordObject.word);
+            return wordSearch.lookupVerb(wordObject.word);
           case "Adj":
-            return await wordSearch.lookupAdjective(wordObject.word);
+            return wordSearch.lookupAdjective(wordObject.word);
           case "Adv":
-            return await wordSearch.lookupAdverb(wordObject.word);
+            return wordSearch.lookupAdverb(wordObject.word);
           default:
-            return await wordSearch.lookup(wordObject.word);
+            return wordSearch.lookup(wordObject.word);
         }
       };
 
