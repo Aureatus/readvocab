@@ -5,7 +5,10 @@ import removeDuplicates from "../utils/removeDuplicates.js";
 const { getDocument } = pkg;
 
 const wordsFromPDF = async (dir: string): Promise<string[]> => {
-  const doc = await getDocument(dir).promise;
+  const doc = await getDocument({
+    url: dir,
+    useSystemFonts: true,
+  }).promise;
   const docPages = doc.numPages;
   let array: string[] = [];
   for (let i = 1; i <= docPages; i++) {
