@@ -4,7 +4,7 @@
     "sourceMap": true,
     "outDir": "dist"
   },
-  "include": ["src", "api"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"],
   "ts-node": { "files": true },
   "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json"
