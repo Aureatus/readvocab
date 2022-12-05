@@ -3,7 +3,10 @@ import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import wordsRouter from "./routes/wordsRouter.js";
 
-const app = fastify({ logger: true });
+const app = fastify({
+  logger: true,
+  bodyLimit: 50 * 1024 * 1024,
+});
 const port = 3000;
 
 await app.register(fastifyMultipart);
