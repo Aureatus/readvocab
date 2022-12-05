@@ -5,7 +5,7 @@
     "node": "18.12.1"
   },
   "description": "",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
