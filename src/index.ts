@@ -2,12 +2,17 @@ import { fastifyMultipart } from "@fastify/multipart";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import wordsRouter from "./routes/wordsRouter.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = fastify({
   logger: true,
   bodyLimit: 50 * 1024 * 1024,
 });
-const port = 3000;
+let port = Number(process.env["PORT"]);
+
+if (isNaN(port)) port = 3000;
 
 await app.register(fastifyMultipart);
 await app.register(cors);
