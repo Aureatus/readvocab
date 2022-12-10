@@ -4,6 +4,7 @@
     "slug": "readvocab-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
+    "entryPoint": "./index.ts",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
