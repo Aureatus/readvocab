@@ -1,23 +1,48 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const { Navigator, Screen } = createNativeStackNavigator();
+type RootStackParamList = {
+  Placeholder1: undefined;
+  Placeholder2: undefined;
+};
 
-const Placeholder1 = () => {
+const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
+
+type Placeholder1Props = NativeStackScreenProps<
+  RootStackParamList,
+  "Placeholder1"
+>;
+const Placeholder1 = ({
+  navigation: { navigate },
+}: Placeholder1Props): JSX.Element => {
   return (
     <View>
       <Text>Placeholder 1</Text>
+      <Button
+        title="Go to Placeholder2"
+        onPress={() => navigate("Placeholder2")}
+      />
       <StatusBar style="auto" />
     </View>
   );
 };
 
-const Placeholder2 = () => {
+type Placeholder2Props = NativeStackScreenProps<
+  RootStackParamList,
+  "Placeholder2"
+>;
+
+const Placeholder2 = ({ navigation: { navigate } }: Placeholder2Props) => {
   return (
     <View>
       <Text>Placeholder 2</Text>
+      <Button
+        title="Go to Placeholder1"
+        onPress={() => navigate("Placeholder1")}
+      />
       <StatusBar style="auto" />
     </View>
   );
