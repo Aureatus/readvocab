@@ -1,17 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import { Button, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+  createBottomTabNavigator,
+  type BottomTabScreenProps,
+} from "@react-navigation/bottom-tabs";
 
 type RootStackParamList = {
   Placeholder1: undefined;
   Placeholder2: undefined;
 };
 
-const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
+const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
 
-type Placeholder1Props = NativeStackScreenProps<
+type Placeholder1Props = BottomTabScreenProps<
   RootStackParamList,
   "Placeholder1"
 >;
@@ -30,7 +32,7 @@ const Placeholder1 = ({
   );
 };
 
-type Placeholder2Props = NativeStackScreenProps<
+type Placeholder2Props = BottomTabScreenProps<
   RootStackParamList,
   "Placeholder2"
 >;
