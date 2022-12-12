@@ -1,6 +1,6 @@
-import type { DefinitionWord } from "../../types/dataTypes";
-
 import { FileSystemUploadType, uploadAsync } from "expo-file-system";
+
+import type { DefinitionWord } from "../../types/dataTypes";
 
 const getRareWords = async (
   fileData: string | File

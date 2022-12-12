@@ -3,14 +3,15 @@ import { Button, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
-import type { DefinitionWord } from "./types/dataTypes";
 
-import WordDataContext from "./library/context/WordDataContext";
-import Home from "./components/screens/Home";
 import type {
   Placeholder2Props,
   RootStackParamList,
 } from "./types/navigationTypes";
+import type { DefinitionWord } from "./types/dataTypes";
+
+import WordDataContext from "./library/context/WordDataContext";
+import Home from "./components/screens/Home";
 
 const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
 

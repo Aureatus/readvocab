@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { Button, View, Text } from "react-native";
+
+import type { HomeProps } from "../../types/navigationTypes";
+
 import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
 import getRareWords from "../../library/helpers/getRareWords";
-import type { HomeProps } from "../../types/navigationTypes";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const context = useContext(WordDataContext);
