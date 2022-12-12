@@ -11,6 +11,7 @@ import type {
 import type { DefinitionWord } from "./types/dataTypes";
 
 import WordDataContext from "./library/context/WordDataContext";
+import screenOptions from "./library/helpers/navigation/screenOptions";
 import Home from "./components/screens/Home";
 
 const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
@@ -42,7 +43,7 @@ export default function App() {
           setWordDataError,
         }}
       >
-        <Navigator initialRouteName="Home">
+        <Navigator initialRouteName="Home" screenOptions={screenOptions}>
           <Screen name="Home" component={Home} />
           <Screen name="Placeholder2" component={Placeholder2} />
         </Navigator>
