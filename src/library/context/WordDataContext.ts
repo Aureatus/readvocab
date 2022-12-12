@@ -1,7 +1,7 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import type { DefinitionWord } from "../../types/dataTypes";
 
-const wordDataContext = createContext<{
+const WordDataContext = createContext<{
   wordData: DefinitionWord[];
   setWordData: Dispatch<SetStateAction<DefinitionWord[]>>;
   wordDataLoading: boolean;
@@ -10,4 +10,4 @@ const wordDataContext = createContext<{
   setWordDataError: Dispatch<SetStateAction<Error | undefined>>;
 } | null>(null);
 
-export default wordDataContext;
+export default WordDataContext;
