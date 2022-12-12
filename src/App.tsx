@@ -5,6 +5,8 @@ import {
   createBottomTabNavigator,
   type BottomTabScreenProps,
 } from "@react-navigation/bottom-tabs";
+import { useState } from "react";
+import type { DefinitionWord } from "./types/dataTypes";
 
 type RootStackParamList = {
   Placeholder1: undefined;
@@ -51,6 +53,10 @@ const Placeholder2 = ({ navigation: { navigate } }: Placeholder2Props) => {
 };
 
 export default function App() {
+  const [wordData, setWordData] = useState<DefinitionWord[]>([]);
+  const [wordDataLoading, setWordDataLoading] = useState<boolean>(false);
+  const [wordDataError, setWordDataError] = useState<Error | undefined>();
+
   return (
     <NavigationContainer>
       <Navigator initialRouteName="Placeholder1">
