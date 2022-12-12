@@ -40,10 +40,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
           })();
         }}
       />
-      <Button
-        title="Go to placeholder 2"
-        onPress={() => navigate("Placeholder2")}
-      />
+      <Button title="Go to Words" onPress={() => navigate("WordList")} />
     </View>
   );
 };

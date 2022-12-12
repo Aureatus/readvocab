@@ -2,12 +2,12 @@ import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 export type RootStackParamList = {
   Home: undefined;
-  Placeholder2: undefined;
+  WordList: undefined;
 };
 
 export type HomeProps = BottomTabScreenProps<RootStackParamList, "Home">;
 
-export type Placeholder2Props = BottomTabScreenProps<
+export type WordListProps = BottomTabScreenProps<
   RootStackParamList,
-  "Placeholder2"
+  "WordList"
 >;

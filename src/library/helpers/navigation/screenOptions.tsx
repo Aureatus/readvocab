@@ -24,8 +24,8 @@ const screenOptions = ({
 
     if (route.name === "Home") {
       iconName = focused ? "home" : "home-outline";
-    } else if (route.name === "Placeholder2") {
-      iconName = focused ? "chevron-up-circle" : "chevron-up-circle-outline";
+    } else if (route.name === "WordList") {
+      iconName = focused ? "book" : "book-outline";
     }
 
     return <Ionicons name={iconName} size={size} color={color} />;
