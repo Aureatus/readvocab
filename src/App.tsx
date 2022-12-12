@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import type { DefinitionWord } from "./types/dataTypes";
 
+import WordDataContext from "./library/context/WordDataContext";
 import Home from "./components/screens/Home";
 
 type RootStackParamList = {
@@ -39,10 +40,21 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Navigator initialRouteName="Home">
-        <Screen name="Home" component={Home} />
-        <Screen name="Placeholder2" component={Placeholder2} />
-      </Navigator>
+      <WordDataContext.Provider
+        value={{
+          wordData,
+          setWordData,
+          wordDataLoading,
+          setWordDataLoading,
+          wordDataError,
+          setWordDataError,
+        }}
+      >
+        <Navigator initialRouteName="Home">
+          <Screen name="Home" component={Home} />
+          <Screen name="Placeholder2" component={Placeholder2} />
+        </Navigator>
+      </WordDataContext.Provider>
     </NavigationContainer>
   );
 }
