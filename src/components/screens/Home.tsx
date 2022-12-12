@@ -3,14 +3,7 @@ import { Button, View, Text } from "react-native";
 import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
 import getRareWords from "../../library/helpers/getRareWords";
-import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-
-type RootStackParamList = {
-  Home: undefined;
-  Placeholder2: undefined;
-};
-
-type HomeProps = BottomTabScreenProps<RootStackParamList, "Home">;
+import type { HomeProps } from "../../types/navigationTypes";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const context = useContext(WordDataContext);
