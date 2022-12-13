@@ -9,6 +9,7 @@ import WordDataContext from "./library/context/WordDataContext";
 import screenOptions from "./library/helpers/navigation/screenOptions";
 import Home from "./components/screens/Home";
 import WordList from "./components/screens/WordList";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
 
@@ -18,22 +19,24 @@ export default function App() {
   const [wordDataError, setWordDataError] = useState<Error | undefined>();
 
   return (
-    <NavigationContainer>
-      <WordDataContext.Provider
-        value={{
-          wordData,
-          setWordData,
-          wordDataLoading,
-          setWordDataLoading,
-          wordDataError,
-          setWordDataError,
-        }}
-      >
-        <Navigator initialRouteName="Home" screenOptions={screenOptions}>
-          <Screen name="Home" component={Home} />
-          <Screen name="WordList" component={WordList} />
-        </Navigator>
-      </WordDataContext.Provider>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <WordDataContext.Provider
+          value={{
+            wordData,
+            setWordData,
+            wordDataLoading,
+            setWordDataLoading,
+            wordDataError,
+            setWordDataError,
+          }}
+        >
+          <Navigator initialRouteName="Home" screenOptions={screenOptions}>
+            <Screen name="Home" component={Home} />
+            <Screen name="WordList" component={WordList} />
+          </Navigator>
+        </WordDataContext.Provider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
