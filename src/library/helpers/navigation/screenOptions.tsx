@@ -3,6 +3,7 @@ import type { ComponentProps } from "react";
 import type { RootStackParamList } from "../../../types/navigationTypes";
 
 import { Ionicons } from "@expo/vector-icons";
+import Header from "../../../components/Header";
 
 const screenOptions = ({
   route,
@@ -30,6 +31,7 @@ const screenOptions = ({
 
     return <Ionicons name={iconName} size={size} color={color} />;
   },
+  headerTitle: () => <Header color={"black"} size={32} />,
 });
 
 export default screenOptions;
