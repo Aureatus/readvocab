@@ -29,10 +29,21 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               const fileUri = await getFile();
               if (fileUri === undefined) return;
 
-              setWordDataLoading(true);
+              setWordDataLoading({
+                loading: true,
+                message: "Getting words from pdf",
+              });
 
               const wordList = await getWordsFromPDF(fileUri);
+              setWordDataLoading({
+                loading: true,
+                message: "Getting rare words",
+              });
               const rareWords = await getRareWords(wordList);
+              setWordDataLoading({
+                loading: true,
+                message: "Getting word definitions",
+              });
               const wordsWithDefinitions = await getWordsAndDefinitions(
                 rareWords
               );
@@ -41,7 +52,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
             } finally {
-              setWordDataLoading(false);
+              setWordDataLoading({ loading: false });
             }
           })();
         }}
