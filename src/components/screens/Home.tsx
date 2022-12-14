@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Button, View, Text } from "react-native";
+import { Bar } from "react-native-progress";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
@@ -31,23 +32,30 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
 
               setWordDataLoading({
                 loading: true,
-                message: "Getting words from pdf",
               });
 
-              const wordList = await getWordsFromPDF(fileUri);
+              const wordList = getWordsFromPDF(fileUri);
+              setWordDataLoading({
+                loading: true,
+                message: "Getting words from pdf",
+                progress: 0,
+              });
+
+              const rareWords = getRareWords(await wordList);
               setWordDataLoading({
                 loading: true,
                 message: "Getting rare words",
+                progress: 0.5,
               });
-              const rareWords = await getRareWords(wordList);
+              const wordsWithDefinitions = getWordsAndDefinitions(
+                await rareWords
+              );
               setWordDataLoading({
                 loading: true,
                 message: "Getting word definitions",
+                progress: 0.8,
               });
-              const wordsWithDefinitions = await getWordsAndDefinitions(
-                rareWords
-              );
-              setWordData(wordsWithDefinitions);
+              setWordData(await wordsWithDefinitions);
               setWordDataError(undefined);
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
