@@ -5,7 +5,9 @@ import type { HomeProps } from "../../types/navigationTypes";
 
 import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
+import getWordsFromPDF from "../../library/helpers/getWordsFromPDF";
 import getRareWords from "../../library/helpers/getRareWords";
+import getWordsAndDefinitions from "../../library/helpers/getWordsAndDefinitions";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const context = useContext(WordDataContext);
@@ -29,8 +31,12 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
 
               setWordDataLoading(true);
 
-              const rareWords = await getRareWords(fileUri);
-              setWordData(rareWords);
+              const wordList = await getWordsFromPDF(fileUri);
+              const rareWords = await getRareWords(wordList);
+              const wordsWithDefinitions = await getWordsAndDefinitions(
+                rareWords
+              );
+              setWordData(wordsWithDefinitions);
               setWordDataError(undefined);
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
