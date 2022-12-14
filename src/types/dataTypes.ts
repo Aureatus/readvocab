@@ -9,3 +9,8 @@ export type DefinitionWord = {
   wordClass: string;
   definition: string;
 };
+
+export type LoadingData = {
+  loading: boolean;
+  message?: string;
+};
