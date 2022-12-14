@@ -18,7 +18,20 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
         <Text>Error</Text>
       </View>
     );
-  const { setWordData, setWordDataLoading, setWordDataError } = context;
+  const {
+    setWordData,
+    wordDataLoading: { loading, message, progress },
+    setWordDataLoading,
+    setWordDataError,
+  } = context;
+
+  if (loading)
+    return (
+      <View>
+        <Bar progress={progress ? progress : 0} />
+        <Text>{message}</Text>
+      </View>
+    );
 
   return (
     <View>
