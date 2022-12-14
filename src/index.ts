@@ -17,7 +17,7 @@ if (isNaN(port)) port = 3000;
 await app.register(fastifyMultipart);
 await app.register(cors);
 
-await app.register(wordsRouter, { prefix: "/words" });
+await app.register(wordsRouter);
 
 const start = async (): Promise<void> => {
   try {

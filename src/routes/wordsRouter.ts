@@ -1,8 +1,12 @@
 import type { FastifyInstance } from "fastify";
-import { getWords } from "../controllers/words.js";
+import { pdfToWords } from "../controllers/pdfToWords.js";
+import { rareWords } from "../controllers/rareWords.js";
+import { wordsAndDefinitions } from "../controllers/wordsAndDefinitions.js";
 
 const wordsRouter = async (fastify: FastifyInstance): Promise<void> => {
-  fastify.post("/", getWords);
+  fastify.post("/wordsFromPDF", pdfToWords);
+  fastify.post<{ Body: string }>("/rareWords", rareWords);
+  fastify.post<{ Body: string }>("/wordsAndDefinitions", wordsAndDefinitions);
 };
 
 export default wordsRouter;
