@@ -14,7 +14,11 @@ const WordList = () => {
         <Text>Unknown Error</Text>
       </View>
     );
-  const { wordData, wordDataLoading, wordDataError } = context;
+  const {
+    wordData,
+    wordDataLoading: { loading, message },
+    wordDataError,
+  } = context;
 
   const renderItem = ({ item }: { item: DefinitionWord }) => (
     <WordItem
@@ -24,10 +28,11 @@ const WordList = () => {
     />
   );
 
-  if (wordDataLoading)
+  if (loading)
     return (
       <View>
         <ActivityIndicator size={"large"} />
+        <Text>{message}</Text>
       </View>
     );
 
