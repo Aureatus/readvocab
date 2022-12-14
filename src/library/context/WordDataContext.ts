@@ -1,11 +1,11 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-import type { DefinitionWord } from "../../types/dataTypes";
+import type { DefinitionWord, LoadingData } from "../../types/dataTypes";
 
 const WordDataContext = createContext<{
   wordData: DefinitionWord[];
   setWordData: Dispatch<SetStateAction<DefinitionWord[]>>;
-  wordDataLoading: boolean;
-  setWordDataLoading: Dispatch<SetStateAction<boolean>>;
+  wordDataLoading: LoadingData;
+  setWordDataLoading: Dispatch<SetStateAction<LoadingData>>;
   wordDataError: Error | undefined;
   setWordDataError: Dispatch<SetStateAction<Error | undefined>>;
 } | null>(null);
