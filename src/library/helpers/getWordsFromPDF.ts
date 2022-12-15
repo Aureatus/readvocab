@@ -1,7 +1,7 @@
 import { FileSystemUploadType, uploadAsync } from "expo-file-system";
 
 const getWordsFromPDF = async (fileData: string | File): Promise<string[]> => {
-  const URL = "http://0.0.0.0:3000/wordsFromPDF";
+  const URL = "https://readvocab-api.up.railway.app/wordsFromPDF";
   if (fileData instanceof File) {
     const formData = new FormData();
     formData.append("pdf", fileData);

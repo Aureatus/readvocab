@@ -1,7 +1,7 @@
 import type { CorpusWord } from "../../types/dataTypes";
 
 const getRareWords = async (words: string[]): Promise<CorpusWord[]> => {
-  const URL = "http://0.0.0.0:3000/rareWords";
+  const URL = "https://readvocab-api.up.railway.app/rareWords";
   const response = await fetch(URL, {
     method: "POST",
     body: JSON.stringify(words),
