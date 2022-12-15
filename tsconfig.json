@@ -10,6 +10,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importsNotUsedAsValues": "error",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["./src/types"]
   }
 }
