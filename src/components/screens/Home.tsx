@@ -79,7 +79,9 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
           })();
         }}
       />
-      <Button title="Go to Words" onPress={() => navigate("WordList")} />
+      {wordData.length !== 0 && (
+        <Button title="Go to Words" onPress={() => navigate("WordList")} />
+      )}
     </View>
   );
 };
