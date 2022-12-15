@@ -56,20 +56,20 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               const wordList = getWordsFromPDF(fileUri);
               setWordDataLoading({
                 loading: true,
-                message: "Getting words from pdf",
+                message: "Processing PDF",
               });
 
               const rareWords = getRareWords(await wordList);
               setWordDataLoading({
                 loading: true,
-                message: "Getting rare words",
+                message: "Finding rare words",
               });
               const wordsWithDefinitions = getWordsAndDefinitions(
                 await rareWords
               );
               setWordDataLoading({
                 loading: true,
-                message: "Getting word definitions",
+                message: "Finding word definitions",
               });
               setWordData(await wordsWithDefinitions);
               setWordDataError(undefined);
