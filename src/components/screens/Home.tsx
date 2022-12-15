@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, View, Text, StyleSheet } from "react-native";
+import { Button, View, Text, StyleSheet, Platform } from "react-native";
 import { Bar } from "react-native-progress";
 
 import type { HomeProps } from "../../types/navigationTypes";
@@ -29,7 +29,12 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
   if (loading)
     return (
       <View style={styles.container}>
-        <Bar progress={progress ? progress : 0} width={300} height={20} />
+        <Bar
+          progress={progress ? progress : 0}
+          width={300}
+          height={20}
+          useNativeDriver={Platform.OS === "web" ? false : true}
+        />
         <Text>{message}</Text>
       </View>
     );
