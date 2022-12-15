@@ -13,5 +13,4 @@ export type DefinitionWord = {
 export type LoadingData = {
   loading: boolean;
   message?: string;
-  progress?: number;
 };

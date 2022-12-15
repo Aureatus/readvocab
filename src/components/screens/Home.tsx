@@ -21,7 +21,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
   const {
     wordData,
     setWordData,
-    wordDataLoading: { loading, message, progress },
+    wordDataLoading: { loading, message },
     setWordDataLoading,
     setWordDataError,
   } = context;
@@ -30,7 +30,6 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     return (
       <View style={styles.container}>
         <Bar
-          progress={progress ? progress : 0}
           width={300}
           height={20}
           useNativeDriver={Platform.OS === "web" ? false : true}
@@ -58,14 +57,12 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               setWordDataLoading({
                 loading: true,
                 message: "Getting words from pdf",
-                progress: 0,
               });
 
               const rareWords = getRareWords(await wordList);
               setWordDataLoading({
                 loading: true,
                 message: "Getting rare words",
-                progress: 0.5,
               });
               const wordsWithDefinitions = getWordsAndDefinitions(
                 await rareWords
@@ -73,7 +70,6 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               setWordDataLoading({
                 loading: true,
                 message: "Getting word definitions",
-                progress: 0.8,
               });
               setWordData(await wordsWithDefinitions);
               setWordDataError(undefined);
