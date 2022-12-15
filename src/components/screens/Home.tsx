@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, View, Text } from "react-native";
+import { Button, View, Text, StyleSheet } from "react-native";
 import { Bar } from "react-native-progress";
 
 import type { HomeProps } from "../../types/navigationTypes";
@@ -28,8 +28,8 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
 
   if (loading)
     return (
-      <View>
-        <Bar progress={progress ? progress : 0} />
+      <View style={styles.container}>
+        <Bar progress={progress ? progress : 0} width={300} height={20} />
         <Text>{message}</Text>
       </View>
     );
@@ -85,5 +85,14 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default Home;
