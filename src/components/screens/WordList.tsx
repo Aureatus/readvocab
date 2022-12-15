@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 
@@ -14,11 +14,7 @@ const WordList = () => {
         <Text>Unknown Error</Text>
       </View>
     );
-  const {
-    wordData,
-    wordDataLoading: { loading, message },
-    wordDataError,
-  } = context;
+  const { wordData, wordDataError } = context;
 
   const renderItem = ({ item }: { item: DefinitionWord }) => (
     <WordItem
@@ -28,14 +24,6 @@ const WordList = () => {
     />
   );
 
-  if (loading)
-    return (
-      <View>
-        <ActivityIndicator size={"large"} />
-        <Text>{message}</Text>
-      </View>
-    );
-
   if (wordDataError)
     return (
       <View>
@@ -43,7 +31,13 @@ const WordList = () => {
       </View>
     );
 
-  return (
+  return wordData.length === 0 ? (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        Please upload a PDF to see it&apos;s rare words.
+      </Text>
+    </View>
+  ) : (
     <View>
       <FlatList
         data={wordData}
@@ -53,5 +47,17 @@ const WordList = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 42,
+  },
+});
 
 export default WordList;
