@@ -34,6 +34,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
           width={300}
           height={20}
           useNativeDriver={Platform.OS === "web" ? false : true}
+          indeterminate
         />
         <Text>{message}</Text>
       </View>
