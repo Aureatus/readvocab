@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
 
 import type { RootStackParamList } from "./types/navigationTypes";
-import type { DefinitionWord } from "./types/dataTypes";
+import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
 import WordDataContext from "./library/context/WordDataContext";
 import screenOptions from "./library/helpers/navigation/screenOptions";
@@ -15,7 +15,9 @@ const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
 
 export default function App() {
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
-  const [wordDataLoading, setWordDataLoading] = useState<boolean>(false);
+  const [wordDataLoading, setWordDataLoading] = useState<LoadingData>({
+    loading: false,
+  });
   const [wordDataError, setWordDataError] = useState<Error | undefined>();
 
   return (
