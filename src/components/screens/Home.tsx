@@ -19,6 +19,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
       </View>
     );
   const {
+    wordData,
     setWordData,
     wordDataLoading: { loading, message, progress },
     setWordDataLoading,
@@ -36,7 +37,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
   return (
     <View>
       <Button
-        title="Upload PDF"
+        title={wordData.length === 0 ? "Upload PDF" : "Upload another PDF"}
         onPress={() => {
           (async () => {
             try {
