@@ -1,7 +1,8 @@
+import { API_URL } from "@env";
 import type { CorpusWord } from "../../types/dataTypes";
 
 const getRareWords = async (words: string[]): Promise<CorpusWord[]> => {
-  const URL = "https://readvocab-api.up.railway.app/rareWords";
+  const URL = `${API_URL}/rareWords`;
   const response = await fetch(URL, {
     method: "POST",
     body: JSON.stringify(words),

@@ -1,9 +1,10 @@
+import { API_URL } from "@env";
 import type { CorpusWord, DefinitionWord } from "../../types/dataTypes";
 
 const getWordsAndDefinitions = async (
   words: CorpusWord[]
 ): Promise<DefinitionWord[]> => {
-  const URL = "https://readvocab-api.up.railway.app/wordsAndDefinitions";
+  const URL = `${API_URL}/wordsAndDefinitions`;
   const response = await fetch(URL, {
     method: "POST",
     body: JSON.stringify(words),

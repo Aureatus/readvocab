@@ -1,7 +1,8 @@
+import { API_URL } from "@env";
 import { FileSystemUploadType, uploadAsync } from "expo-file-system";
 
 const getWordsFromPDF = async (fileData: string | File): Promise<string[]> => {
-  const URL = "https://readvocab-api.up.railway.app/wordsFromPDF";
+  const URL = `${API_URL}/wordsFromPDF`;
   if (fileData instanceof File) {
     const formData = new FormData();
     formData.append("pdf", fileData);
