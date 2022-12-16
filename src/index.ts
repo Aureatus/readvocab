@@ -2,6 +2,7 @@ import { fastifyMultipart } from "@fastify/multipart";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
+import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
 
@@ -15,6 +16,7 @@ let port = Number(process.env["PORT"]);
 
 if (isNaN(port)) port = 3000;
 
+await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
 await app.register(cors);
