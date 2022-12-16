@@ -2,6 +2,7 @@ import { fastifyMultipart } from "@fastify/multipart";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
+import { fastifyMongodb } from "@fastify/mongodb";
 import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
@@ -16,9 +17,13 @@ let port = Number(process.env["PORT"]);
 
 if (isNaN(port)) port = 3000;
 
+const mongoURL = process.env["MONGO_URL"];
+if (mongoURL === undefined) throw Error("No mongoURL found.");
+
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
+await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
 
 await app.register(wordsRouter);
