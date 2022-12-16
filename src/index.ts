@@ -28,6 +28,17 @@ await app.register(cors);
 
 await app.register(wordsRouter);
 
+app.get("/dbtest", async (_req, reply) => {
+  // Or this.mongo.client.db('mydb').collection('users')
+  // @ts-expect-error
+  const pdfCollection = app.mongo.db.collection("pdfs");
+
+  // if the id is an ObjectId format, you need to create a new ObjectId
+  const data = await pdfCollection.findOne();
+
+  return await reply.send(data);
+});
+
 const start = async (): Promise<void> => {
   try {
     await app.listen({ host: "0.0.0.0", port });
