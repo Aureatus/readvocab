@@ -6,6 +6,7 @@ import { fastifyMongodb } from "@fastify/mongodb";
 import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
+import { corpusObject } from "corpus-word-freq";
 
 dotenv.config();
 
@@ -25,6 +26,28 @@ await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
+
+app.decorate(
+  "corpus",
+  corpusObject([
+    "Prep",
+    "Neg",
+    "Num",
+    "NoP",
+    "NoP-",
+    "Lett",
+    "Int",
+    "Inf",
+    "Conj",
+    "Pron",
+    "Det",
+    "DetP",
+    "Gen",
+    "Ex",
+    "Uncl",
+    "Fore",
+  ])
+);
 
 await app.register(wordsRouter);
 
