@@ -10,8 +10,25 @@ import corpus from "./plugins/corpus.js";
 
 dotenv.config();
 
+const envToLogger = {
+  development: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
+  },
+  production: true,
+  test: false,
+};
+
+const environment =
+  process.env["NODE_ENV"] === "production" ? "production" : "development";
+
 const app = fastify({
-  logger: true,
+  logger: envToLogger[environment],
   bodyLimit: 50 * 1024 * 1024,
 });
 let port = Number(process.env["PORT"]);
