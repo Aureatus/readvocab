@@ -9,3 +9,15 @@ export interface DefinitionWord {
   wordClass: string;
   definition: string;
 }
+
+export interface corpusInstance {
+  getWordFrequency: (word: string) => number | undefined;
+  getMatchedWords: (
+    wordList: string[],
+    desiredMatches: number
+  ) => Array<{
+    word: string;
+    freq: string;
+    PoS: string;
+  }>;
+}
