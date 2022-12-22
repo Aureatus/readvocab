@@ -1,16 +1,17 @@
 import { fastifyMultipart } from "@fastify/multipart";
 import cors from "@fastify/cors";
-import { fastify } from "fastify";
+import { fastify, FastifyInstance } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
 import { fastifyMongodb } from "@fastify/mongodb";
 import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
 import { corpusObject } from "corpus-word-freq";
+import type { corpusInstance } from "./types.js";
 
 dotenv.config();
 
-const app = fastify({
+const app: FastifyInstance & { corpus?: corpusInstance } = fastify({
   logger: true,
   bodyLimit: 50 * 1024 * 1024,
 });
