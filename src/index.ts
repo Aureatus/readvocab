@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
 import { fastifyMongodb } from "@fastify/mongodb";
+import { FastifySSEPlugin } from "fastify-sse-v2";
 import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
@@ -43,6 +44,7 @@ await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
+await app.register(FastifySSEPlugin);
 
 await app.register(corpus, {
   grammarClasstoRemove: [
