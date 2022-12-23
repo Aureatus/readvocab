@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { Button, View, Text, StyleSheet, Platform } from "react-native";
 import { Bar } from "react-native-progress";
+import { FileSystemUploadType, uploadAsync } from "expo-file-system";
+import EventSource from "react-native-sse";
 
 import type { HomeProps } from "../../types/navigationTypes";
+import type { WordFetchEvents } from "../../types/eventTypes";
 
 import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
-import getWordsFromPDF from "../../library/helpers/getWordsFromPDF";
-import getRareWords from "../../library/helpers/getRareWords";
-import getWordsAndDefinitions from "../../library/helpers/getWordsAndDefinitions";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const context = useContext(WordDataContext);
@@ -49,34 +49,50 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               const fileUri = await getFile();
               if (fileUri === undefined) return;
 
-              setWordDataLoading({
-                loading: true,
-              });
+              if (fileUri instanceof File) {
+                const formData = new FormData();
+                formData.append("pdf", fileUri);
+                const es = new EventSource<WordFetchEvents>(
+                  "http://0.0.0.0:3000/words",
+                  {
+                    method: "POST",
+                    body: formData,
+                  }
+                );
+                setWordDataLoading({ loading: true, message: "Calling API" });
+                es.addEventListener("loading", (e) => {
+                  if (e.type !== "loading") return;
+                  if (e.data === null) return;
+                  setWordDataLoading({ loading: true, message: e.data });
+                });
+                es.addEventListener("result", (e) => {
+                  if (e.type !== "result") return;
+                  if (e.data === null) return;
+                  setWordData(JSON.parse(e.data));
+                  es.close();
+                });
+                es.addEventListener("close", () => {
+                  setWordDataLoading({ loading: false });
+                  es.removeAllEventListeners();
+                });
+              } else {
+                const response = await uploadAsync(
+                  "http://0.0.0.0:3000/words",
+                  fileUri,
+                  {
+                    fieldName: "pdf",
+                    httpMethod: "POST",
+                    uploadType: FileSystemUploadType.MULTIPART,
+                  }
+                );
+                const data = response.body;
+                setWordData(JSON.parse(data));
+                setWordDataLoading({ loading: false });
+              }
 
-              const wordList = getWordsFromPDF(fileUri);
-              setWordDataLoading({
-                loading: true,
-                message: "Processing PDF",
-              });
-
-              const rareWords = getRareWords(await wordList);
-              setWordDataLoading({
-                loading: true,
-                message: "Finding rare words",
-              });
-              const wordsWithDefinitions = getWordsAndDefinitions(
-                await rareWords
-              );
-              setWordDataLoading({
-                loading: true,
-                message: "Finding word definitions",
-              });
-              setWordData(await wordsWithDefinitions);
               setWordDataError(undefined);
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
-            } finally {
-              setWordDataLoading({ loading: false });
             }
           })();
         }}
