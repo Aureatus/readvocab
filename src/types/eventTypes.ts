@@ -1,1 +1,1 @@
-export type wordFetchEvents = "loading" | "result";
+export type WordFetchEvents = "loading" | "result";
