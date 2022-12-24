@@ -6,18 +6,20 @@ import type { DefinitionWord, LoadingData } from "../../types/dataTypes";
 import type { WordFetchEvents } from "../../types/eventTypes";
 
 const getWords = async (
-  fileUri: File,
+  file: File,
   dataSetter: Dispatch<SetStateAction<DefinitionWord[]>>,
   loadingSetter: Dispatch<SetStateAction<LoadingData>>,
   errorSetter: Dispatch<SetStateAction<Error | undefined>>
 ) => {
   try {
     const formData = new FormData();
-    formData.append("pdf", fileUri);
+    formData.append("pdf", file);
+
     const es = new EventSource<WordFetchEvents>(`${API_URL}/words`, {
       method: "POST",
       body: formData,
     });
+
     loadingSetter({ loading: true, message: "Calling API" });
     es.addEventListener("loading", (e) => {
       if (e.type !== "loading") return;
