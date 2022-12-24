@@ -1,6 +1,6 @@
 import { getDocumentAsync } from "expo-document-picker";
 
-const getFile = async (): Promise<string | File | undefined> => {
+const getFile = async (): Promise<File | undefined> => {
   const fileUpload = await getDocumentAsync({
     type: "application/pdf",
     copyToCacheDirectory: true,
@@ -10,9 +10,16 @@ const getFile = async (): Promise<string | File | undefined> => {
 
   if (fileUpload.mimeType === undefined) return;
 
-  if (fileUpload.file) return fileUpload.file;
+  const { lastModified } = fileUpload;
 
-  return fileUpload.uri;
+  const fileResponse = await fetch(fileUpload.uri);
+  const fileBlob = await fileResponse.blob();
+  const file = new File([fileBlob], fileUpload.name, {
+    lastModified: lastModified || Date.now(),
+    type: fileUpload.mimeType,
+  });
+
+  return file;
 };
 
 export default getFile;
