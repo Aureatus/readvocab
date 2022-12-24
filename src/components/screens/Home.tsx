@@ -2,13 +2,12 @@ import { useContext } from "react";
 import { Button, View, Text, StyleSheet, Platform } from "react-native";
 import { Bar } from "react-native-progress";
 import { FileSystemUploadType, uploadAsync } from "expo-file-system";
-import EventSource from "react-native-sse";
 
 import type { HomeProps } from "../../types/navigationTypes";
-import type { WordFetchEvents } from "../../types/eventTypes";
 
 import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
+import getWords from "../../library/helpers/getWords";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const context = useContext(WordDataContext);
@@ -50,31 +49,12 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               if (fileUri === undefined) return;
 
               if (fileUri instanceof File) {
-                const formData = new FormData();
-                formData.append("pdf", fileUri);
-                const es = new EventSource<WordFetchEvents>(
-                  "http://0.0.0.0:3000/words",
-                  {
-                    method: "POST",
-                    body: formData,
-                  }
+                getWords(
+                  fileUri,
+                  setWordData,
+                  setWordDataLoading,
+                  setWordDataError
                 );
-                setWordDataLoading({ loading: true, message: "Calling API" });
-                es.addEventListener("loading", (e) => {
-                  if (e.type !== "loading") return;
-                  if (e.data === null) return;
-                  setWordDataLoading({ loading: true, message: e.data });
-                });
-                es.addEventListener("result", (e) => {
-                  if (e.type !== "result") return;
-                  if (e.data === null) return;
-                  setWordData(JSON.parse(e.data));
-                  es.close();
-                });
-                es.addEventListener("close", () => {
-                  setWordDataLoading({ loading: false });
-                  es.removeAllEventListeners();
-                });
               } else {
                 const response = await uploadAsync(
                   "http://0.0.0.0:3000/words",
