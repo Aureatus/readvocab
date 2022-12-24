@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Button, View, Text, StyleSheet, Platform } from "react-native";
 import { Bar } from "react-native-progress";
-import { FileSystemUploadType, uploadAsync } from "expo-file-system";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
@@ -48,29 +47,12 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               const fileUri = await getFile();
               if (fileUri === undefined) return;
 
-              if (fileUri instanceof File) {
-                getWords(
-                  fileUri,
-                  setWordData,
-                  setWordDataLoading,
-                  setWordDataError
-                );
-              } else {
-                const response = await uploadAsync(
-                  "http://0.0.0.0:3000/words",
-                  fileUri,
-                  {
-                    fieldName: "pdf",
-                    httpMethod: "POST",
-                    uploadType: FileSystemUploadType.MULTIPART,
-                  }
-                );
-                const data = response.body;
-                setWordData(JSON.parse(data));
-                setWordDataLoading({ loading: false });
-              }
-
-              setWordDataError(undefined);
+              getWords(
+                fileUri,
+                setWordData,
+                setWordDataLoading,
+                setWordDataError
+              );
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
             }
