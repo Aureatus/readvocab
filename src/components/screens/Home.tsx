@@ -44,15 +44,10 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
         onPress={() => {
           (async () => {
             try {
-              const fileUri = await getFile();
-              if (fileUri === undefined) return;
+              const file = await getFile();
+              if (file === undefined) return;
 
-              getWords(
-                fileUri,
-                setWordData,
-                setWordDataLoading,
-                setWordDataError
-              );
+              getWords(file, setWordData, setWordDataLoading, setWordDataError);
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
             }
