@@ -13,16 +13,11 @@ async function words(
 
   reply.sse(
     (async function* wordSSEGenerator() {
-      const files = await request.saveRequestFiles();
-      const filePath = files[0]?.filepath;
-      const fileExtension = files[0]?.mimetype;
-
-      if (filePath === undefined) throw Error("File not found");
-      if (fileExtension !== "application/pdf")
-        throw Error("Please upload a PDF.");
+      const file = await request.file();
+      if (file === undefined) throw Error("No file uploaded");
 
       yield { event: "loading", data: "Processing PDF" };
-      const words = await wordsFromPDF(filePath);
+      const words = await wordsFromPDF(await file.toBuffer());
 
       yield { event: "loading", data: "Finding rare words" };
       const rareWords = findRareWords(words, 20, corpus);

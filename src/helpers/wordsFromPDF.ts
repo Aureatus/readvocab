@@ -4,9 +4,9 @@ import removeDuplicates from "../utils/removeDuplicates.js";
 
 const { getDocument } = pkg;
 
-const wordsFromPDF = async (dir: string): Promise<string[]> => {
+const wordsFromPDF = async (file: ArrayBuffer): Promise<string[]> => {
   const doc = await getDocument({
-    url: dir,
+    data: file,
     useSystemFonts: true,
   }).promise;
   const docPages = doc.numPages;
