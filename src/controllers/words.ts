@@ -10,12 +10,11 @@ async function words(
   reply: FastifyReply
 ): Promise<void> {
   const corpus = this.corpus;
+  const file = await request.file();
+  if (file === undefined) throw Error("No file uploaded");
 
   reply.sse(
     (async function* wordSSEGenerator() {
-      const file = await request.file();
-      if (file === undefined) throw Error("No file uploaded");
-
       yield { event: "loading", data: "Processing PDF" };
       const words = await wordsFromPDF(await file.toBuffer());
 
