@@ -15,7 +15,9 @@ const getWords = async (
     const formData = new FormData();
     formData.append("pdf", file);
 
-    const es = new EventSource<WordFetchEvents>(`${API_URL}/words`, {
+    const url = `${API_URL}/words`;
+
+    const es = new EventSource<WordFetchEvents>(url, {
       method: "POST",
       body: formData,
     });
