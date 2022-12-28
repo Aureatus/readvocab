@@ -2,13 +2,17 @@ import { API_URL } from "@env";
 import EventSource from "react-native-sse";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { DefinitionWord, LoadingData } from "../../types/dataTypes";
+import type {
+  DefinitionWord,
+  FileInfo,
+  LoadingData,
+} from "../../types/dataTypes";
 import type { WordFetchEvents } from "../../types/eventTypes";
 
 // If platform is web, a File object is supplied, otherwise, an object containing file details is supplied.
 
 const getWords = async (
-  file: File | { uri: string; type: string; name: string },
+  file: File | FileInfo,
   dataSetter: Dispatch<SetStateAction<DefinitionWord[]>>,
   loadingSetter: Dispatch<SetStateAction<LoadingData>>,
   errorSetter: Dispatch<SetStateAction<Error | undefined>>
