@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import findDefinitions from "../helpers/findDefinitions.js";
 import findRareWords from "../helpers/findRareWords.js";
+import getDocProxy from "../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../helpers/mergeWordsAndDefs.js";
 import wordsFromPDF from "../helpers/wordsFromPDF.js";
 
@@ -16,7 +17,9 @@ async function words(
   reply.sse(
     (async function* wordSSEGenerator() {
       yield { event: "loading", data: "Processing PDF" };
-      const words = await wordsFromPDF(await file.toBuffer());
+      const fileBuffer = await file.toBuffer();
+      const docProxy = await getDocProxy(fileBuffer);
+      const words = await wordsFromPDF(docProxy);
 
       yield { event: "loading", data: "Finding rare words" };
       const rareWords = findRareWords(words, 20, corpus);
