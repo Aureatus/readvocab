@@ -15,6 +15,7 @@ const getWords = async (
 ) => {
   try {
     const formData = new FormData();
+    // @ts-expect-error Ignore this error, since it's caused by a lack of type definitions for the react native FormData polyfill.
     formData.append("pdf", file);
 
     const url = `${API_URL}/words`;
