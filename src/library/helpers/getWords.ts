@@ -5,8 +5,10 @@ import type { Dispatch, SetStateAction } from "react";
 import type { DefinitionWord, LoadingData } from "../../types/dataTypes";
 import type { WordFetchEvents } from "../../types/eventTypes";
 
+// If platform is web, a File object is supplied, otherwise, an object containing file details is supplied.
+
 const getWords = async (
-  file: File,
+  file: File | { uri: string; type: string; name: string },
   dataSetter: Dispatch<SetStateAction<DefinitionWord[]>>,
   loadingSetter: Dispatch<SetStateAction<LoadingData>>,
   errorSetter: Dispatch<SetStateAction<Error | undefined>>
