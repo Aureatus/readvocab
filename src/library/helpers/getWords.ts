@@ -40,6 +40,10 @@ const getWords = async (
       loadingSetter({ loading: false });
       es.removeAllEventListeners();
     });
+
+    es.addEventListener("error", (e) => {
+      throw e;
+    });
     errorSetter(undefined);
   } catch (err) {
     if (err instanceof Error) errorSetter(err);
