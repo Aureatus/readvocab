@@ -14,3 +14,9 @@ export type LoadingData = {
   loading: boolean;
   message?: string;
 };
+
+export type FileInfo = {
+  uri: string;
+  type: string;
+  name: string;
+};

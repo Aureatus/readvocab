@@ -1,6 +1,8 @@
 import { getDocumentAsync } from "expo-document-picker";
+import { Platform } from "react-native";
+import type { FileInfo } from "../../types/dataTypes";
 
-const getFile = async (): Promise<string | File | undefined> => {
+const getFile = async (): Promise<File | FileInfo | undefined> => {
   const fileUpload = await getDocumentAsync({
     type: "application/pdf",
     copyToCacheDirectory: true,
@@ -10,9 +12,15 @@ const getFile = async (): Promise<string | File | undefined> => {
 
   if (fileUpload.mimeType === undefined) return;
 
-  if (fileUpload.file) return fileUpload.file;
+  if (Platform.OS === "web") return fileUpload.file;
 
-  return fileUpload.uri;
+  const fileInfo = {
+    uri: fileUpload.uri,
+    type: fileUpload.mimeType,
+    name: fileUpload.name,
+  };
+
+  return fileInfo;
 };
 
 export default getFile;

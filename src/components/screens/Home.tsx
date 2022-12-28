@@ -6,9 +6,7 @@ import type { HomeProps } from "../../types/navigationTypes";
 
 import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
-import getWordsFromPDF from "../../library/helpers/getWordsFromPDF";
-import getRareWords from "../../library/helpers/getRareWords";
-import getWordsAndDefinitions from "../../library/helpers/getWordsAndDefinitions";
+import getWords from "../../library/helpers/getWords";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const context = useContext(WordDataContext);
@@ -46,37 +44,12 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
         onPress={() => {
           (async () => {
             try {
-              const fileUri = await getFile();
-              if (fileUri === undefined) return;
+              const file = await getFile();
+              if (file === undefined) return;
 
-              setWordDataLoading({
-                loading: true,
-              });
-
-              const wordList = getWordsFromPDF(fileUri);
-              setWordDataLoading({
-                loading: true,
-                message: "Processing PDF",
-              });
-
-              const rareWords = getRareWords(await wordList);
-              setWordDataLoading({
-                loading: true,
-                message: "Finding rare words",
-              });
-              const wordsWithDefinitions = getWordsAndDefinitions(
-                await rareWords
-              );
-              setWordDataLoading({
-                loading: true,
-                message: "Finding word definitions",
-              });
-              setWordData(await wordsWithDefinitions);
-              setWordDataError(undefined);
+              getWords(file, setWordData, setWordDataLoading, setWordDataError);
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
-            } finally {
-              setWordDataLoading({ loading: false });
             }
           })();
         }}
