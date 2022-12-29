@@ -7,6 +7,7 @@ import getDocProxy from "../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../helpers/mergeWordsAndDefs.js";
 import wordsFromPDF from "../helpers/wordsFromPDF.js";
 import getCachedResult from "../helpers/getCachedResult.js";
+import createCachedResult from "../helpers/createCachedResult.js";
 
 async function words(
   this: FastifyInstance,
@@ -40,6 +41,10 @@ async function words(
       const rareWordDefinitions = await findDefinitions(rareWords);
 
       const rareWordObjects = mergeWordsAndDefs(rareWords, rareWordDefinitions);
+
+      if (db instanceof Db) {
+        await createCachedResult(docProxy, db, rareWordObjects);
+      }
       yield { event: "result", data: JSON.stringify(rareWordObjects) };
     })()
   );
