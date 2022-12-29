@@ -1,8 +1,13 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { Db } from "mongodb";
+
 import findDefinitions from "../helpers/findDefinitions.js";
 import findRareWords from "../helpers/findRareWords.js";
+import getDocProxy from "../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../helpers/mergeWordsAndDefs.js";
 import wordsFromPDF from "../helpers/wordsFromPDF.js";
+import getCachedResult from "../helpers/getCachedResult.js";
+import createCachedResult from "../helpers/createCachedResult.js";
 
 async function words(
   this: FastifyInstance,
@@ -10,22 +15,47 @@ async function words(
   reply: FastifyReply
 ): Promise<void> {
   const corpus = this.corpus;
+  const { db } = this.mongo;
   const file = await request.file();
   if (file === undefined) throw Error("No file uploaded");
 
   reply.sse(
     (async function* wordSSEGenerator() {
-      yield { event: "loading", data: "Processing PDF" };
-      const words = await wordsFromPDF(await file.toBuffer());
+      try {
+        yield { event: "loading", data: "Processing PDF" };
+        const fileBuffer = await file.toBuffer();
+        const docProxy = await getDocProxy(fileBuffer);
 
-      yield { event: "loading", data: "Finding rare words" };
-      const rareWords = findRareWords(words, 20, corpus);
+        const cachedResult =
+          db instanceof Db ? await getCachedResult(docProxy, db) : null;
+        if (cachedResult !== null) {
+          yield { event: "result", data: JSON.stringify(cachedResult) };
+          return;
+        }
 
-      yield { event: "loading", data: "Finding word definitions" };
-      const rareWordDefinitions = await findDefinitions(rareWords);
+        const words = await wordsFromPDF(docProxy);
 
-      const rareWordObjects = mergeWordsAndDefs(rareWords, rareWordDefinitions);
-      yield { event: "result", data: JSON.stringify(rareWordObjects) };
+        yield { event: "loading", data: "Finding rare words" };
+        const rareWords = findRareWords(words, 20, corpus);
+
+        yield { event: "loading", data: "Finding word definitions" };
+        const rareWordDefinitions = await findDefinitions(rareWords);
+
+        const rareWordObjects = mergeWordsAndDefs(
+          rareWords,
+          rareWordDefinitions
+        );
+
+        if (db instanceof Db) {
+          await createCachedResult(docProxy, db, rareWordObjects);
+        }
+        yield { event: "result", data: JSON.stringify(rareWordObjects) };
+      } catch (err) {
+        yield {
+          event: "error",
+          data: err instanceof Error ? err.message : "Unknown Error.",
+        };
+      }
     })()
   );
 }
