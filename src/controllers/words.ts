@@ -21,31 +21,41 @@ async function words(
 
   reply.sse(
     (async function* wordSSEGenerator() {
-      yield { event: "loading", data: "Processing PDF" };
-      const fileBuffer = await file.toBuffer();
-      const docProxy = await getDocProxy(fileBuffer);
+      try {
+        yield { event: "loading", data: "Processing PDF" };
+        const fileBuffer = await file.toBuffer();
+        const docProxy = await getDocProxy(fileBuffer);
 
-      const cachedResult =
-        db instanceof Db ? await getCachedResult(docProxy, db) : null;
-      if (cachedResult !== null) {
-        yield { event: "result", data: JSON.stringify(cachedResult) };
-        return;
+        const cachedResult =
+          db instanceof Db ? await getCachedResult(docProxy, db) : null;
+        if (cachedResult !== null) {
+          yield { event: "result", data: JSON.stringify(cachedResult) };
+          return;
+        }
+
+        const words = await wordsFromPDF(docProxy);
+
+        yield { event: "loading", data: "Finding rare words" };
+        const rareWords = findRareWords(words, 20, corpus);
+
+        yield { event: "loading", data: "Finding word definitions" };
+        const rareWordDefinitions = await findDefinitions(rareWords);
+
+        const rareWordObjects = mergeWordsAndDefs(
+          rareWords,
+          rareWordDefinitions
+        );
+
+        if (db instanceof Db) {
+          await createCachedResult(docProxy, db, rareWordObjects);
+        }
+        yield { event: "result", data: JSON.stringify(rareWordObjects) };
+      } catch (err) {
+        yield {
+          event: "error",
+          data: err instanceof Error ? err.message : "Unknown Error.",
+        };
       }
-
-      const words = await wordsFromPDF(docProxy);
-
-      yield { event: "loading", data: "Finding rare words" };
-      const rareWords = findRareWords(words, 20, corpus);
-
-      yield { event: "loading", data: "Finding word definitions" };
-      const rareWordDefinitions = await findDefinitions(rareWords);
-
-      const rareWordObjects = mergeWordsAndDefs(rareWords, rareWordDefinitions);
-
-      if (db instanceof Db) {
-        await createCachedResult(docProxy, db, rareWordObjects);
-      }
-      yield { event: "result", data: JSON.stringify(rareWordObjects) };
     })()
   );
 }
