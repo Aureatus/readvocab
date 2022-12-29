@@ -1,9 +1,12 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { Db } from "mongodb";
+
 import findDefinitions from "../helpers/findDefinitions.js";
 import findRareWords from "../helpers/findRareWords.js";
 import getDocProxy from "../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../helpers/mergeWordsAndDefs.js";
 import wordsFromPDF from "../helpers/wordsFromPDF.js";
+import getCachedResult from "../helpers/getCachedResult.js";
 
 async function words(
   this: FastifyInstance,
@@ -11,6 +14,7 @@ async function words(
   reply: FastifyReply
 ): Promise<void> {
   const corpus = this.corpus;
+  const { db } = this.mongo;
   const file = await request.file();
   if (file === undefined) throw Error("No file uploaded");
 
@@ -19,6 +23,14 @@ async function words(
       yield { event: "loading", data: "Processing PDF" };
       const fileBuffer = await file.toBuffer();
       const docProxy = await getDocProxy(fileBuffer);
+
+      const cachedResult =
+        db instanceof Db ? await getCachedResult(docProxy, db) : null;
+      if (cachedResult !== null) {
+        yield { event: "result", data: JSON.stringify(cachedResult) };
+        return;
+      }
+
       const words = await wordsFromPDF(docProxy);
 
       yield { event: "loading", data: "Finding rare words" };
