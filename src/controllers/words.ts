@@ -29,6 +29,11 @@ async function words(
         const fileBuffer = await file.toBuffer();
         const docProxy = await getDocProxy(fileBuffer);
 
+        if (Date.now() - lastLoadingEventTime >= 150) {
+          yield { event: "loading", data: "Searching for cached result." };
+          lastLoadingEventTime = Date.now();
+        }
+
         const cachedResult =
           db instanceof Db ? await getCachedResult(docProxy, db) : null;
         if (cachedResult !== null) {
