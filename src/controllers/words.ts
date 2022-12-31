@@ -19,9 +19,12 @@ async function words(
   const file = await request.file();
   if (file === undefined) throw Error("No file uploaded");
 
+  // ONLY SEND LOADING STATE UPDATE IF TIME ELAPSED FROM LAST LOADING STATE HAS BEEN GREATER THAN 150MS.
   reply.sse(
     (async function* wordSSEGenerator() {
       try {
+        let lastLoadingEventTime = Date.now();
+
         yield { event: "loading", data: "Processing PDF" };
         const fileBuffer = await file.toBuffer();
         const docProxy = await getDocProxy(fileBuffer);
@@ -35,10 +38,15 @@ async function words(
 
         const words = await wordsFromPDF(docProxy);
 
-        yield { event: "loading", data: "Finding rare words" };
+        if (Date.now() - lastLoadingEventTime >= 150) {
+          yield { event: "loading", data: "Finding rare words" };
+          lastLoadingEventTime = Date.now();
+        }
         const rareWords = findRareWords(words, 20, corpus);
-
-        yield { event: "loading", data: "Finding word definitions" };
+        if (Date.now() - lastLoadingEventTime >= 150) {
+          yield { event: "loading", data: "Finding word definitions" };
+          lastLoadingEventTime = Date.now();
+        }
         const rareWordDefinitions = await findDefinitions(rareWords);
 
         const rareWordObjects = mergeWordsAndDefs(
