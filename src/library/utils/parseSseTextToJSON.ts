@@ -1,4 +1,4 @@
-const parseSSEtoObject = (SSEtext: string) => {
+const parseSseTextToJSON = (SSEtext: string) => {
   const responseArray = SSEtext.trim()
     .split(/\n\n/)
     .filter((str: string) => str);
@@ -37,4 +37,4 @@ const parseSSEtoObject = (SSEtext: string) => {
   return formattedData;
 };
 
-export default parseSSEtoObject;
+export default parseSseTextToJSON;

@@ -8,7 +8,7 @@ import type {
   LoadingData,
 } from "../../types/dataTypes";
 
-import parseSSEtoObject from "../utils/parseSSEtoObject";
+import parseSseTextToJSON from "../utils/parseSseTextToJSON";
 
 // If platform is web, a File object is supplied, otherwise, an object containing file details is supplied.
 
@@ -36,7 +36,7 @@ const getWords = async (
       const newData =
         test === undefined ? response : response.replace(test, "");
 
-      const formattedData = parseSSEtoObject(newData);
+      const formattedData = parseSseTextToJSON(newData);
 
       test = response;
 
