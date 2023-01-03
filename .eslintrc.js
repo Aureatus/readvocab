@@ -12,7 +12,9 @@ module.exports = {
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
-      rules: {},
+      rules: {
+        "dot-notation": "off",
+      },
     },
   ],
 };

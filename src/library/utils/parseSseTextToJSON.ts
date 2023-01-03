@@ -21,9 +21,7 @@ const parseSseTextToJSON = (SSEtext: string) => {
   const usefulData = responseObjectArray
     .filter((eventArray) => {
       console.log(eventArray);
-      // eslint-disable-next-line dot-notation
-      const retryCheck = eventArray.find((evObj) => evObj?.["retry"]); // Eslint disabled as currently there is an ESlint typescript config regarding array accessing.
-      // eslint-disable-next-line dot-notation
+      const retryCheck = eventArray.find((evObj) => evObj?.["retry"]);
       const endCheck = eventArray.find((evObj) => evObj?.["event"] === "end");
       if (retryCheck || endCheck) return false;
       else return true;

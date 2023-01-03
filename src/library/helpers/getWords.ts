@@ -1,4 +1,3 @@
-/* eslint-disable dot-notation */
 import { API_URL } from "@env";
 
 import type { Dispatch, SetStateAction } from "react";
