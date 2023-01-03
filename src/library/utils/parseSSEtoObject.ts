@@ -27,8 +27,9 @@ const parseSSEtoObject = (SSEtext: string) => {
   });
 
   const flattenedData = usefulData.flat();
-  const obj1 = flattenedData[0];
-  const obj2 = flattenedData[1];
+  const arrayLength = flattenedData.length;
+  const obj1 = flattenedData[arrayLength - 1];
+  const obj2 = flattenedData[arrayLength - 2];
   const formattedData = { ...obj1, ...obj2 };
   return formattedData;
 };
