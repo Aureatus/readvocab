@@ -1,5 +1,4 @@
 import { API_URL } from "@env";
-import EventSource from "react-native-sse";
 
 import type { Dispatch, SetStateAction } from "react";
 import type {
@@ -7,7 +6,8 @@ import type {
   FileInfo,
   LoadingData,
 } from "../../types/dataTypes";
-import type { WordFetchEvents } from "../../types/eventTypes";
+
+import parseSseTextToJSON from "../utils/parseSseTextToJSON";
 
 // If platform is web, a File object is supplied, otherwise, an object containing file details is supplied.
 
@@ -24,32 +24,43 @@ const getWords = async (
 
     const url = `${API_URL}/words`;
 
-    const es = new EventSource<WordFetchEvents>(url, {
-      method: "POST",
-      body: formData,
-    });
-
     loadingSetter({ loading: true, message: "Calling API" });
-    es.addEventListener("loading", (e) => {
-      if (e.type !== "loading") return;
-      if (e.data === null) return;
-      loadingSetter({ loading: true, message: e.data });
-    });
-    es.addEventListener("result", (e) => {
-      if (e.type !== "result") return;
-      if (e.data === null) return;
-      dataSetter(JSON.parse(e.data));
-      es.close();
-    });
-    es.addEventListener("close", () => {
-      loadingSetter({ loading: false });
-      es.removeAllEventListeners();
+    const stream = new XMLHttpRequest();
+
+    let test: undefined | string;
+
+    stream.addEventListener("progress", (e) => {
+      const { response } = e.currentTarget as XMLHttpRequest;
+
+      const newData =
+        test === undefined ? response : response.replace(test, "");
+
+      const formattedData = parseSseTextToJSON(newData);
+
+      test = response;
+
+      if (formattedData["event"] === "loading") {
+        loadingSetter({
+          loading: true,
+          message: formattedData["data"] ?? "Loading",
+        });
+      }
+      if (formattedData["event"] === "result") {
+        if (formattedData["data"])
+          dataSetter(JSON.parse(formattedData["data"]));
+        stream.abort();
+      }
     });
 
-    es.addEventListener("error", (e) => {
+    stream.addEventListener("error", (e) => {
       throw e;
     });
-    errorSetter(undefined);
+
+    stream.addEventListener("loadend", () => loadingSetter({ loading: false }));
+
+    stream.open("POST", url);
+
+    stream.send(formData);
   } catch (err) {
     if (err instanceof Error) errorSetter(err);
   }
