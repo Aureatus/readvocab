@@ -20,7 +20,6 @@ const parseSseTextToJSON = (SSEtext: string) => {
 
   const usefulData = responseObjectArray
     .filter((eventArray) => {
-      console.log(eventArray);
       const retryCheck = eventArray.find((evObj) => evObj?.["retry"]);
       const endCheck = eventArray.find((evObj) => evObj?.["event"] === "end");
       if (retryCheck || endCheck) return false;
