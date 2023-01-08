@@ -71,7 +71,7 @@ await app.register(wordsRouter);
 
 const start = async (): Promise<void> => {
   try {
-    await app.listen({ host: "0.0.0.0", port });
+    await app.listen({ port });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
