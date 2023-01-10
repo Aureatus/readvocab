@@ -20,7 +20,12 @@ const createCachedResult = async (
       title,
       data: rareWordObjects,
     };
-    await pdfCollection.insertOne(document);
+
+    const filter = { creator, title };
+    const updateDocument = {
+      $set: document,
+    };
+    await pdfCollection.updateOne(filter, updateDocument, { upsert: true });
   } catch (err) {
     console.error(err);
   }
