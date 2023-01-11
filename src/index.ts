@@ -10,6 +10,7 @@ import fastifyJwt from "@fastify/jwt";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
 import corpus from "./plugins/corpus.js";
+import authRouter from "./routes/authRouter.js";
 
 dotenv.config();
 
@@ -72,6 +73,7 @@ await app.register(corpus, {
 });
 
 await app.register(wordsRouter);
+await app.register(authRouter, { prefix: "/auth" });
 
 const start = async (): Promise<void> => {
   try {
