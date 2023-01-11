@@ -5,6 +5,7 @@ import { fastifyCompress } from "@fastify/compress";
 import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
 import fastifyHelmet from "@fastify/helmet";
+import fastifyAuth from "@fastify/auth";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
 import corpus from "./plugins/corpus.js";
@@ -45,6 +46,7 @@ await app.register(fastifyMultipart);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
 await app.register(FastifySSEPlugin);
+await app.register(fastifyAuth);
 
 await app.register(corpus, {
   grammarClasstoRemove: [
