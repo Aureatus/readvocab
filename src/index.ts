@@ -1,4 +1,5 @@
 import { fastifyMultipart } from "@fastify/multipart";
+import { fastifyFormbody } from "@fastify/formbody";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
@@ -45,6 +46,7 @@ if (mongoURL === undefined) throw Error("No mongoURL found.");
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
+await app.register(fastifyFormbody);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
 await app.register(FastifySSEPlugin);
