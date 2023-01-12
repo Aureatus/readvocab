@@ -16,6 +16,6 @@ export interface corpusInstance {
 }
 
 export interface User {
-  email: String;
-  password: String;
+  email: string;
+  password: string;
 }

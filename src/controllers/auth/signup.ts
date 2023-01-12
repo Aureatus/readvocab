@@ -2,7 +2,7 @@ import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import type { User } from "../../types.js";
 
 interface UserSignup extends User {
-  confirmPassword: String;
+  confirmPassword: string;
 }
 
 async function signup(
