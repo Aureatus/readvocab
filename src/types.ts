@@ -14,3 +14,8 @@ export interface corpusInstance {
   getWordFrequency: (word: string) => number | undefined;
   getMatchedWords: (wordList: string[], desiredMatches: number) => CorpusWord[];
 }
+
+export interface User {
+  email: string;
+  password: string;
+}

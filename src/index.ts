@@ -1,13 +1,17 @@
 import { fastifyMultipart } from "@fastify/multipart";
+import { fastifyFormbody } from "@fastify/formbody";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
 import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
+import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
 import corpus from "./plugins/corpus.js";
+import auth from "./plugins/auth.js";
+import authRouter from "./routes/authRouter.js";
 
 dotenv.config();
 
@@ -31,6 +35,9 @@ const environment =
 const app = fastify({
   logger: envToLogger[environment],
   bodyLimit: 50 * 1024 * 1024,
+  ajv: {
+    plugins: [[ajvKeywords.default, ["transform"]]],
+  },
 });
 let port = Number(process.env["PORT"]);
 
@@ -42,6 +49,7 @@ if (mongoURL === undefined) throw Error("No mongoURL found.");
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
+await app.register(fastifyFormbody);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
 await app.register(FastifySSEPlugin);
@@ -66,8 +74,10 @@ await app.register(corpus, {
     "Fore",
   ],
 });
+await app.register(auth);
 
 await app.register(wordsRouter);
+await app.register(authRouter, { prefix: "/auth" });
 
 const start = async (): Promise<void> => {
   try {
