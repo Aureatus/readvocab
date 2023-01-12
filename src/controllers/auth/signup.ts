@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { hash } from "bcrypt";
 import type { User } from "../../types.js";
 
 interface UserSignup extends User {
@@ -27,9 +28,11 @@ async function signup(
       .send("Account with that email already exists.");
   }
 
+  const hashedPassword = await hash(password, 11);
+
   const insertResult = await userCollection.insertOne({
     email,
-    password,
+    password: hashedPassword,
   });
 
   const user = await userCollection.findOne({ _id: insertResult.insertedId });
