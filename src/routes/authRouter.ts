@@ -32,15 +32,6 @@ const authRouter = async (fastify: FastifyInstance): Promise<void> => {
 
   fastify.post("/login", { schema: { body: loginBodySchema } }, login);
   fastify.post("/signup", { schema: { body: signupBodySchema } }, signup);
-  fastify.get(
-    "/",
-    {
-      onRequest: [fastify.authenticate],
-    },
-    async function (request, _reply) {
-      return request.user;
-    }
-  );
 };
 
 export default authRouter;
