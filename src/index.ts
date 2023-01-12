@@ -6,10 +6,10 @@ import { fastifyCompress } from "@fastify/compress";
 import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
 import fastifyHelmet from "@fastify/helmet";
-import fastifyJwt from "@fastify/jwt";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
 import corpus from "./plugins/corpus.js";
+import auth from "./plugins/auth.js";
 import authRouter from "./routes/authRouter.js";
 
 dotenv.config();
@@ -49,7 +49,6 @@ await app.register(fastifyFormbody);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
 await app.register(FastifySSEPlugin);
-await app.register(fastifyJwt, { secret: "testing" });
 
 await app.register(corpus, {
   grammarClasstoRemove: [
@@ -71,6 +70,7 @@ await app.register(corpus, {
     "Fore",
   ],
 });
+await app.register(auth);
 
 await app.register(wordsRouter);
 await app.register(authRouter, { prefix: "/auth" });
