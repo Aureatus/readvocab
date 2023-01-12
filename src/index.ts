@@ -5,6 +5,7 @@ import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
 import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
+import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import wordsRouter from "./routes/wordsRouter.js";
 import dotenv from "dotenv";
@@ -34,6 +35,9 @@ const environment =
 const app = fastify({
   logger: envToLogger[environment],
   bodyLimit: 50 * 1024 * 1024,
+  ajv: {
+    plugins: [[ajvKeywords.default, ["transform"]]],
+  },
 });
 let port = Number(process.env["PORT"]);
 
