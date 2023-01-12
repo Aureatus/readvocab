@@ -27,7 +27,14 @@ async function signup(
       .send("Account with that email already exists.");
   }
 
-  const user = await userCollection.insertOne({ email, password });
+  const insertResult = await userCollection.insertOne({
+    email,
+    password,
+  });
+
+  const user = await userCollection.findOne({ _id: insertResult.insertedId });
+  if (user === null)
+    return await reply.code(400).send("User not found after creation.");
 
   const token = jwt.sign(user, { expiresIn: "14d" });
   return await reply.code(201).send(token);
