@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { compare } from "bcrypt";
 import type { User } from "../../types.js";
 
 async function login(
@@ -18,7 +19,9 @@ async function login(
     return await reply.code(401).send("Account with email doesn't exist.");
   }
 
-  if (response.password !== password) {
+  const passwordValidity = await compare(response.password, password);
+
+  if (passwordValidity) {
     return await reply.code(401).send("Incorrect password.");
   }
 
