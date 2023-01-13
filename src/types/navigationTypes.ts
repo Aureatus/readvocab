@@ -8,3 +8,9 @@ export type TabParamList = {
 export type HomeProps = BottomTabScreenProps<TabParamList, "Home">;
 
 export type WordListProps = BottomTabScreenProps<TabParamList, "WordList">;
+
+export type StackParamList = {
+  Default: undefined;
+  Login: undefined;
+  Signup: undefined;
+};
