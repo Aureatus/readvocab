@@ -19,9 +19,9 @@ async function login(
     return await reply.code(401).send("Account with email doesn't exist.");
   }
 
-  const passwordValidity = await compare(response.password, password);
+  const passwordValidity = await compare(password, response.password);
 
-  if (passwordValidity) {
+  if (!passwordValidity) {
     return await reply.code(401).send("Incorrect password.");
   }
 
