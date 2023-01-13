@@ -1,13 +1,10 @@
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-export type RootStackParamList = {
+export type TabParamList = {
   Home: undefined;
   WordList: undefined;
 };
 
-export type HomeProps = BottomTabScreenProps<RootStackParamList, "Home">;
+export type HomeProps = BottomTabScreenProps<TabParamList, "Home">;
 
-export type WordListProps = BottomTabScreenProps<
-  RootStackParamList,
-  "WordList"
->;
+export type WordListProps = BottomTabScreenProps<TabParamList, "WordList">;

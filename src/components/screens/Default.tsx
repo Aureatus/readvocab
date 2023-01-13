@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import screenOptions from "../../library/helpers/navigation/screenOptions";
-import type { RootStackParamList } from "../../types/navigationTypes";
+import type { TabParamList } from "../../types/navigationTypes";
 import Home from "./Home";
 import WordList from "./WordList";
 
-const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
+const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
 const Default = () => {
   return (

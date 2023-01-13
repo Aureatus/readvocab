@@ -1,6 +1,6 @@
 import type { RouteProp } from "@react-navigation/native";
 import type { ComponentProps } from "react";
-import type { RootStackParamList } from "../../../types/navigationTypes";
+import type { TabParamList } from "../../../types/navigationTypes";
 
 import { Ionicons } from "@expo/vector-icons";
 import Header from "../../../components/Header";
@@ -8,7 +8,7 @@ import Header from "../../../components/Header";
 const screenOptions = ({
   route,
 }: {
-  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+  route: RouteProp<TabParamList, keyof TabParamList>;
 }) => ({
   tabBarIcon: ({
     focused,
