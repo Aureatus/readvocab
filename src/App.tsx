@@ -1,17 +1,17 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import type { RootStackParamList } from "./types/navigationTypes";
 import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
 import WordDataContext from "./library/context/WordDataContext";
-import screenOptions from "./library/helpers/navigation/screenOptions";
-import Home from "./components/screens/Home";
-import WordList from "./components/screens/WordList";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import Login from "./components/screens/Login";
+import Signup from "./components/screens/Signup";
+import Default from "./components/screens/Default";
+import type { StackParamList } from "./types/navigationTypes";
 
-const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
+const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
@@ -33,9 +33,10 @@ export default function App() {
             setWordDataError,
           }}
         >
-          <Navigator initialRouteName="Home" screenOptions={screenOptions}>
-            <Screen name="Home" component={Home} />
-            <Screen name="WordList" component={WordList} />
+          <Navigator screenOptions={{ headerShown: false }}>
+            <Screen name="Default" component={Default} />
+            <Screen name="Login" component={Login} />
+            <Screen name="Signup" component={Signup} />
           </Navigator>
         </WordDataContext.Provider>
       </NavigationContainer>
