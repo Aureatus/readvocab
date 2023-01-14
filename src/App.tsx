@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider as PaperProvider } from "react-native-paper";
 
 import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
@@ -33,11 +34,13 @@ export default function App() {
             setWordDataError,
           }}
         >
-          <Navigator screenOptions={{ headerShown: false }}>
-            <Screen name="Default" component={Default} />
-            <Screen name="Login" component={Login} />
-            <Screen name="Signup" component={Signup} />
-          </Navigator>
+          <PaperProvider>
+            <Navigator screenOptions={{ headerShown: false }}>
+              <Screen name="Default" component={Default} />
+              <Screen name="Login" component={Login} />
+              <Screen name="Signup" component={Signup} />
+            </Navigator>
+          </PaperProvider>
         </WordDataContext.Provider>
       </NavigationContainer>
     </SafeAreaProvider>
