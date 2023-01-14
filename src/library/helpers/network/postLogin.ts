@@ -19,7 +19,7 @@ const postLogin = async (email: string, password: string) => {
     throw Error(errorMessage);
   }
 
-  return response;
+  return await response.text();
 };
 
 export default postLogin;
