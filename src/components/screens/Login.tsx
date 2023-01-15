@@ -87,7 +87,7 @@ const Login = ({ navigation: { goBack } }: LoginProps) => {
         Login
       </Button>
       <HelperText type="info" visible={!email || !password}>
-        *Both fields are required.
+        *These fields are required.
       </HelperText>
       <HelperText type="error" visible={otherError instanceof Error}>
         Unexpected Error : {otherError?.message}
