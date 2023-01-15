@@ -17,6 +17,7 @@ const login = async (
     if (!(err instanceof Error)) return;
     if (err.message === "Account with email doesn't exist.") setEmailError(err);
     if (err.message === "Incorrect password.") setPasswordError(err);
+    else throw err;
   }
 };
 
