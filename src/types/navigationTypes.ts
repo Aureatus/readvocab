@@ -17,3 +17,5 @@ export type StackParamList = {
 };
 
 export type LoginProps = NativeStackScreenProps<StackParamList, "Login">;
+
+export type SignupProps = NativeStackScreenProps<StackParamList, "Signup">;
