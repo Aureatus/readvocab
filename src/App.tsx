@@ -1,8 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
@@ -22,6 +23,20 @@ export default function App() {
     loading: false,
   });
   const [wordDataError, setWordDataError] = useState<Error | undefined>();
+
+  useEffect(() => {
+    (async () => {
+      setUser(await AsyncStorage.getItem("bearerToken"));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (user === null) {
+        await AsyncStorage.removeItem("bearerToken");
+      } else await AsyncStorage.setItem("bearerToken", user);
+    })();
+  }, [user]);
 
   return (
     <SafeAreaProvider>
