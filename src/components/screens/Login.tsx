@@ -79,9 +79,15 @@ const Login = ({ navigation: { goBack } }: LoginProps) => {
         mode="contained"
         disabled={!email || !password || !!emailError || !!passwordError}
         onPress={() => {
-          login(email, password, setEmailError, setPasswordError, setUser)
-            .then(() => goBack())
-            .catch((err) => setOtherError(err));
+          login(
+            email,
+            password,
+            setEmailError,
+            setPasswordError,
+            setOtherError,
+            setUser,
+            goBack
+          );
         }}
       >
         Login
