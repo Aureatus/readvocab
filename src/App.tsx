@@ -1,43 +1,66 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider as PaperProvider } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import type { RootStackParamList } from "./types/navigationTypes";
 import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
 import WordDataContext from "./library/context/WordDataContext";
-import screenOptions from "./library/helpers/navigation/screenOptions";
-import Home from "./components/screens/Home";
-import WordList from "./components/screens/WordList";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import UserContext from "./library/context/UserContext";
+import Login from "./components/screens/Login";
+import Signup from "./components/screens/Signup";
+import Default from "./components/screens/Default";
+import type { StackParamList } from "./types/navigationTypes";
 
-const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
+const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
+  const [user, setUser] = useState<string | null>(null);
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
   const [wordDataLoading, setWordDataLoading] = useState<LoadingData>({
     loading: false,
   });
   const [wordDataError, setWordDataError] = useState<Error | undefined>();
 
+  useEffect(() => {
+    (async () => {
+      setUser(await AsyncStorage.getItem("bearerToken"));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (user === null) {
+        await AsyncStorage.removeItem("bearerToken");
+      } else await AsyncStorage.setItem("bearerToken", user);
+    })();
+  }, [user]);
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <WordDataContext.Provider
-          value={{
-            wordData,
-            setWordData,
-            wordDataLoading,
-            setWordDataLoading,
-            wordDataError,
-            setWordDataError,
-          }}
-        >
-          <Navigator initialRouteName="Home" screenOptions={screenOptions}>
-            <Screen name="Home" component={Home} />
-            <Screen name="WordList" component={WordList} />
-          </Navigator>
-        </WordDataContext.Provider>
+        <UserContext.Provider value={{ user, setUser }}>
+          <WordDataContext.Provider
+            value={{
+              wordData,
+              setWordData,
+              wordDataLoading,
+              setWordDataLoading,
+              wordDataError,
+              setWordDataError,
+            }}
+          >
+            <PaperProvider>
+              <Navigator screenOptions={{ headerShown: false }}>
+                <Screen name="Default" component={Default} />
+                <Screen name="Login" component={Login} />
+                <Screen name="Signup" component={Signup} />
+              </Navigator>
+            </PaperProvider>
+          </WordDataContext.Provider>
+        </UserContext.Provider>
       </NavigationContainer>
     </SafeAreaProvider>
   );
