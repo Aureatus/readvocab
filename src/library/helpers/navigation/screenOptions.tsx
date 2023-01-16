@@ -3,7 +3,8 @@ import type { ComponentProps } from "react";
 import type { TabParamList } from "../../../types/navigationTypes";
 
 import { Ionicons } from "@expo/vector-icons";
-import Header from "../../../components/Header";
+import HeaderTitle from "../../../components/Header/HeaderTitle";
+import HeaderRight from "../../../components/Header/HeaderRight";
 
 const screenOptions = ({
   route,
@@ -31,7 +32,8 @@ const screenOptions = ({
 
     return <Ionicons name={iconName} size={size} color={color} />;
   },
-  headerTitle: () => <Header color={"black"} size={32} />,
+  headerTitle: () => <HeaderTitle color={"black"} size={32} />,
+  headerRight: () => <HeaderRight />,
 });
 
 export default screenOptions;
