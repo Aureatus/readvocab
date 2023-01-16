@@ -1,4 +1,4 @@
-import { Text, View, SafeAreaView } from "react-native";
+import { Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { Button } from "react-native";
@@ -18,33 +18,31 @@ const HeaderRight = () => {
   const { user, setUser } = context;
 
   return (
-    <SafeAreaView>
-      <View>
-        {user ? (
+    <View>
+      {user ? (
+        <Button
+          title="logout"
+          onPress={() => {
+            setUser(null);
+          }}
+        />
+      ) : (
+        <>
           <Button
-            title="logout"
+            title="login"
             onPress={() => {
-              setUser(null);
+              navigate("Login");
             }}
           />
-        ) : (
-          <>
-            <Button
-              title="login"
-              onPress={() => {
-                navigate("Login");
-              }}
-            />
-            <Button
-              title="signup"
-              onPress={() => {
-                navigate("Signup");
-              }}
-            />
-          </>
-        )}
-      </View>
-    </SafeAreaView>
+          <Button
+            title="signup"
+            onPress={() => {
+              navigate("Signup");
+            }}
+          />
+        </>
+      )}
+    </View>
   );
 };
 
