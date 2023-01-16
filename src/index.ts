@@ -81,7 +81,7 @@ await app.register(authRouter, { prefix: "/auth" });
 
 const start = async (): Promise<void> => {
   try {
-    await app.listen({ port });
+    await app.listen({ host: "0.0.0.0", port });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
