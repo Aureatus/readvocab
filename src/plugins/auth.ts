@@ -1,6 +1,8 @@
 import fp from "fastify-plugin";
 import fastifyJwt from "@fastify/jwt";
 import type { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
+import type { WithId } from "mongodb";
+import type { JwtUser, User } from "../types.js";
 
 type authenticateFunc = (
   request: FastifyRequest,
@@ -13,6 +15,12 @@ declare module "fastify" {
   }
 }
 
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    payload: WithId<User>;
+    user: JwtUser;
+  }
+}
 const authenticate: FastifyPluginAsync = async (instance, _opts) => {
   const secret = process.env["JWT_SECRET"];
 
