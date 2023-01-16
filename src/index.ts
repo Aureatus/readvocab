@@ -76,7 +76,7 @@ await app.register(corpus, {
 });
 await app.register(auth);
 
-await app.register(wordsRouter);
+await app.register(wordsRouter, { prefix: "/words" });
 await app.register(authRouter, { prefix: "/auth" });
 
 const start = async (): Promise<void> => {
