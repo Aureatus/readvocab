@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { Button } from "react-native";
@@ -20,14 +20,17 @@ const HeaderRight = () => {
   return (
     <View>
       {user ? (
-        <Button
-          title="logout"
-          onPress={() => {
-            setUser(null);
-          }}
-        />
+        <View style={styles.container}>
+          <Button
+            title="logout"
+            onPress={() => {
+              setUser(null);
+            }}
+            color={"#f3213d"}
+          />
+        </View>
       ) : (
-        <>
+        <View style={styles.container}>
           <Button
             title="login"
             onPress={() => {
@@ -40,10 +43,20 @@ const HeaderRight = () => {
               navigate("Signup");
             }}
           />
-        </>
+        </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 16,
+    gap: 30,
+  },
+});
 
 export default HeaderRight;
