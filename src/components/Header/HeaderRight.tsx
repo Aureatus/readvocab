@@ -1,13 +1,11 @@
-import { Text, View, SafeAreaView, StyleSheet } from "react-native";
+import { Text, View, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
 import { useContext } from "react";
 import { Button } from "react-native";
+import type { HomeScreenNavigationProp } from "../../types/navigationTypes";
+import UserContext from "../../library/context/UserContext";
 
-import UserContext from "../library/context/UserContext";
-import type { HomeScreenNavigationProp } from "../types/navigationTypes";
-
-const Header = ({ color, size }: { color: string; size: number }) => {
+const HeaderRight = () => {
   const { navigate } = useNavigation<HomeScreenNavigationProp>();
   const context = useContext(UserContext);
   if (context === null)
@@ -21,10 +19,6 @@ const Header = ({ color, size }: { color: string; size: number }) => {
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <Entypo name="book" size={size} color={color} />
-        <Text style={styles.title}>Readvocab</Text>
-      </View>
       <View>
         {user ? (
           <Button
@@ -54,16 +48,4 @@ const Header = ({ color, size }: { color: string; size: number }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 36,
-    marginLeft: 14,
-  },
-});
-
-export default Header;
+export default HeaderRight;
