@@ -1,5 +1,3 @@
-import type { ObjectId } from "@fastify/mongodb";
-
 export interface CorpusWord {
   word: string;
   PoS: string;
@@ -23,7 +21,7 @@ export interface User {
 }
 
 export interface JwtUser {
-  _id: ObjectId;
+  _id: string;
   email: string;
   password: string;
   iat: number;
