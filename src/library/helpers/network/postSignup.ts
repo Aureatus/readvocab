@@ -6,11 +6,17 @@ const postSignup = async (
   confirmPassword: string
 ) => {
   const url = `${API_URL}/auth/signup`;
-  const searchParams = new URLSearchParams();
-  searchParams.append("email", email);
-  searchParams.append("password", password);
-  searchParams.append("confirmPassword", confirmPassword);
-  const response = await fetch(url, { body: searchParams, method: "POST" });
+  const response = await fetch(url, {
+    body: new URLSearchParams({
+      email,
+      password,
+      confirmPassword,
+    }).toString(),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
 
   if (!response.ok) {
     const responseText = await response.text();

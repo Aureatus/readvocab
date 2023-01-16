@@ -5,7 +5,16 @@ const postLogin = async (email: string, password: string) => {
   const searchParams = new URLSearchParams();
   searchParams.append("email", email);
   searchParams.append("password", password);
-  const response = await fetch(url, { body: searchParams, method: "POST" });
+  const response = await fetch(url, {
+    body: new URLSearchParams({
+      email,
+      password,
+    }).toString(),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
 
   if (!response.ok) {
     const responseText = await response.text();
