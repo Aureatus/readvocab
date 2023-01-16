@@ -51,7 +51,7 @@ await app.register(fastifyCompress);
 await app.register(fastifyMultipart);
 await app.register(fastifyFormbody);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
-await app.register(cors);
+await app.register(cors, { origin: "http://localhost:19006" });
 await app.register(FastifySSEPlugin);
 
 await app.register(corpus, {
