@@ -1,21 +1,12 @@
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useContext } from "react";
 import { Button } from "react-native";
 import type { HomeScreenNavigationProp } from "../../types/navigationTypes";
-import UserContext from "../../library/context/UserContext";
+import useUserContext from "../../library/hooks/useUserContext";
 
 const HeaderRight = () => {
   const { navigate } = useNavigation<HomeScreenNavigationProp>();
-  const context = useContext(UserContext);
-  if (context === null)
-    return (
-      <View>
-        <Text>Error</Text>
-      </View>
-    );
-
-  const { user, setUser } = context;
+  const { user, setUser } = useUserContext();
 
   return (
     <View>
