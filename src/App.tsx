@@ -4,6 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
@@ -39,29 +40,31 @@ export default function App() {
   }, [user]);
 
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <UserContext.Provider value={{ user, setUser }}>
-          <WordDataContext.Provider
-            value={{
-              wordData,
-              setWordData,
-              wordDataLoading,
-              setWordDataLoading,
-              wordDataError,
-              setWordDataError,
-            }}
-          >
-            <PaperProvider>
-              <Navigator screenOptions={{ headerShown: false }}>
-                <Screen name="Default" component={Default} />
-                <Screen name="Login" component={Login} />
-                <Screen name="Signup" component={Signup} />
-              </Navigator>
-            </PaperProvider>
-          </WordDataContext.Provider>
-        </UserContext.Provider>
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <RootSiblingParent>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <UserContext.Provider value={{ user, setUser }}>
+            <WordDataContext.Provider
+              value={{
+                wordData,
+                setWordData,
+                wordDataLoading,
+                setWordDataLoading,
+                wordDataError,
+                setWordDataError,
+              }}
+            >
+              <PaperProvider>
+                <Navigator screenOptions={{ headerShown: false }}>
+                  <Screen name="Default" component={Default} />
+                  <Screen name="Login" component={Login} />
+                  <Screen name="Signup" component={Signup} />
+                </Navigator>
+              </PaperProvider>
+            </WordDataContext.Provider>
+          </UserContext.Provider>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </RootSiblingParent>
   );
 }
