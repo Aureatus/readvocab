@@ -3,7 +3,7 @@ import UserContext from "../context/UserContext";
 
 const useUserContext = () => {
   const context = useContext(UserContext);
-  if (context === null)
+  if (context === undefined)
     throw Error("UserContext must be used with a context provider!");
 
   return context;
