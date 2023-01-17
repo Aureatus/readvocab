@@ -4,15 +4,19 @@ import type { DefinitionWord } from "../../types/dataTypes";
 
 import useWordDataContext from "../../library/hooks/useWordDataContext";
 import WordItem from "../WordItem";
+import saveWord from "../../library/helpers/saveWord";
+import useUserContext from "../../library/hooks/useUserContext";
 
 const WordList = () => {
   const { wordData, wordDataError } = useWordDataContext();
+  const { user } = useUserContext();
 
   const renderItem = ({ item }: { item: DefinitionWord }) => (
     <WordItem
       word={item.word}
       definition={item.definition}
       wordClass={item.wordClass}
+      onPress={() => saveWord(user, item)}
     />
   );
 
