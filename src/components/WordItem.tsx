@@ -1,15 +1,17 @@
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
-import { useState } from "react";
 
 const WordItem = ({
   word,
   definition,
   wordClass,
+  onPress,
 }: {
   word: string;
   definition: string;
   wordClass: string;
+  onPress: () => void;
 }) => {
   const [saved, setSaved] = useState(true);
   return (
@@ -26,7 +28,7 @@ const WordItem = ({
           icon={saved ? "heart-outline" : "heart"}
           size={24}
           iconColor={"#3EB489"}
-          onPress={() => setSaved(!saved)}
+          onPress={onPress}
         />
       </View>
     </View>
