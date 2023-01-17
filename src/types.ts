@@ -18,4 +18,14 @@ export interface corpusInstance {
 export interface User {
   email: string;
   password: string;
+  savedWords: DefinitionWord[];
+}
+
+export interface JwtUser {
+  _id: string;
+  email: string;
+  password: string;
+  savedWords: DefinitionWord[];
+  iat: number;
+  exp: number;
 }

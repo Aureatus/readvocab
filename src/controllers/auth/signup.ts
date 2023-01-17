@@ -33,6 +33,7 @@ async function signup(
   const insertResult = await userCollection.insertOne({
     email,
     password: hashedPassword,
+    savedWords: [],
   });
 
   const user = await userCollection.findOne({ _id: insertResult.insertedId });
