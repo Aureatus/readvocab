@@ -1,28 +1,20 @@
-import { useContext } from "react";
 import { Button, View, Text, StyleSheet, Platform } from "react-native";
 import { Bar } from "react-native-progress";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
-import WordDataContext from "../../library/context/WordDataContext";
 import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
+import useWordDataContext from "../../library/hooks/useWordDataContext";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
-  const context = useContext(WordDataContext);
-  if (context === null)
-    return (
-      <View>
-        <Text>Error</Text>
-      </View>
-    );
   const {
     wordData,
     setWordData,
     wordDataLoading: { loading, message },
     setWordDataLoading,
     setWordDataError,
-  } = context;
+  } = useWordDataContext();
 
   if (loading)
     return (

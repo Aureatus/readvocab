@@ -1,20 +1,12 @@
-import { useContext } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 
-import WordDataContext from "../../library/context/WordDataContext";
+import useWordDataContext from "../../library/hooks/useWordDataContext";
 import WordItem from "../WordItem";
 
 const WordList = () => {
-  const context = useContext(WordDataContext);
-  if (context === null)
-    return (
-      <View>
-        <Text>Unknown Error</Text>
-      </View>
-    );
-  const { wordData, wordDataError } = context;
+  const { wordData, wordDataError } = useWordDataContext();
 
   const renderItem = ({ item }: { item: DefinitionWord }) => (
     <WordItem
