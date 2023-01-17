@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { useState } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
-import UserContext from "../../library/context/UserContext";
 import login from "../../library/helpers/login";
+import useUserContext from "../../library/hooks/useUserContext";
 import type { LoginProps } from "../../types/navigationTypes";
 
 const Login = ({ navigation: { goBack } }: LoginProps) => {
@@ -14,15 +14,7 @@ const Login = ({ navigation: { goBack } }: LoginProps) => {
 
   const [otherError, setOtherError] = useState<Error | null>(null);
 
-  const context = useContext(UserContext);
-  if (context === null)
-    return (
-      <View>
-        <Text>Error</Text>
-      </View>
-    );
-
-  const { setUser } = context;
+  const { setUser } = useUserContext();
 
   return (
     <View style={styles.container}>
