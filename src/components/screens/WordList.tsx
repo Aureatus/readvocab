@@ -6,17 +6,24 @@ import useWordDataContext from "../../library/hooks/useWordDataContext";
 import WordItem from "../WordItem";
 import saveWord from "../../library/helpers/saveWord";
 import useUserContext from "../../library/hooks/useUserContext";
+import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
 
 const WordList = () => {
   const { wordData, wordDataError } = useWordDataContext();
   const { user } = useUserContext();
+  const { savedWords, setSavedWords } = useSavedWordsContext();
 
   const renderItem = ({ item }: { item: DefinitionWord }) => (
     <WordItem
       word={item.word}
       definition={item.definition}
       wordClass={item.wordClass}
-      onPress={() => saveWord(user, item)}
+      saved={(() => {
+        return !!savedWords.find(
+          (element) => JSON.stringify(element) === JSON.stringify(item)
+        );
+      })()}
+      onPress={() => saveWord(user, item, savedWords, setSavedWords)}
     />
   );
 
