@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
+import savedWords from "../controllers/getSavedWords.js";
 import { saveWord } from "../controllers/saveWord.js";
 import { words } from "../controllers/words.js";
 import type { DefinitionWord } from "../types.js";
@@ -17,6 +18,11 @@ const wordsRouter = async (fastify: FastifyInstance): Promise<void> => {
     "/save",
     { onRequest: [fastify.authenticate], schema: { body: saveBodySchema } },
     saveWord
+  );
+  fastify.get<{ Body: DefinitionWord }>(
+    "/saved",
+    { onRequest: [fastify.authenticate] },
+    savedWords
   );
 };
 
