@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 
@@ -6,14 +5,15 @@ const WordItem = ({
   word,
   definition,
   wordClass,
+  saved,
   onPress,
 }: {
   word: string;
   definition: string;
   wordClass: string;
+  saved: boolean;
   onPress: () => void;
 }) => {
-  const [saved, setSaved] = useState(true);
   return (
     <View style={styles.container}>
       <View style={styles.wordContainer}>
@@ -25,7 +25,7 @@ const WordItem = ({
       </View>
       <View>
         <IconButton
-          icon={saved ? "heart-outline" : "heart"}
+          icon={saved ? "heart" : "heart-outline"}
           size={24}
           iconColor={"#3EB489"}
           onPress={onPress}
