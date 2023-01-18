@@ -13,19 +13,22 @@ const WordList = () => {
   const { user } = useUserContext();
   const { savedWords, setSavedWords } = useSavedWordsContext();
 
-  const renderItem = ({ item }: { item: DefinitionWord }) => (
-    <WordItem
-      word={item.word}
-      definition={item.definition}
-      wordClass={item.wordClass}
-      saved={(() => {
-        return !!savedWords.find(
-          (element) => JSON.stringify(element) === JSON.stringify(item)
-        );
-      })()}
-      onPress={() => saveWord(user, item, savedWords, setSavedWords)}
-    />
-  );
+  const renderItem = ({ item }: { item: DefinitionWord }) => {
+    const getSaved = () => {
+      return !!savedWords.find(
+        (element) => JSON.stringify(element) === JSON.stringify(item)
+      );
+    };
+    return (
+      <WordItem
+        word={item.word}
+        definition={item.definition}
+        wordClass={item.wordClass}
+        saved={getSaved()}
+        onPress={() => saveWord(user, item, savedWords, setSavedWords)}
+      />
+    );
+  };
 
   if (wordDataError)
     return (
