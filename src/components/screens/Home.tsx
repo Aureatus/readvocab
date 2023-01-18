@@ -1,5 +1,5 @@
-import { Button, View, Text, StyleSheet, Platform } from "react-native";
-import { Bar } from "react-native-progress";
+import { Button, View, Text, StyleSheet, Dimensions } from "react-native";
+import { ProgressBar } from "react-native-paper";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
@@ -20,12 +20,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
   if (loading)
     return (
       <View style={styles.container}>
-        <Bar
-          width={300}
-          height={20}
-          useNativeDriver={Platform.OS === "web" ? false : true}
-          indeterminate
-        />
+        <ProgressBar indeterminate style={styles.loadingBar} />
         <Text>{message}</Text>
       </View>
     );
@@ -72,6 +67,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  loadingBar: {
+    height: 20,
+    width: Dimensions.get("window").width / 1.5,
   },
 });
 
