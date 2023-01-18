@@ -1,5 +1,5 @@
-import { Button, View, Text, StyleSheet, Dimensions } from "react-native";
-import { ProgressBar } from "react-native-paper";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { ProgressBar, Button } from "react-native-paper";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
@@ -28,7 +28,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
   return (
     <View>
       <Button
-        title={wordData.length === 0 ? "Upload PDF" : "Upload another PDF"}
+        mode="contained"
         onPress={() => {
           (async () => {
             try {
@@ -41,9 +41,11 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
             }
           })();
         }}
-      />
+      >
+        {wordData.length === 0 ? "Upload PDF" : "Upload another PDF"}
+      </Button>
       <Button
-        title={"Random PDF"}
+        mode="contained"
         onPress={() => {
           (async () => {
             try {
@@ -53,9 +55,13 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
             }
           })();
         }}
-      />
+      >
+        {"Random PDF"}
+      </Button>
       {wordData.length !== 0 && (
-        <Button title="Go to Words" onPress={() => navigate("WordList")} />
+        <Button mode="contained" onPress={() => navigate("WordList")}>
+          {"Go to Words"}
+        </Button>
       )}
     </View>
   );
