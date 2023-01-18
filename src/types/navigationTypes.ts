@@ -11,6 +11,7 @@ import type {
 export type TabParamList = {
   Home: undefined;
   WordList: undefined;
+  Saved: undefined;
 };
 
 export type HomeProps = BottomTabScreenProps<TabParamList, "Home">;
