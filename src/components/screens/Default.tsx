@@ -10,6 +10,7 @@ import screenOptions from "../../library/helpers/navigation/screenOptions";
 import useUserContext from "../../library/hooks/useUserContext";
 import SavedWordsContext from "../../library/context/SavedWordsContext";
 import getSavedWords from "../../library/helpers/network/getSavedWords";
+import SavedList from "./SavedList";
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
@@ -32,6 +33,7 @@ const Default = () => {
       <Navigator initialRouteName="Home" screenOptions={screenOptions}>
         <Screen name="Home" component={Home} />
         <Screen name="WordList" component={WordList} />
+        <Screen name="SavedList" component={SavedList} />
       </Navigator>
     </SavedWordsContext.Provider>
   );
