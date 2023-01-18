@@ -45,6 +45,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
         {wordData.length === 0 ? "Upload PDF" : "Upload another PDF"}
       </Button>
       <Button
+        mode="contained"
         onPress={() => {
           (async () => {
             try {
