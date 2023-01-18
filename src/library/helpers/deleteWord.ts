@@ -19,7 +19,7 @@ const deleteWord = async (
       (element) => JSON.stringify(element) === JSON.stringify(word)
     );
     const newSavedWords = [...savedWords];
-    newSavedWords.splice(deletedWordIndex);
+    newSavedWords.splice(deletedWordIndex, 1);
     setSavedWords(newSavedWords);
   } catch (err) {
     if (!(err instanceof Error)) return;
