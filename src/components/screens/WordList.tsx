@@ -7,6 +7,7 @@ import WordItem from "../WordItem";
 import saveWord from "../../library/helpers/saveWord";
 import useUserContext from "../../library/hooks/useUserContext";
 import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
+import deleteWord from "../../library/helpers/deleteWord";
 
 const WordList = () => {
   const { wordData, wordDataError } = useWordDataContext();
@@ -25,7 +26,11 @@ const WordList = () => {
         definition={item.definition}
         wordClass={item.wordClass}
         saved={getSaved()}
-        onPress={() => saveWord(user, item, savedWords, setSavedWords)}
+        onPress={() => {
+          getSaved()
+            ? deleteWord(user, item, savedWords, setSavedWords)
+            : saveWord(user, item, savedWords, setSavedWords);
+        }}
       />
     );
   };
