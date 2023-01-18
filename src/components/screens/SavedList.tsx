@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 
@@ -45,13 +45,13 @@ const SavedList = () => {
       <Text style={styles.title}>Save some words to see them here!</Text>
     </View>
   ) : (
-    <View>
+    <ScrollView>
       <FlatList
         data={savedWords}
         renderItem={renderItem}
         keyExtractor={(item) => item.word}
       />
-    </View>
+    </ScrollView>
   );
 };
 
