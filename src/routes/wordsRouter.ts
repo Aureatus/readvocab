@@ -8,7 +8,7 @@ import type { DefinitionWord } from "../types.js";
 const fluentSchema = fluentSchemaObject.default;
 
 const wordsRouter = async (fastify: FastifyInstance): Promise<void> => {
-  const saveBodySchema = fluentSchema
+  const BodySchema = fluentSchema
     .object()
     .prop("word", fluentSchema.string().required())
     .prop("wordClass", fluentSchema.string().required())
@@ -16,7 +16,7 @@ const wordsRouter = async (fastify: FastifyInstance): Promise<void> => {
   fastify.post("/", words);
   fastify.post<{ Body: DefinitionWord }>(
     "/save",
-    { onRequest: [fastify.authenticate], schema: { body: saveBodySchema } },
+    { onRequest: [fastify.authenticate], schema: { body: BodySchema } },
     saveWord
   );
   fastify.get("/saved", { onRequest: [fastify.authenticate] }, savedWords);
