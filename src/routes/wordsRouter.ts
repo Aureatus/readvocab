@@ -19,11 +19,7 @@ const wordsRouter = async (fastify: FastifyInstance): Promise<void> => {
     { onRequest: [fastify.authenticate], schema: { body: saveBodySchema } },
     saveWord
   );
-  fastify.get<{ Body: DefinitionWord }>(
-    "/saved",
-    { onRequest: [fastify.authenticate] },
-    savedWords
-  );
+  fastify.get("/saved", { onRequest: [fastify.authenticate] }, savedWords);
 };
 
 export default wordsRouter;
