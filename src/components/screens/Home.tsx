@@ -6,6 +6,7 @@ import type { HomeProps } from "../../types/navigationTypes";
 import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
+import getRandomWords from "../../library/helpers/network/getRandomWords";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const {
@@ -40,6 +41,18 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               if (file === undefined) return;
 
               getWords(file, setWordData, setWordDataLoading, setWordDataError);
+            } catch (err) {
+              if (err instanceof Error) setWordDataError(err);
+            }
+          })();
+        }}
+      />
+      <Button
+        title={"Random PDF"}
+        onPress={() => {
+          (async () => {
+            try {
+              getRandomWords(setWordData, setWordDataLoading, setWordDataError);
             } catch (err) {
               if (err instanceof Error) setWordDataError(err);
             }
