@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, HelperText, TextInput, Text } from "react-native-paper";
+import Toast from "react-native-root-toast";
 import login from "../../library/helpers/login";
 import useUserContext from "../../library/hooks/useUserContext";
 import type { LoginProps } from "../../types/navigationTypes";
@@ -15,6 +16,14 @@ const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
   const [otherError, setOtherError] = useState<Error | null>(null);
 
   const { setUser } = useUserContext();
+
+  useEffect(() => {
+    if (otherError instanceof Error) {
+      Toast.show(otherError?.message, {
+        position: Toast.positions.TOP,
+      });
+    }
+  }, [otherError]);
 
   return (
     <View style={styles.container}>

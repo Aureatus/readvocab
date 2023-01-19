@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, HelperText, TextInput, Text } from "react-native-paper";
+import Toast from "react-native-root-toast";
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/useUserContext";
 import type { SignupProps } from "../../types/navigationTypes";
@@ -19,6 +20,14 @@ const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
   const [otherError, setOtherError] = useState<Error | null>(null);
 
   const { setUser } = useUserContext();
+
+  useEffect(() => {
+    if (otherError instanceof Error) {
+      Toast.show(otherError?.message, {
+        position: Toast.positions.TOP,
+      });
+    }
+  }, [otherError]);
 
   return (
     <View style={styles.container}>
@@ -119,9 +128,6 @@ const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
         </Button>
         <HelperText type="info" visible={!email || !password}>
           *These fields are required.
-        </HelperText>
-        <HelperText type="error" visible={otherError instanceof Error}>
-          Unexpected Error : {otherError?.message}
         </HelperText>
       </View>
       <Text variant="headlineMedium">Or</Text>
