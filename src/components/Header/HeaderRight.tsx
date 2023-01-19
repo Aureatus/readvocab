@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Button } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 import type { HomeScreenNavigationProp } from "../../types/navigationTypes";
 import useUserContext from "../../library/hooks/useUserContext";
 
@@ -12,34 +12,23 @@ const HeaderRight = () => {
     <View>
       {user ? (
         <View style={styles.container}>
-          <Button
-            mode="contained"
+          <IconButton
+            icon="logout"
+            iconColor="#f3213d"
             onPress={() => {
               setUser(null);
             }}
-            color={"#f3213d"}
-          >
-            logout
-          </Button>
+          />
         </View>
       ) : (
         <View style={styles.container}>
-          <Button
-            mode="contained"
+          <IconButton
+            icon="login"
+            iconColor="#3EB489"
             onPress={() => {
               navigate("Login");
             }}
-          >
-            login
-          </Button>
-          <Button
-            mode="contained"
-            onPress={() => {
-              navigate("Signup");
-            }}
-          >
-            signup
-          </Button>
+          />
         </View>
       )}
     </View>
