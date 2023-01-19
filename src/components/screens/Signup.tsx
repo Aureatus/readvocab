@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Button, HelperText, TextInput } from "react-native-paper";
+import { Button, HelperText, TextInput, Text } from "react-native-paper";
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/useUserContext";
 import type { SignupProps } from "../../types/navigationTypes";
 
-const Signup = ({ navigation: { goBack } }: SignupProps) => {
+const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<Error | null>(null);
 
@@ -124,6 +124,10 @@ const Signup = ({ navigation: { goBack } }: SignupProps) => {
           Unexpected Error : {otherError?.message}
         </HelperText>
       </View>
+      <Text variant="headlineMedium">Or</Text>
+      <Button mode="contained" uppercase onPress={() => navigate("Login")}>
+        Login
+      </Button>
     </View>
   );
 };
