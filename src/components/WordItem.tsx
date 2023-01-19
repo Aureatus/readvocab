@@ -25,7 +25,7 @@ const WordItem = ({
       </View>
       <View>
         <IconButton
-          icon={saved ? "heart" : "heart-outline"}
+          icon={saved ? "bookmark" : "bookmark-outline"}
           size={24}
           iconColor={"#3EB489"}
           onPress={onPress}

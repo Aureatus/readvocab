@@ -29,7 +29,7 @@ const screenOptions = ({
     } else if (route.name === "WordList") {
       iconName = focused ? "book" : "book-outline";
     } else if (route.name === "SavedList") {
-      iconName = focused ? "heart" : "heart-outline";
+      iconName = focused ? "bookmark" : "bookmark-outline";
     }
 
     return <Ionicons name={iconName} size={size} color={color} />;
