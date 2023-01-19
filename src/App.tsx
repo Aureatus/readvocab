@@ -55,8 +55,12 @@ export default function App() {
               }}
             >
               <PaperProvider>
-                <Navigator screenOptions={{ headerShown: false }}>
-                  <Screen name="Default" component={Default} />
+                <Navigator>
+                  <Screen
+                    name="Default"
+                    component={Default}
+                    options={{ headerShown: false }}
+                  />
                   <Screen name="Login" component={Login} />
                   <Screen name="Signup" component={Signup} />
                 </Navigator>
