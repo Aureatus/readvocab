@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import {
   Button,
   HelperText,
   TextInput,
   Text,
   Surface,
+  Divider,
 } from "react-native-paper";
 import Toast from "react-native-root-toast";
 import signup from "../../library/helpers/signup";
@@ -149,12 +150,13 @@ const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
         >
           *These fields are required.
         </HelperText>
-        <Text
-          variant="headlineMedium"
-          style={[styles.orText, styles.bottomMargin]}
-        >
-          Or
-        </Text>
+        <View style={[styles.orContainer, styles.bottomMargin]}>
+          <Divider bold style={styles.divider} />
+          <Text variant="headlineMedium" style={styles.orText}>
+            Or
+          </Text>
+          <Divider bold style={styles.divider} />
+        </View>
         <Button
           mode="text"
           uppercase
@@ -186,8 +188,16 @@ const styles = StyleSheet.create({
   errorMessages: {
     minHeight: 28,
   },
-  orText: {
+  orContainer: {
     alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  orText: {
+    paddingHorizontal: 10,
+  },
+  divider: {
+    width: Dimensions.get("window").width / 6,
   },
   signupLink: {
     width: "30%",
