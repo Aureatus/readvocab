@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootSiblingParent } from "react-native-root-siblings";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import type { DefinitionWord, LoadingData } from "./types/dataTypes";
 
@@ -54,7 +55,9 @@ export default function App() {
                 setWordDataError,
               }}
             >
-              <PaperProvider>
+              <PaperProvider
+                settings={{ icon: (props) => <Ionicons {...props} /> }}
+              >
                 <Navigator>
                   <Screen
                     name="Default"
