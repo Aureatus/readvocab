@@ -3,8 +3,7 @@ import { Text } from "react-native-paper";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 
-import WordItem from "../WordItem";
-import saveWord from "../../library/helpers/saveWord";
+import SavedWordItem from "../SavedWordItem";
 import useUserContext from "../../library/hooks/useUserContext";
 import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
 import deleteWord from "../../library/helpers/deleteWord";
@@ -14,21 +13,13 @@ const SavedList = () => {
   const { savedWords, setSavedWords } = useSavedWordsContext();
 
   const renderItem = ({ item }: { item: DefinitionWord }) => {
-    const getSaved = () => {
-      return !!savedWords.find(
-        (element) => JSON.stringify(element) === JSON.stringify(item)
-      );
-    };
     return (
-      <WordItem
+      <SavedWordItem
         word={item.word}
         definition={item.definition}
         wordClass={item.wordClass}
-        saved={getSaved()}
         onPress={() => {
-          getSaved()
-            ? deleteWord(user, item, savedWords, setSavedWords)
-            : saveWord(user, item, savedWords, setSavedWords);
+          deleteWord(user, item, savedWords, setSavedWords);
         }}
       />
     );
