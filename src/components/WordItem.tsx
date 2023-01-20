@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   wordContainer: {
+    flex: 1,
     marginHorizontal: 8,
     paddingVertical: 2,
   },
