@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import { IconButton } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
+import { Text, IconButton } from "react-native-paper";
 
 const WordItem = ({
   word,
@@ -18,10 +18,12 @@ const WordItem = ({
     <View style={styles.container}>
       <View style={styles.wordContainer}>
         <View style={styles.header}>
-          <Text style={styles.title}>{word}</Text>
-          <Text style={styles.subtitle}>{wordClass}</Text>
+          <Text style={styles.title} variant="titleLarge">
+            {word}
+          </Text>
+          <Text variant="labelLarge">{wordClass}</Text>
         </View>
-        <Text>{definition}</Text>
+        <Text variant="bodyLarge">{definition}</Text>
       </View>
       <View>
         <IconButton
@@ -52,11 +54,7 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
   },
   title: {
-    fontSize: 22,
     marginRight: 14,
-  },
-  subtitle: {
-    fontSize: 14,
   },
 });
 
