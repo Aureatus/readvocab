@@ -35,7 +35,7 @@ const Default = () => {
       <Navigator
         initialRouteName="Home"
         screenOptions={{
-          headerTitle: () => <HeaderTitle color={"black"} size={42} />,
+          headerTitle: () => <HeaderTitle size={42} />,
           headerRight: () => <HeaderRight />,
         }}
       >

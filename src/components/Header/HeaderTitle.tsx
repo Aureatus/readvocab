@@ -1,11 +1,12 @@
 import { View, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 
-const HeaderTitle = ({ color, size }: { color: string; size: number }) => {
+const HeaderTitle = ({ size }: { size: number }) => {
+  const theme = useTheme();
   return (
     <View style={styles.container}>
-      <Entypo name="book" size={size} color={color} />
+      <Entypo name="book" size={size} color={theme.colors.inverseSurface} />
       <Text variant="displaySmall" style={styles.title}>
         Readvocab
       </Text>
