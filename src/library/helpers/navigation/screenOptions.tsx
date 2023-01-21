@@ -34,7 +34,7 @@ const screenOptions = ({
 
     return <Ionicons name={iconName} size={size} color={color} />;
   },
-  headerTitle: () => <HeaderTitle color={"black"} size={32} />,
+  headerTitle: () => <HeaderTitle color={"black"} size={42} />,
   headerRight: () => <HeaderRight />,
 });
 
