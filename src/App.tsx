@@ -3,7 +3,7 @@ import {
   DefaultTheme,
   DarkTheme as DefaultThemeDark,
 } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -36,12 +36,21 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 
 export default function App() {
   const [user, setUser] = useState<string | null>(null);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [isThemeDark, setIsThemeDark] = useState(true);
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
   const [wordDataLoading, setWordDataLoading] = useState<LoadingData>({
     loading: false,
   });
   const [wordDataError, setWordDataError] = useState<Error | undefined>();
+
+  const toggleTheme = useCallback(() => {
+    return setIsThemeDark(!isThemeDark);
+  }, [isThemeDark]);
+
+  const themeMemo = useMemo(
+    () => ({ toggleTheme, isThemeDark }),
+    [toggleTheme, isThemeDark]
+  );
 
   useEffect(() => {
     (async () => {
@@ -63,16 +72,14 @@ export default function App() {
         <PaperProvider
           settings={{ icon: (props) => <Ionicons {...props} /> }}
           theme={
-            theme === "light"
-              ? (MD3LightTheme as ThemeProp)
-              : (MD3DarkTheme as ThemeProp)
+            isThemeDark
+              ? (MD3DarkTheme as ThemeProp)
+              : (MD3LightTheme as ThemeProp)
           }
         >
-          <NavigationContainer
-            theme={theme === "light" ? LightTheme : DarkTheme}
-          >
+          <NavigationContainer theme={isThemeDark ? DarkTheme : LightTheme}>
             <UserContext.Provider value={{ user, setUser }}>
-              <ThemeContext.Provider value={{ theme, setTheme }}>
+              <ThemeContext.Provider value={themeMemo}>
                 <WordDataContext.Provider
                   value={{
                     wordData,

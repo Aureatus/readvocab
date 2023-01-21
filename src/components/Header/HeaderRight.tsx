@@ -11,18 +11,16 @@ import useThemeContext from "../../library/hooks/useThemeContext";
 const HeaderRight = () => {
   const { navigate } = useNavigation<HomeScreenNavigationProp>();
   const { user, setUser } = useUserContext();
-  const { theme, setTheme } = useThemeContext();
+  const { isThemeDark, toggleTheme } = useThemeContext();
 
   return (
     <View>
       {user ? (
         <View style={styles.container}>
           <IconButton
-            icon={theme === "light" ? "moon" : "sunny"}
-            iconColor={theme === "light" ? "#FEFCD7" : "#FFE87C"}
-            onPress={() => {
-              theme === "light" ? setTheme("dark") : setTheme("light");
-            }}
+            icon={isThemeDark ? "sunny" : "moon"}
+            iconColor={isThemeDark ? "#FFE87C" : "#FEFCD7"}
+            onPress={toggleTheme}
           />
           <IconButton
             icon={({ size, color }) => (
@@ -37,11 +35,9 @@ const HeaderRight = () => {
       ) : (
         <View style={styles.container}>
           <IconButton
-            icon={theme === "light" ? "moon" : "sunny"}
-            iconColor={theme === "light" ? "#FEFCD7" : "#FFE87C"}
-            onPress={() => {
-              theme === "light" ? setTheme("dark") : setTheme("light");
-            }}
+            icon={isThemeDark ? "sunny" : "moon"}
+            iconColor={isThemeDark ? "#FFE87C" : "#FEFCD7"}
+            onPress={toggleTheme}
           />
           <IconButton
             icon={({ size, color }) => (

@@ -1,9 +1,9 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext } from "react";
 
 const ThemeContext = createContext<
   | {
-      theme: "light" | "dark";
-      setTheme: Dispatch<SetStateAction<"light" | "dark">>;
+      isThemeDark: boolean;
+      toggleTheme: () => void;
     }
   | undefined
 >(undefined);
