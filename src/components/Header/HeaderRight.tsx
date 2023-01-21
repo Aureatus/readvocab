@@ -6,15 +6,24 @@ import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import type { HomeScreenNavigationProp } from "../../types/navigationTypes";
 
 import useUserContext from "../../library/hooks/useUserContext";
+import useThemeContext from "../../library/hooks/useThemeContext";
 
 const HeaderRight = () => {
   const { navigate } = useNavigation<HomeScreenNavigationProp>();
   const { user, setUser } = useUserContext();
+  const { theme, setTheme } = useThemeContext();
 
   return (
     <View>
       {user ? (
         <View style={styles.container}>
+          <IconButton
+            icon={theme === "light" ? "moon" : "sunny"}
+            iconColor={theme === "light" ? "#FEFCD7" : "#FFE87C"}
+            onPress={() => {
+              theme === "light" ? setTheme("dark") : setTheme("light");
+            }}
+          />
           <IconButton
             icon={({ size, color }) => (
               <MaterialCommunityIcon name="logout" size={size} color={color} />
@@ -27,6 +36,13 @@ const HeaderRight = () => {
         </View>
       ) : (
         <View style={styles.container}>
+          <IconButton
+            icon={theme === "light" ? "moon" : "sunny"}
+            iconColor={theme === "light" ? "#FEFCD7" : "#FFE87C"}
+            onPress={() => {
+              theme === "light" ? setTheme("dark") : setTheme("light");
+            }}
+          />
           <IconButton
             icon={({ size, color }) => (
               <MaterialCommunityIcon name="login" size={size} color={color} />
