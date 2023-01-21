@@ -6,7 +6,7 @@ const HeaderTitle = ({ color, size }: { color: string; size: number }) => {
   return (
     <View style={styles.container}>
       <Entypo name="book" size={size} color={color} />
-      <Text variant="displayMedium" style={styles.title}>
+      <Text variant="displaySmall" style={styles.title}>
         Readvocab
       </Text>
     </View>
