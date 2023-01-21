@@ -1,7 +1,8 @@
-import type { Dispatch, SetStateAction } from "react";
 import Toast from "react-native-root-toast";
-import type { DefinitionWord } from "../../types/dataTypes";
 import postDeleteWord from "./network/postDeleteWord";
+
+import type { Dispatch, SetStateAction } from "react";
+import type { DefinitionWord } from "../../types/dataTypes";
 
 const deleteWord = async (
   user: string | null,

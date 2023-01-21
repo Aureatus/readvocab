@@ -9,9 +9,11 @@ import {
   Divider,
 } from "react-native-paper";
 import Toast from "react-native-root-toast";
+
+import type { SignupProps } from "../../types/navigationTypes";
+
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/useUserContext";
-import type { SignupProps } from "../../types/navigationTypes";
 
 const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
   const [email, setEmail] = useState("");

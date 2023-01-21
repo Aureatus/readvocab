@@ -2,7 +2,9 @@ import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { IconButton } from "react-native-paper";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
+
 import type { HomeScreenNavigationProp } from "../../types/navigationTypes";
+
 import useUserContext from "../../library/hooks/useUserContext";
 
 const HeaderRight = () => {

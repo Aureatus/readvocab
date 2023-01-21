@@ -9,9 +9,11 @@ import {
   Divider,
 } from "react-native-paper";
 import Toast from "react-native-root-toast";
+
+import type { LoginProps } from "../../types/navigationTypes";
+
 import login from "../../library/helpers/login";
 import useUserContext from "../../library/hooks/useUserContext";
-import type { LoginProps } from "../../types/navigationTypes";
 
 const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
   const [email, setEmail] = useState("");

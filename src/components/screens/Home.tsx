@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import {
   ProgressBar,
@@ -14,7 +15,6 @@ import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
-import { useEffect, useState } from "react";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const {

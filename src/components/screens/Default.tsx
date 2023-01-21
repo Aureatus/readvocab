@@ -7,12 +7,12 @@ import type { TabParamList } from "../../types/navigationTypes";
 
 import Home from "./Home";
 import WordList from "./WordList";
-import useUserContext from "../../library/hooks/useUserContext";
-import SavedWordsContext from "../../library/context/SavedWordsContext";
-import getSavedWords from "../../library/helpers/network/getSavedWords";
 import SavedList from "./SavedList";
 import HeaderTitle from "../Header/HeaderTitle";
 import HeaderRight from "../Header/HeaderRight";
+import useUserContext from "../../library/hooks/useUserContext";
+import SavedWordsContext from "../../library/context/SavedWordsContext";
+import getSavedWords from "../../library/helpers/network/getSavedWords";
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
