@@ -1,8 +1,17 @@
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme as DefaultThemeDark,
+} from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Provider as PaperProvider } from "react-native-paper";
+import {
+  Provider as PaperProvider,
+  MD3LightTheme,
+  adaptNavigationTheme,
+  MD3DarkTheme,
+} from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootSiblingParent } from "react-native-root-siblings";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -15,8 +24,14 @@ import Login from "./components/screens/Login";
 import Signup from "./components/screens/Signup";
 import Default from "./components/screens/Default";
 import type { StackParamList } from "./types/navigationTypes";
+import type { ThemeProp } from "react-native-paper/lib/typescript/types";
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
+
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: DefaultTheme,
+  reactNavigationDark: DefaultThemeDark,
+});
 
 export default function App() {
   const [user, setUser] = useState<string | null>(null);
@@ -43,8 +58,11 @@ export default function App() {
   return (
     <RootSiblingParent>
       <SafeAreaProvider>
-        <PaperProvider settings={{ icon: (props) => <Ionicons {...props} /> }}>
-          <NavigationContainer>
+        <PaperProvider
+          settings={{ icon: (props) => <Ionicons {...props} /> }}
+          theme={MD3LightTheme as ThemeProp}
+        >
+          <NavigationContainer theme={LightTheme}>
             <UserContext.Provider value={{ user, setUser }}>
               <WordDataContext.Provider
                 value={{
