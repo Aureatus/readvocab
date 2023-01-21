@@ -19,8 +19,9 @@ const HeaderRight = () => {
         <View style={styles.container}>
           <IconButton
             icon={isThemeDark ? "sunny" : "moon"}
-            iconColor={isThemeDark ? "#FFE87C" : "#FEFCD7"}
+            iconColor={isThemeDark ? "#FFE87C" : "#5A5A5A"}
             onPress={toggleTheme}
+            size={30}
           />
           <IconButton
             icon={({ size, color }) => (
@@ -36,8 +37,9 @@ const HeaderRight = () => {
         <View style={styles.container}>
           <IconButton
             icon={isThemeDark ? "sunny" : "moon"}
-            iconColor={isThemeDark ? "#FFE87C" : "#FEFCD7"}
+            iconColor={isThemeDark ? "#FFE87C" : "#5A5A5A"}
             onPress={toggleTheme}
+            size={30}
           />
           <IconButton
             icon={({ size, color }) => (
