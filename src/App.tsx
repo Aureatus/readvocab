@@ -25,6 +25,7 @@ import Signup from "./components/screens/Signup";
 import Default from "./components/screens/Default";
 import type { StackParamList } from "./types/navigationTypes";
 import type { ThemeProp } from "react-native-paper/lib/typescript/types";
+import ThemeContext from "./library/context/ThemeContext";
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
@@ -35,6 +36,7 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 
 export default function App() {
   const [user, setUser] = useState<string | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
   const [wordDataLoading, setWordDataLoading] = useState<LoadingData>({
     loading: false,
@@ -60,30 +62,38 @@ export default function App() {
       <SafeAreaProvider>
         <PaperProvider
           settings={{ icon: (props) => <Ionicons {...props} /> }}
-          theme={MD3LightTheme as ThemeProp}
+          theme={
+            theme === "light"
+              ? (MD3LightTheme as ThemeProp)
+              : (MD3DarkTheme as ThemeProp)
+          }
         >
-          <NavigationContainer theme={LightTheme}>
+          <NavigationContainer
+            theme={theme === "light" ? LightTheme : DarkTheme}
+          >
             <UserContext.Provider value={{ user, setUser }}>
-              <WordDataContext.Provider
-                value={{
-                  wordData,
-                  setWordData,
-                  wordDataLoading,
-                  setWordDataLoading,
-                  wordDataError,
-                  setWordDataError,
-                }}
-              >
-                <Navigator>
-                  <Screen
-                    name="Default"
-                    component={Default}
-                    options={{ headerShown: false }}
-                  />
-                  <Screen name="Login" component={Login} />
-                  <Screen name="Signup" component={Signup} />
-                </Navigator>
-              </WordDataContext.Provider>
+              <ThemeContext.Provider value={{ theme, setTheme }}>
+                <WordDataContext.Provider
+                  value={{
+                    wordData,
+                    setWordData,
+                    wordDataLoading,
+                    setWordDataLoading,
+                    wordDataError,
+                    setWordDataError,
+                  }}
+                >
+                  <Navigator>
+                    <Screen
+                      name="Default"
+                      component={Default}
+                      options={{ headerShown: false }}
+                    />
+                    <Screen name="Login" component={Login} />
+                    <Screen name="Signup" component={Signup} />
+                  </Navigator>
+                </WordDataContext.Provider>
+              </ThemeContext.Provider>
             </UserContext.Provider>
           </NavigationContainer>
         </PaperProvider>
