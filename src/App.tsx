@@ -43,20 +43,18 @@ export default function App() {
   return (
     <RootSiblingParent>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <UserContext.Provider value={{ user, setUser }}>
-            <WordDataContext.Provider
-              value={{
-                wordData,
-                setWordData,
-                wordDataLoading,
-                setWordDataLoading,
-                wordDataError,
-                setWordDataError,
-              }}
-            >
-              <PaperProvider
-                settings={{ icon: (props) => <Ionicons {...props} /> }}
+        <PaperProvider settings={{ icon: (props) => <Ionicons {...props} /> }}>
+          <NavigationContainer>
+            <UserContext.Provider value={{ user, setUser }}>
+              <WordDataContext.Provider
+                value={{
+                  wordData,
+                  setWordData,
+                  wordDataLoading,
+                  setWordDataLoading,
+                  wordDataError,
+                  setWordDataError,
+                }}
               >
                 <Navigator>
                   <Screen
@@ -67,10 +65,10 @@ export default function App() {
                   <Screen name="Login" component={Login} />
                   <Screen name="Signup" component={Signup} />
                 </Navigator>
-              </PaperProvider>
-            </WordDataContext.Provider>
-          </UserContext.Provider>
-        </NavigationContainer>
+              </WordDataContext.Provider>
+            </UserContext.Provider>
+          </NavigationContainer>
+        </PaperProvider>
       </SafeAreaProvider>
     </RootSiblingParent>
   );
