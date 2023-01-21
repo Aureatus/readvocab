@@ -15,43 +15,49 @@ const HeaderRight = () => {
 
   return (
     <View>
-      {user ? (
-        <View style={styles.container}>
-          <IconButton
-            icon={isThemeDark ? "sunny" : "moon"}
-            iconColor={isThemeDark ? "#FFE87C" : "#5A5A5A"}
-            onPress={toggleTheme}
-            size={30}
-          />
-          <IconButton
-            icon={({ size, color }) => (
-              <MaterialCommunityIcon name="logout" size={size} color={color} />
-            )}
-            iconColor="#f3213d"
-            onPress={() => {
-              setUser(null);
-            }}
-          />
-        </View>
-      ) : (
-        <View style={styles.container}>
-          <IconButton
-            icon={isThemeDark ? "sunny" : "moon"}
-            iconColor={isThemeDark ? "#FFE87C" : "#5A5A5A"}
-            onPress={toggleTheme}
-            size={30}
-          />
-          <IconButton
-            icon={({ size, color }) => (
-              <MaterialCommunityIcon name="login" size={size} color={color} />
-            )}
-            iconColor="#3EB489"
-            onPress={() => {
-              navigate("Login");
-            }}
-          />
-        </View>
-      )}
+      <View style={styles.container}>
+        {user ? (
+          <>
+            <IconButton
+              icon={isThemeDark ? "sunny" : "moon"}
+              iconColor={isThemeDark ? "#FFE87C" : "#5A5A5A"}
+              onPress={toggleTheme}
+              size={30}
+            />
+            <IconButton
+              icon={({ size, color }) => (
+                <MaterialCommunityIcon
+                  name="logout"
+                  size={size}
+                  color={color}
+                />
+              )}
+              iconColor="#f3213d"
+              onPress={() => {
+                setUser(null);
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <IconButton
+              icon={isThemeDark ? "sunny" : "moon"}
+              iconColor={isThemeDark ? "#FFE87C" : "#5A5A5A"}
+              onPress={toggleTheme}
+              size={30}
+            />
+            <IconButton
+              icon={({ size, color }) => (
+                <MaterialCommunityIcon name="login" size={size} color={color} />
+              )}
+              iconColor="#3EB489"
+              onPress={() => {
+                navigate("Login");
+              }}
+            />
+          </>
+        )}
+      </View>
     </View>
   );
 };
