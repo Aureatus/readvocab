@@ -7,6 +7,7 @@ import {
   Text,
   Surface,
   Divider,
+  useTheme,
 } from "react-native-paper";
 import Toast from "react-native-root-toast";
 
@@ -26,13 +27,22 @@ const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
 
   const { setUser } = useUserContext();
 
+  const { colors } = useTheme();
+
   useEffect(() => {
     if (otherError instanceof Error) {
       Toast.show(otherError?.message, {
         position: Toast.positions.TOP,
+        containerStyle: {
+          borderColor: colors.error,
+          borderWidth: 2,
+          backgroundColor: colors.errorContainer,
+          paddingHorizontal: 20,
+        },
+        textColor: colors.inverseSurface,
       });
     }
-  }, [otherError]);
+  }, [otherError, colors]);
 
   return (
     <View style={styles.container}>
