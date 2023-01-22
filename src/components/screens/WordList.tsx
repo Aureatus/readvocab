@@ -11,7 +11,7 @@ import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
 import deleteWord from "../../library/helpers/deleteWord";
 
 const WordList = () => {
-  const { wordData, wordDataError } = useWordDataContext();
+  const { wordData } = useWordDataContext();
   const { user } = useUserContext();
   const { savedWords, setSavedWords } = useSavedWordsContext();
 
@@ -35,13 +35,6 @@ const WordList = () => {
       />
     );
   };
-
-  if (wordDataError)
-    return (
-      <View>
-        <Text>{wordDataError.message}</Text>
-      </View>
-    );
 
   return wordData.length === 0 ? (
     <View style={styles.container}>
