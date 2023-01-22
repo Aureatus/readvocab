@@ -7,7 +7,9 @@ import {
   Text,
   Dialog,
   Portal,
+  useTheme,
 } from "react-native-paper";
+import Toast from "react-native-root-toast";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
@@ -22,16 +24,34 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     setWordData,
     wordDataLoading: { loading, message },
     setWordDataLoading,
+    wordDataError,
     setWordDataError,
   } = useWordDataContext();
 
   const [dialogVisible, setDialogVisible] = useState(false);
+
+  const { colors } = useTheme();
 
   useEffect(() => {
     if (wordData.length !== 0) {
       setDialogVisible(true);
     }
   }, [wordData]);
+
+  useEffect(() => {
+    if (wordDataError instanceof Error) {
+      Toast.show(wordDataError?.message, {
+        position: Toast.positions.TOP,
+        containerStyle: {
+          borderColor: colors.error,
+          borderWidth: 2,
+          backgroundColor: colors.errorContainer,
+          paddingHorizontal: 20,
+        },
+        textColor: colors.inverseSurface,
+      });
+    }
+  }, [wordDataError, colors]);
 
   if (loading)
     return (
