@@ -1,17 +1,15 @@
 import { View, StyleSheet } from "react-native";
 import { Text, IconButton } from "react-native-paper";
 
-const WordItem = ({
+const SavedWordItem = ({
   word,
   definition,
   wordClass,
-  saved,
   onPress,
 }: {
   word: string;
   definition: string;
   wordClass: string;
-  saved: boolean;
   onPress: () => void;
 }) => {
   return (
@@ -27,9 +25,9 @@ const WordItem = ({
       </View>
       <View>
         <IconButton
-          icon={saved ? "bookmark" : "bookmark-outline"}
+          icon={"remove-circle-outline"}
           size={24}
-          iconColor={"#3EB489"}
+          iconColor={"#f3213d"}
           onPress={onPress}
         />
       </View>
@@ -58,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WordItem;
+export default SavedWordItem;

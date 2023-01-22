@@ -1,7 +1,8 @@
-import type { Dispatch, SetStateAction } from "react";
 import Toast from "react-native-root-toast";
-import type { DefinitionWord } from "../../types/dataTypes";
 import postSaveWord from "./network/postSaveWord";
+
+import type { Dispatch, SetStateAction } from "react";
+import type { DefinitionWord } from "../../types/dataTypes";
 
 const saveWord = async (
   user: string | null,

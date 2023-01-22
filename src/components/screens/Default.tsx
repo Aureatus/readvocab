@@ -1,16 +1,18 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 import type { TabParamList } from "../../types/navigationTypes";
 
 import Home from "./Home";
 import WordList from "./WordList";
-import screenOptions from "../../library/helpers/navigation/screenOptions";
+import SavedList from "./SavedList";
+import HeaderTitle from "../Header/HeaderTitle";
+import HeaderRight from "../Header/HeaderRight";
 import useUserContext from "../../library/hooks/useUserContext";
 import SavedWordsContext from "../../library/context/SavedWordsContext";
 import getSavedWords from "../../library/helpers/network/getSavedWords";
-import SavedList from "./SavedList";
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
@@ -30,10 +32,52 @@ const Default = () => {
 
   return (
     <SavedWordsContext.Provider value={{ savedWords, setSavedWords }}>
-      <Navigator initialRouteName="Home" screenOptions={screenOptions}>
-        <Screen name="Home" component={Home} />
-        <Screen name="WordList" component={WordList} />
-        <Screen name="SavedList" component={SavedList} />
+      <Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerTitle: () => <HeaderTitle size={42} />,
+          headerRight: () => <HeaderRight />,
+        }}
+      >
+        <Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => (
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Screen
+          name="WordList"
+          component={WordList}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => (
+              <Ionicons
+                name={focused ? "book" : "book-outline"}
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Screen
+          name="SavedList"
+          component={SavedList}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => (
+              <Ionicons
+                name={focused ? "bookmark" : "bookmark-outline"}
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
       </Navigator>
     </SavedWordsContext.Provider>
   );

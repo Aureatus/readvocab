@@ -1,5 +1,6 @@
 import { getDocumentAsync } from "expo-document-picker";
 import { Platform } from "react-native";
+
 import type { FileInfo } from "../../types/dataTypes";
 
 const getFile = async (): Promise<File | FileInfo | undefined> => {

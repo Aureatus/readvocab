@@ -1,5 +1,6 @@
-import type { Dispatch, SetStateAction } from "react";
 import postSignup from "./network/postSignup";
+
+import type { Dispatch, SetStateAction } from "react";
 
 const signup = async (
   email: string,

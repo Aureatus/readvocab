@@ -1,9 +1,9 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 
-import WordItem from "../WordItem";
-import saveWord from "../../library/helpers/saveWord";
+import SavedWordItem from "../SavedWordItem";
 import useUserContext from "../../library/hooks/useUserContext";
 import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
 import deleteWord from "../../library/helpers/deleteWord";
@@ -13,21 +13,13 @@ const SavedList = () => {
   const { savedWords, setSavedWords } = useSavedWordsContext();
 
   const renderItem = ({ item }: { item: DefinitionWord }) => {
-    const getSaved = () => {
-      return !!savedWords.find(
-        (element) => JSON.stringify(element) === JSON.stringify(item)
-      );
-    };
     return (
-      <WordItem
+      <SavedWordItem
         word={item.word}
         definition={item.definition}
         wordClass={item.wordClass}
-        saved={getSaved()}
         onPress={() => {
-          getSaved()
-            ? deleteWord(user, item, savedWords, setSavedWords)
-            : saveWord(user, item, savedWords, setSavedWords);
+          deleteWord(user, item, savedWords, setSavedWords);
         }}
       />
     );
@@ -45,13 +37,13 @@ const SavedList = () => {
       <Text style={styles.title}>Save some words to see them here!</Text>
     </View>
   ) : (
-    <View>
-      <FlatList
-        data={savedWords}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.word}
-      />
-    </View>
+    <FlatList
+      data={savedWords}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.word}
+      ListHeaderComponent={<Text variant="displaySmall">Saved words</Text>}
+      ListHeaderComponentStyle={styles.header}
+    />
   );
 };
 
@@ -64,6 +56,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 42,
+  },
+  header: {
+    marginHorizontal: 4,
+    marginVertical: 12,
   },
 });
 
