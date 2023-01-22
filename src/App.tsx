@@ -90,7 +90,7 @@ export default function App() {
                     setWordDataError,
                   }}
                 >
-                  <Navigator>
+                  <Navigator screenOptions={{ animation: "none" }}>
                     <Screen
                       name="Default"
                       component={Default}
