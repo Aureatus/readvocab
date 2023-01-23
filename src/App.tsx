@@ -26,6 +26,7 @@ import Default from "./components/screens/Default";
 import type { StackParamList } from "./types/navigationTypes";
 import type { ThemeProp } from "react-native-paper/lib/typescript/types";
 import ThemeContext from "./library/context/ThemeContext";
+import useThemePreference from "./library/hooks/useThemePreference";
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
@@ -36,7 +37,7 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 
 export default function App() {
   const [user, setUser] = useState<string | null>(null);
-  const [isThemeDark, setIsThemeDark] = useState(true);
+  const { isThemeDark, setIsThemeDark } = useThemePreference();
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
   const [wordDataLoading, setWordDataLoading] = useState<LoadingData>({
     loading: false,
@@ -45,7 +46,7 @@ export default function App() {
 
   const toggleTheme = useCallback(() => {
     return setIsThemeDark(!isThemeDark);
-  }, [isThemeDark]);
+  }, [isThemeDark, setIsThemeDark]);
 
   const themeMemo = useMemo(
     () => ({ toggleTheme, isThemeDark }),
