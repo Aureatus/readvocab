@@ -96,6 +96,8 @@ const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
                 setPasswordError(
                   new Error("Password must have at least 8 characters.")
                 );
+              if (text !== confirmPassword && confirmPassword.length > 0)
+                setConfirmPasswordError(new Error("Passwords don't match."));
             }}
             autoComplete="password"
             placeholder="securePassword123"
