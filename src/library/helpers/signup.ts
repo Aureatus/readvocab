@@ -10,10 +10,12 @@ const signup = async (
   setPasswordError: Dispatch<SetStateAction<Error | null>>,
   setConfirmPasswordError: Dispatch<SetStateAction<Error | null>>,
   setOtherError: Dispatch<SetStateAction<Error | null>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
   setUser: Dispatch<SetStateAction<string | null>>,
   goBack: () => void
 ) => {
   try {
+    setLoading(true);
     setEmailError(null);
     setPasswordError(null);
     setConfirmPasswordError(null);
@@ -28,6 +30,8 @@ const signup = async (
     if (err.message === "Password confirmation doesn't match.")
       return setConfirmPasswordError(err);
     else return setOtherError(err);
+  } finally {
+    setLoading(false);
   }
 };
 

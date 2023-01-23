@@ -8,10 +8,12 @@ const login = async (
   setEmailError: Dispatch<SetStateAction<Error | null>>,
   setPasswordError: Dispatch<SetStateAction<Error | null>>,
   setOtherError: Dispatch<SetStateAction<Error | null>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
   setUser: Dispatch<SetStateAction<string | null>>,
   goBack: () => void
 ) => {
   try {
+    setLoading(true);
     setEmailError(null);
     setPasswordError(null);
     setOtherError(null);
@@ -24,6 +26,8 @@ const login = async (
       return setEmailError(err);
     if (err.message === "Incorrect password.") return setPasswordError(err);
     else return setOtherError(err);
+  } finally {
+    setLoading(false);
   }
 };
 

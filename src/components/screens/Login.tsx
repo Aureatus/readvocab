@@ -25,6 +25,8 @@ const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
 
   const [otherError, setOtherError] = useState<Error | null>(null);
 
+  const [loading, setLoading] = useState(false);
+
   const { setUser } = useUserContext();
 
   const { colors } = useTheme();
@@ -107,7 +109,10 @@ const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
 
         <Button
           mode="contained"
-          disabled={!email || !password || !!emailError || !!passwordError}
+          loading={loading}
+          disabled={
+            !email || !password || !!emailError || !!passwordError || loading
+          }
           onPress={() => {
             login(
               email,
@@ -115,6 +120,7 @@ const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
               setEmailError,
               setPasswordError,
               setOtherError,
+              setLoading,
               setUser,
               goBack
             );
