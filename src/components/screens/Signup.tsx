@@ -16,7 +16,7 @@ import type { SignupProps } from "../../types/navigationTypes";
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/useUserContext";
 
-const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
+const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<Error | null>(null);
 
@@ -162,7 +162,7 @@ const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
               setOtherError,
               setLoading,
               setUser,
-              goBack
+              () => pop(2)
             );
           }}
           style={styles.bottomMargin}

@@ -12,7 +12,7 @@ const signup = async (
   setOtherError: Dispatch<SetStateAction<Error | null>>,
   setLoading: Dispatch<SetStateAction<boolean>>,
   setUser: Dispatch<SetStateAction<string | null>>,
-  goBack: () => void
+  goBackToNonAuth: () => void
 ) => {
   try {
     setLoading(true);
@@ -22,7 +22,7 @@ const signup = async (
     setOtherError(null);
     const jwt = await postSignup(email, password, confirmPassword);
     setUser(jwt);
-    goBack();
+    goBackToNonAuth();
   } catch (err) {
     if (!(err instanceof Error)) return;
     if (err.message === "Account with that email already exists.")
