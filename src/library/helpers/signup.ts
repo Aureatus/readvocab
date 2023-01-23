@@ -17,6 +17,7 @@ const signup = async (
     setEmailError(null);
     setPasswordError(null);
     setConfirmPasswordError(null);
+    setOtherError(null);
     const jwt = await postSignup(email, password, confirmPassword);
     setUser(jwt);
     goBack();

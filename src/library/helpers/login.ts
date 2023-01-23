@@ -14,6 +14,7 @@ const login = async (
   try {
     setEmailError(null);
     setPasswordError(null);
+    setOtherError(null);
     const jwt = await postLogin(email, password);
     setUser(jwt);
     goBack();
