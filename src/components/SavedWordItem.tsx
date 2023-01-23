@@ -1,4 +1,5 @@
-import { View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { Text, IconButton } from "react-native-paper";
 
 const SavedWordItem = ({
@@ -10,8 +11,9 @@ const SavedWordItem = ({
   word: string;
   definition: string;
   wordClass: string;
-  onPress: () => void;
+  onPress: () => Promise<void>;
 }) => {
+  const [loading, setLoading] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.wordContainer}>
@@ -24,12 +26,20 @@ const SavedWordItem = ({
         <Text variant="bodyLarge">{definition}</Text>
       </View>
       <View>
-        <IconButton
-          icon={"remove-circle-outline"}
-          size={24}
-          iconColor={"#f3213d"}
-          onPress={onPress}
-        />
+        {loading ? (
+          <ActivityIndicator color="#f3213d" size={52} />
+        ) : (
+          <IconButton
+            icon={"remove-circle-outline"}
+            size={24}
+            iconColor={"#f3213d"}
+            onPress={async () => {
+              setLoading(true);
+              await onPress();
+              setLoading(true);
+            }}
+          />
+        )}
       </View>
     </View>
   );

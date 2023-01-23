@@ -27,10 +27,10 @@ const WordList = () => {
         definition={item.definition}
         wordClass={item.wordClass}
         saved={getSaved()}
-        onPress={() => {
+        onPress={async () => {
           getSaved()
-            ? deleteWord(user, item, savedWords, setSavedWords)
-            : saveWord(user, item, savedWords, setSavedWords);
+            ? await deleteWord(user, item, savedWords, setSavedWords)
+            : await saveWord(user, item, savedWords, setSavedWords);
         }}
       />
     );
