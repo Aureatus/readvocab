@@ -66,6 +66,10 @@ export default function App() {
     })();
   }, [user]);
 
+  useEffect(() => {
+    AsyncStorage.setItem("themePreference", isThemeDark ? "dark" : "light");
+  }, [isThemeDark]);
+
   return (
     <RootSiblingParent>
       <SafeAreaProvider>
