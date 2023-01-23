@@ -141,7 +141,13 @@ const Signup = ({ navigation: { goBack, navigate } }: SignupProps) => {
           mode="contained"
           loading={loading}
           disabled={
-            !email || !password || !!emailError || !!passwordError || loading
+            !email ||
+            !password ||
+            !confirmPassword ||
+            !!emailError ||
+            !!passwordError ||
+            !!confirmPasswordError ||
+            loading
           }
           onPress={() => {
             signup(
