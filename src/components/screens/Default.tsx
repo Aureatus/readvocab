@@ -19,19 +19,27 @@ const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 const Default = () => {
   const { user } = useUserContext();
   const [savedWords, setSavedWords] = useState<DefinitionWord[]>([]);
+  const [savedWordsError, setSavedWordsError] = useState<Error | null>(null);
 
   useEffect(() => {
     (async () => {
       if (user === null) setSavedWords([]);
       else {
-        const response = await getSavedWords(user);
-        setSavedWords(response);
+        try {
+          const response = await getSavedWords(user);
+          setSavedWords(response);
+          setSavedWordsError(null);
+        } catch (err) {
+          if (err instanceof Error) setSavedWordsError(err);
+        }
       }
     })();
   }, [user]);
 
   return (
-    <SavedWordsContext.Provider value={{ savedWords, setSavedWords }}>
+    <SavedWordsContext.Provider
+      value={{ savedWords, setSavedWords, savedWordsError, setSavedWordsError }}
+    >
       <Navigator
         initialRouteName="Home"
         screenOptions={{
