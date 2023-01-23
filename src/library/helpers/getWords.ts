@@ -48,6 +48,7 @@ const getWords = async (
       if (formattedData["event"] === "result") {
         if (formattedData["data"])
           dataSetter(JSON.parse(formattedData["data"]));
+        loadingSetter({ loading: false });
         stream.abort();
       }
     });
@@ -56,13 +57,16 @@ const getWords = async (
       throw e;
     });
 
-    stream.addEventListener("loadend", () => loadingSetter({ loading: false }));
-
     stream.open("POST", url);
+
+    stream.addEventListener("loadend", () => loadingSetter({ loading: false }));
 
     stream.send(formData);
   } catch (err) {
-    if (err instanceof Error) errorSetter(err);
+    if (err instanceof Error) {
+      loadingSetter({ loading: false });
+      errorSetter(err);
+    }
   }
 };
 
