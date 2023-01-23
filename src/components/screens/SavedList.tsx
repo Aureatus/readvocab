@@ -20,8 +20,8 @@ const SavedList = () => {
         word={item.word}
         definition={item.definition}
         wordClass={item.wordClass}
-        onPress={() => {
-          deleteWord(user, item, savedWords, setSavedWords);
+        onPress={async () => {
+          await deleteWord(user, item, savedWords, setSavedWords);
         }}
       />
     );
