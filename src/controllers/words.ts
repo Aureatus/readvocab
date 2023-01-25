@@ -20,7 +20,7 @@ async function words(
   const { db } = this.mongo;
   const file = await request.file();
   if (file === undefined) throw Error("No file uploaded");
-
+  await file.toBuffer(); // Will throw error if it is over allowed file size.
   // ONLY SEND LOADING STATE UPDATE IF TIME ELAPSED FROM LAST LOADING STATE HAS BEEN GREATER THAN 150MS.
   reply.sse(
     (async function* wordSSEGenerator() {
