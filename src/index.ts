@@ -34,7 +34,6 @@ const environment =
 
 const app = fastify({
   logger: envToLogger[environment],
-  bodyLimit: 50 * 1024 * 1024,
   ajv: {
     plugins: [[ajvKeywords.default, ["transform"]]],
   },
