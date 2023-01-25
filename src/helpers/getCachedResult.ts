@@ -1,16 +1,12 @@
-import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { DefinitionWord } from "../types.js";
 
 import type { Db } from "mongodb";
 
 const getCachedResult = async (
-  docProxy: PDFDocumentProxy,
+  title: string,
+  creator: string[],
   db: Db
 ): Promise<DefinitionWord[] | null> => {
-  const { metadata } = await docProxy.getMetadata();
-  const title = metadata.get("dc:title");
-  const creator = metadata.get("dc:creator");
-
   const pdfCollection = db.collection<{ data: DefinitionWord[] }>("pdfs");
   const response = await pdfCollection.findOne(
     { title, creator },

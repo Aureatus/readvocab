@@ -29,3 +29,7 @@ export interface JwtUser {
   iat: number;
   exp: number;
 }
+
+export interface PDFInfoType {
+  [x: string]: string | undefined;
+}

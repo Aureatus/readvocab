@@ -1,6 +1,8 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { Db } from "mongodb";
 
+import type { PDFInfoType } from "../types.js";
+
 import findDefinitions from "../helpers/findDefinitions.js";
 import findRareWords from "../helpers/findRareWords.js";
 import getDocProxy from "../helpers/getDocProxy.js";
@@ -34,11 +36,27 @@ async function words(
           lastLoadingEventTime = Date.now();
         }
 
-        const cachedResult =
-          db instanceof Db ? await getCachedResult(docProxy, db) : null;
-        if (cachedResult !== null) {
-          yield { event: "result", data: JSON.stringify(cachedResult) };
-          return;
+        const docMetadata = (await docProxy.getMetadata()) ?? null;
+        const info = docMetadata.info as PDFInfoType;
+        const title = info["Title"] !== undefined ? info["Title"] : null;
+        const creator = info["Author"] !== undefined ? info["Author"] : null;
+        const creatorArray =
+          creator !== null
+            ? creator
+                .replaceAll(" & ", "  ")
+                .replaceAll(" and ", "  ")
+                .split("  ")
+            : null;
+
+        if (title !== null && creatorArray !== null) {
+          const cachedResult =
+            db instanceof Db
+              ? await getCachedResult(title, creatorArray, db)
+              : null;
+          if (cachedResult !== null) {
+            yield { event: "result", data: JSON.stringify(cachedResult) };
+            return;
+          }
         }
 
         const words = await wordsFromPDF(docProxy);
@@ -59,8 +77,10 @@ async function words(
           rareWordDefinitions
         );
 
-        if (db instanceof Db) {
-          await createCachedResult(docProxy, db, rareWordObjects);
+        if (title !== null && creatorArray !== null) {
+          if (db instanceof Db) {
+            await createCachedResult(title, creatorArray, db, rareWordObjects);
+          }
         }
         yield { event: "result", data: JSON.stringify(rareWordObjects) };
       } catch (err) {
