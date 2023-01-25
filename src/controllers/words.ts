@@ -1,7 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { Db } from "mongodb";
 
-import type { Metadata } from "pdfjs-dist/types/src/display/metadata.js";
 import type { PDFInfoType } from "../types.js";
 
 import findDefinitions from "../helpers/findDefinitions.js";
@@ -38,20 +37,9 @@ async function words(
         }
 
         const docMetadata = (await docProxy.getMetadata()) ?? null;
-        const metadata = docMetadata.metadata as Metadata | null;
         const info = docMetadata.info as PDFInfoType;
-        const title =
-          metadata !== null
-            ? metadata.get("dc:title")
-            : info["Title"] !== undefined
-            ? info["Title"]
-            : null;
-        const creator =
-          metadata !== null
-            ? metadata.get("dc:creator")
-            : info["Author"] !== undefined
-            ? [info["Author"]]
-            : null;
+        const title = info["Title"] !== undefined ? info["Title"] : null;
+        const creator = info["Author"] !== undefined ? [info["Author"]] : null;
 
         if (
           typeof title === "string" &&
