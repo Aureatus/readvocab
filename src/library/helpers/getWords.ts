@@ -59,8 +59,6 @@ const getWords = async (
 
     stream.open("POST", url);
 
-    stream.addEventListener("loadend", () => loadingSetter({ loading: false }));
-
     stream.send(formData);
   } catch (err) {
     if (err instanceof Error) {

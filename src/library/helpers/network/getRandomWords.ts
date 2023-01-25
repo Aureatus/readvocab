@@ -36,6 +36,8 @@ const getRandomWords = async (
       if (formattedData["event"] === "result") {
         if (formattedData["data"])
           dataSetter(JSON.parse(formattedData["data"]));
+
+        loadingSetter({ loading: false });
         stream.abort();
       }
     });
@@ -43,8 +45,6 @@ const getRandomWords = async (
     stream.addEventListener("error", (e) => {
       throw e;
     });
-
-    stream.addEventListener("loadend", () => loadingSetter({ loading: false }));
 
     stream.open("GET", url);
 
