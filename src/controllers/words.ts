@@ -39,15 +39,20 @@ async function words(
         const docMetadata = (await docProxy.getMetadata()) ?? null;
         const info = docMetadata.info as PDFInfoType;
         const title = info["Title"] !== undefined ? info["Title"] : null;
-        const creator = info["Author"] !== undefined ? [info["Author"]] : null;
+        const creator = info["Author"] !== undefined ? info["Author"] : null;
+        const creatorArray =
+          creator !== null
+            ? creator
+                .replaceAll(" & ", "  ")
+                .replaceAll(" and ", "  ")
+                .split("  ")
+            : null;
 
-        if (
-          typeof title === "string" &&
-          Array.isArray(creator) &&
-          creator.length > 0
-        ) {
+        if (title !== null && creatorArray !== null) {
           const cachedResult =
-            db instanceof Db ? await getCachedResult(title, creator, db) : null;
+            db instanceof Db
+              ? await getCachedResult(title, creatorArray, db)
+              : null;
           if (cachedResult !== null) {
             yield { event: "result", data: JSON.stringify(cachedResult) };
             return;
@@ -72,13 +77,9 @@ async function words(
           rareWordDefinitions
         );
 
-        if (
-          typeof title === "string" &&
-          Array.isArray(creator) &&
-          creator.length > 0
-        ) {
+        if (title !== null && creatorArray !== null) {
           if (db instanceof Db) {
-            await createCachedResult(title, creator, db, rareWordObjects);
+            await createCachedResult(title, creatorArray, db, rareWordObjects);
           }
         }
         yield { event: "result", data: JSON.stringify(rareWordObjects) };
