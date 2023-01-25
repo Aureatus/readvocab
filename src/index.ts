@@ -47,7 +47,9 @@ if (mongoURL === undefined) throw Error("No mongoURL found.");
 
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
-await app.register(fastifyMultipart);
+await app.register(fastifyMultipart, {
+  limits: { files: 1, fileSize: 100000000 },
+});
 await app.register(fastifyFormbody);
 await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
