@@ -1,11 +1,13 @@
-import { API_URL } from "@env";
+import Constants from "expo-constants";
 
 const postSignup = async (
   email: string,
   password: string,
   confirmPassword: string
 ) => {
-  const url = `${API_URL}/auth/signup`;
+  const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+
+  const url = `${apiUrl}/auth/signup`;
   const response = await fetch(url, {
     body: new URLSearchParams({
       email,

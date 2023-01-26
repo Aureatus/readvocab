@@ -1,7 +1,8 @@
-import { API_URL } from "@env";
+import Constants from "expo-constants";
 
 const getSavedWords = async (user: string) => {
-  const url = `${API_URL}/words/saved`;
+  const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+  const url = `${apiUrl}/words/saved`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
