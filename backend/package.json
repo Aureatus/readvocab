@@ -1,0 +1,61 @@
+{
+  "name": "readvocab-backend",
+  "version": "1.0.0",
+  "engines": {
+    "node": "18.12.1"
+  },
+  "description": "",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "devserve": "ts-node-esm src/index.ts",
+    "dev": "nodemon"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "exec": "npm run devserve",
+    "ext": "ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.5.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^2.0.20",
+    "pino-pretty": "^9.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@fastify/compress": "^6.2.0",
+    "@fastify/cors": "^8.2.0",
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/helmet": "^10.1.0",
+    "@fastify/jwt": "^6.5.0",
+    "@fastify/mongodb": "^6.2.0",
+    "@fastify/multipart": "^7.3.0",
+    "ajv-keywords": "^5.1.0",
+    "bcrypt": "^5.1.0",
+    "corpus-word-freq": "^4.3.0",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.10.2",
+    "fastify-plugin": "^4.4.0",
+    "fastify-sse-v2": "^3.0.0",
+    "fluent-json-schema": "^4.0.0",
+    "pdfjs-dist": "^3.1.81",
+    "wordpos": "^2.1.0"
+  }
+}
