@@ -1,7 +1,8 @@
-import { API_URL } from "@env";
+import Constants from "expo-constants";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { DefinitionWord, LoadingData } from "../../../types/dataTypes";
+
 import parseSseTextToJSON from "../../utils/parseSseTextToJSON";
 
 const getRandomWords = async (
@@ -10,7 +11,8 @@ const getRandomWords = async (
   errorSetter: Dispatch<SetStateAction<Error | undefined>>
 ) => {
   try {
-    const url = `${API_URL}/words/random`;
+    const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+    const url = `${apiUrl}/words/random`;
 
     loadingSetter({ loading: true, message: "Calling API" });
     const stream = new XMLHttpRequest();

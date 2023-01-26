@@ -1,8 +1,10 @@
-import { API_URL } from "@env";
+import Constants from "expo-constants";
+
 import type { DefinitionWord } from "../../../types/dataTypes";
 
 const postSaveWord = async (user: string, word: DefinitionWord) => {
-  const url = `${API_URL}/words/save`;
+  const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+  const url = `${apiUrl}/words/save`;
   const response = await fetch(url, {
     body: JSON.stringify(word),
     method: "POST",

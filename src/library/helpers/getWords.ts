@@ -1,4 +1,4 @@
-import { API_URL } from "@env";
+import Constants from "expo-constants";
 
 import type { Dispatch, SetStateAction } from "react";
 import type {
@@ -22,7 +22,8 @@ const getWords = async (
     // @ts-expect-error Ignore this error, since it's caused by a lack of type definitions for the react native FormData polyfill.
     formData.append("pdf", file);
 
-    const url = `${API_URL}/words`;
+    const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+    const url = `${apiUrl}/words`;
 
     loadingSetter({ loading: true, message: "Calling API" });
     const stream = new XMLHttpRequest();
