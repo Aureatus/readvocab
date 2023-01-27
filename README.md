@@ -6,6 +6,16 @@ The finding of rare words is handled by the `corpus-word-freq` npm package, writ
 
 Word rarity is based upon List 1.1, the complete list without frequency cut-offs found at https://ucrel.lancs.ac.uk/bncfreq/flists.html , which is itself based on the British National Corpus.
 
+## Table of Contents
+* [Features](#features)
+* [Roadmap](#roadmap)
+* [Tech stack](#tech-stack)
+* [Run locally](#run-locally)
+  * [Frontend](#frontend)
+  * [Backend](#backend)
+
+
+
 ## Features
 - Cross platform (Web and android)
 - Can upload a PDF and see rare words.
