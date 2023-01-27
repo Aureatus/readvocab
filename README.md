@@ -2,7 +2,18 @@
 # Readvocab
 Readvocab is an app that allows users to upload PDF's, and see a descending list of the rarest words found within per the rarity of words in the english language, along with their definitions and grammatical class. To see other features, visit the features subheading.
 
+The finding of rare words is handled by the `corpus-word-freq` npm package, written for this project. It can be found at https://github.com/Aureatus/corpus-word-freq.
+
 Word rarity is based upon List 1.1, the complete list without frequency cut-offs found at https://ucrel.lancs.ac.uk/bncfreq/flists.html , which is itself based on the British National Corpus.
+
+## Table of Contents
+* [Features](#features)
+* [Roadmap](#roadmap)
+* [Tech stack](#tech-stack)
+* [Run locally](#run-locally)
+  * [Frontend](#frontend)
+  * [Backend](#backend)
+
 
 
 ## Features
@@ -12,18 +23,72 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 - Can save words if logged in.
 ## Roadmap
 
-- Additional browser support
+- Return a set amount of words each time.
+- Support for ebooks, and other formats that a book/long text may come in.
+- Ability to search uploaded PDF's.
+- Be able to get a list of most common words.
+    - Following this, allow users to have separate saved word lists for rare words, and for common words.
 
-- Add more integrations
+- Let user select an amount of words to get.
+- Allow customisation of what grammatical classes to exclude from returned result. (This one will rely largely on changes made to the corpus-word-freq package)
+
+For goals with relation to the rare words refer to the `corpus-word-freq` readme.
 
 
-## 🛠 Tech Stack
+## Tech Stack
+
+**Client:** React native(Expo), TypeScript
+
+**Server:** Fastify, Typescript, MongoDB
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Aureatus/readvocab.git
+```
 
 #### Frontend
-- React native with Expo
-- TypeScript
+Go to the project directory
+
+```bash
+  cd readvocab/frontend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Provide environment variable for API_URL. For it to work on android, it must be https, but for web it doesn't matter.
+
+Start the server
+
+```bash
+  npm run start
+```
 
 #### Backend
-- Fastify
-- Typescript
-- MongoDB
+Go to the project directory
+
+```bash
+  cd readvocab/backend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Provide environment variables for JWT_SECRET, PORT and MONGO_URL.
+
+Start the server
+
+```bash
+  npm run dev
+```
+
