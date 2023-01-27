@@ -2,7 +2,7 @@
 # Readvocab
 Readvocab is an app that allows users to upload PDF's, and see a descending list of the rarest words found within per the rarity of words in the english language, along with their definitions and grammatical class. To see other features, visit the features subheading.
 
-The finding of rare words is handled by the `corpus-word-freq` npm package, developed by me for this project. It can be found at https://github.com/Aureatus/corpus-word-freq.
+The finding of rare words is handled by the `corpus-word-freq` npm package, written for this project. It can be found at https://github.com/Aureatus/corpus-word-freq.
 
 Word rarity is based upon List 1.1, the complete list without frequency cut-offs found at https://ucrel.lancs.ac.uk/bncfreq/flists.html , which is itself based on the British National Corpus.
 
@@ -11,7 +11,6 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 - Can upload a PDF and see rare words.
 - Can see rare words from a random PDF that is in the database.
 - Can save words if logged in.
-
 ## Roadmap
 
 - Return a set amount of words each time.
@@ -25,9 +24,61 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 
 For goals with relation to the rare words refer to the `corpus-word-freq` readme.
 
+
 ## Tech Stack
 
 **Client:** React native(Expo), TypeScript
 
 **Server:** Fastify, Typescript, MongoDB
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Aureatus/readvocab.git
+```
+
+#### Frontend
+Go to the project directory
+
+```bash
+  cd readvocab/frontend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Provide environment variable for API_URL. For it to work on android, it must be https, but for web it doesn't matter.
+
+Start the server
+
+```bash
+  npm run start
+```
+
+#### Backend
+Go to the project directory
+
+```bash
+  cd readvocab/backend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Provide environment variables for JWT_SECRET, PORT and MONGO_URL.
+
+Start the server
+
+```bash
+  npm run dev
+```
 
