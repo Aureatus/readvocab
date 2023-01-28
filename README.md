@@ -25,12 +25,12 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 ## Roadmap
 
 - Return a set amount of words each time.
+  - Further, let user select an amount of words to get.
 - Support for ebooks, and other formats that a book/long text may come in.
 - Ability to search uploaded PDF's.
 - Be able to get a list of most common words.
     - Following this, allow users to have separate saved word lists for rare words, and for common words.
 
-- Let user select an amount of words to get.
 - Allow customisation of what grammatical classes to exclude from returned result. (This one will rely largely on changes made to the corpus-word-freq package)
 
 For goals with relation to the rare words refer to the `corpus-word-freq` readme.
@@ -49,9 +49,9 @@ For goals with relation to the rare words refer to the `corpus-word-freq` readme
   - A quick and easy solution  that could be hacked together whilst a better solution is being developed would be to simply get more rare words than required from the corpus, and picking a set amount of random words from it. This wouldn't be an ideal thing to implement for various reasons, so i'll avoid it if possible.
 
 - An issue that isn't a problem yet, but will become one down the line, is the fact that any updated implementations of what a rare word is would invalidate the PDF data already cached on the database, so each improvement would set the user experience back in that area. I haven't thought about this problem too much yet, and as such only have one idea as to how to offset the issues effect.
-  - Said idea is to always calculate the rare words for a pdf that is uploaded, even if the pdf is already cached, and save it if the data is different.
+  - Said idea is to always calculate the rare words for a PDF that is uploaded, even if the PDF is already cached, and save it if the data is different.
     - Rare word calculation would take place *after* the request is fulfilled, so the user experience wouldn't suffer with unneedingly heightened loading speeds.
-    - Could add some sort of versioning system and only have this implementation take place if the pdf in question was last updated prior to a new update that changed what words might be returned from a pdf. This would mostly be important if I was trying to grow the userbase, because otherwise it wouldn't scale well at all, and i'd likely have to start paying for the server hosting.
+    - Could add some sort of versioning system and only have this implementation take place if the PDF in question was last updated prior to a new update that changed what words might be returned from a PDF. This would mostly be important if I was trying to grow the userbase, because otherwise it wouldn't scale well at all, and i'd likely have to start paying for the server hosting.
 
 ## Tech Stack
 
