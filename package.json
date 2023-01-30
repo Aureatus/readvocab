@@ -1,0 +1,7 @@
+{
+  "name": "readvocab",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ]
+}
