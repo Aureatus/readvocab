@@ -59,23 +59,47 @@ async function words(
           }
         }
 
-        const words = await wordsFromPDF(docProxy);
+        let words = await wordsFromPDF(docProxy);
 
         if (Date.now() - lastLoadingEventTime >= 150) {
           yield { event: "loading", data: "Finding rare words" };
           lastLoadingEventTime = Date.now();
         }
-        const rareWords = findRareWords(words, 20, corpus);
+        let rareWords = findRareWords(words, 20, corpus);
         if (Date.now() - lastLoadingEventTime >= 150) {
           yield { event: "loading", data: "Finding word definitions" };
           lastLoadingEventTime = Date.now();
         }
-        const rareWordDefinitions = await findDefinitions(rareWords);
+        let rareWordDefinitions = await findDefinitions(rareWords);
 
-        const rareWordObjects = mergeWordsAndDefs(
-          rareWords,
-          rareWordDefinitions
-        );
+        let rareWordObjects = mergeWordsAndDefs(rareWords, rareWordDefinitions);
+
+        if (rareWordObjects.length < 20) {
+          if (Date.now() - lastLoadingEventTime >= 150) {
+            yield {
+              event: "loading",
+              data: "Finding more rare words and their definitions",
+            };
+            lastLoadingEventTime = Date.now();
+          }
+        }
+        while (rareWordObjects.length < 20) {
+          // Remove any words that have been already gotten in rareWords or rareWordsObjects
+          words = words.filter((e) => {
+            return rareWords.find((a) => a.word === e) === undefined;
+          });
+
+          rareWords = findRareWords(words, 20, corpus);
+
+          rareWordDefinitions = await findDefinitions(rareWords);
+
+          const newRareWordObjects = mergeWordsAndDefs(
+            rareWords,
+            rareWordDefinitions
+          ).slice(0, 20 - rareWordObjects.length);
+
+          rareWordObjects = [...rareWordObjects, ...newRareWordObjects];
+        }
 
         if (title !== null && creatorArray !== null) {
           if (db instanceof Db) {
