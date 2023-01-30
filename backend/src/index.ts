@@ -57,6 +57,7 @@ await app.register(FastifySSEPlugin);
 
 await app.register(corpus, {
   grammarClasstoRemove: [
+    "NoC",
     "Prep",
     "Neg",
     "Num",
