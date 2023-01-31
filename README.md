@@ -30,7 +30,8 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 - Be able to get a list of most common words.
 
   - Following this, allow users to have separate saved word lists for rare words, and for common words.
-
+  
+- Implement some sort of NLP library to deduce grammatical classes of words from PDF, so we can accurately get the rarity of the specific word used.
 - Allow customisation of what grammatical classes to exclude from returned result. (This one will rely largely on changes made to the corpus-word-freq package)
 
 For goals with relation to the rare words refer to the `corpus-word-freq` readme.
