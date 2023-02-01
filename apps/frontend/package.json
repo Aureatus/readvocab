@@ -1,14 +1,15 @@
 {
   "name": "readvocab-frontend",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "index.ts",
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prettify": "prettier -w . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint --fix . --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore && prettier -w . --ignore-path .gitignore",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && expo export:web",
+    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && expo start --web --android"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
