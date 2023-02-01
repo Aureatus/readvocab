@@ -12,7 +12,7 @@
     "start": "node dist/index.js",
     "devserve": "ts-node-esm src/index.ts",
     "dev": "nodemon",
-    "lint": "eslint --fix . --ext .js,.jsx,.ts,.tsx && prettier --write ."
+    "lint": "eslint --fix . --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore && prettier -w . --ignore-path .gitignore"
   },
   "nodemonConfig": {
     "watch": [
