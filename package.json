@@ -3,5 +3,8 @@
   "workspaces": [
     "packages/*",
     "apps/*"
-  ]
+  ],
+  "scripts": {
+    "dev": "turbo run dev"
+  }
 }
