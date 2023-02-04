@@ -22,9 +22,7 @@ declare module "@fastify/jwt" {
   }
 }
 const authenticate: FastifyPluginAsync = async (instance, _opts) => {
-  const secret = process.env["JWT_SECRET"];
-
-  if (secret === undefined) throw Error("JWT_SECRET undefined.");
+  const secret = instance.config.JWT_SECRET;
 
   await instance.register(fastifyJwt, {
     secret,

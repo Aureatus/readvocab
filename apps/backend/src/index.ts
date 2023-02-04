@@ -1,3 +1,5 @@
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import { fastifyMultipart } from "@fastify/multipart";
 import { fastifyFormbody } from "@fastify/formbody";
 import cors from "@fastify/cors";
@@ -7,13 +9,12 @@ import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
 import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
-import wordsRouter from "./routes/wordsRouter.js";
-import dotenv from "dotenv";
-import corpus from "./plugins/corpus.js";
-import auth from "./plugins/auth.js";
-import authRouter from "./routes/authRouter.js";
+import autoLoad from "@fastify/autoload";
+import { fastifyEnv } from "@fastify/env";
+import fluentSchemaObject from "fluent-json-schema";
 
-dotenv.config();
+const fileName = fileURLToPath(import.meta.url);
+const dirName = dirname(fileName);
 
 const envToLogger = {
   development: {
@@ -38,12 +39,27 @@ const app = fastify({
     plugins: [[ajvKeywords.default, ["transform"]]],
   },
 });
-let port = Number(process.env["PORT"]);
 
-if (isNaN(port)) port = 3000;
+const fluentSchema = fluentSchemaObject.default;
+await app.register(fastifyEnv, {
+  dotenv: true,
+  schema: fluentSchema
+    .object()
+    .prop("PORT", fluentSchema.number().required())
+    .prop("MONGO_URL", fluentSchema.string().required())
+    .prop("JWT_SECRET", fluentSchema.string().required())
+    .valueOf(),
+});
 
-const mongoURL = process.env["MONGO_URL"];
-if (mongoURL === undefined) throw Error("No mongoURL found.");
+declare module "fastify" {
+  interface FastifyInstance {
+    config: {
+      PORT: number;
+      MONGO_URL: string;
+      JWT_SECRET: string;
+    };
+  }
+}
 
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
@@ -51,39 +67,47 @@ await app.register(fastifyMultipart, {
   limits: { files: 1, fileSize: 100000000 },
 });
 await app.register(fastifyFormbody);
-await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
+await app.register(fastifyMongodb, {
+  url: app.config.MONGO_URL,
+  database: "Readvocab",
+});
 await app.register(cors);
 await app.register(FastifySSEPlugin);
 
-await app.register(corpus, {
-  grammarClasstoRemove: [
-    "NoC",
-    "Prep",
-    "Neg",
-    "Num",
-    "NoP",
-    "NoP-",
-    "Lett",
-    "Int",
-    "Inf",
-    "Conj",
-    "Pron",
-    "Det",
-    "DetP",
-    "Gen",
-    "Ex",
-    "Uncl",
-    "Fore",
-  ],
+await app.register(autoLoad, {
+  dir: join(dirName, "plugins"),
+  options: {
+    grammarClasstoRemove: [
+      "NoC",
+      "Prep",
+      "Neg",
+      "Num",
+      "NoP",
+      "NoP-",
+      "Lett",
+      "Int",
+      "Inf",
+      "Conj",
+      "Pron",
+      "Det",
+      "DetP",
+      "Gen",
+      "Ex",
+      "Uncl",
+      "Fore",
+    ],
+  },
+  forceESM: true,
 });
-await app.register(auth);
 
-await app.register(wordsRouter, { prefix: "/words" });
-await app.register(authRouter, { prefix: "/auth" });
+await app.register(autoLoad, {
+  dir: join(dirName, "routes"),
+  forceESM: true,
+});
 
 const start = async (): Promise<void> => {
   try {
-    await app.listen({ host: "0.0.0.0", port });
+    await app.listen({ host: "0.0.0.0", port: app.config.PORT });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
