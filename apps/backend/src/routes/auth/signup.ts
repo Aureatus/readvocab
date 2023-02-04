@@ -1,23 +1,10 @@
+import { hash } from "bcrypt";
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
-import { compare, hash } from "bcrypt";
-
-import type { LoginGeneric, SignupGeneric, User } from "../types.js";
+import type { SignupGeneric, User } from "../../types.js";
+import { loginBodySchema } from "./login.js";
 
 const fluentSchema = fluentSchemaObject.default;
-
-const loginBodySchema = fluentSchema
-  .object()
-  .prop("email", fluentSchema.string().format("email").required())
-  .prop(
-    "password",
-    fluentSchema
-      .string()
-      .raw({ transform: ["trim"] })
-      .minLength(8)
-      .required()
-  );
-
 const signupBodySchema = fluentSchema
   .object()
   .prop(
@@ -30,34 +17,7 @@ const signupBodySchema = fluentSchema
   )
   .extend(loginBodySchema);
 
-const authRouter = async (fastify: FastifyInstance): Promise<void> => {
-  fastify.post<LoginGeneric>(
-    "/login",
-    { schema: { body: loginBodySchema } },
-    async function (request, reply) {
-      const { email, password } = request.body;
-      const { db } = this.mongo;
-      const { jwt } = this;
-      if (db === undefined) throw Error("Database Readvocab not found.");
-
-      const userCollection = db.collection<User>("users");
-      const response = await userCollection.findOne({ email });
-
-      if (response === null) {
-        return await reply.code(401).send("Account with email doesn't exist.");
-      }
-
-      const passwordValidity = await compare(password, response.password);
-
-      if (!passwordValidity) {
-        return await reply.code(401).send("Incorrect password.");
-      }
-
-      const token = jwt.sign(response, { expiresIn: "14d" });
-      return await reply.send(token);
-    }
-  );
-
+const signup = async (fastify: FastifyInstance): Promise<void> => {
   fastify.post<SignupGeneric>(
     "/signup",
     { schema: { body: signupBodySchema } },
@@ -101,4 +61,4 @@ const authRouter = async (fastify: FastifyInstance): Promise<void> => {
   );
 };
 
-export default authRouter;
+export default signup;
