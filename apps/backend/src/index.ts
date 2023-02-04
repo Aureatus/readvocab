@@ -11,8 +11,6 @@ import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import autoLoad from "@fastify/autoload";
 import dotenv from "dotenv";
-import corpus from "./plugins/corpus.js";
-import auth from "./plugins/auth.js";
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = dirname(fileName);
@@ -59,28 +57,31 @@ await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
 await app.register(cors);
 await app.register(FastifySSEPlugin);
 
-await app.register(corpus, {
-  grammarClasstoRemove: [
-    "NoC",
-    "Prep",
-    "Neg",
-    "Num",
-    "NoP",
-    "NoP-",
-    "Lett",
-    "Int",
-    "Inf",
-    "Conj",
-    "Pron",
-    "Det",
-    "DetP",
-    "Gen",
-    "Ex",
-    "Uncl",
-    "Fore",
-  ],
+await app.register(autoLoad, {
+  dir: join(dirName, "plugins"),
+  options: {
+    grammarClasstoRemove: [
+      "NoC",
+      "Prep",
+      "Neg",
+      "Num",
+      "NoP",
+      "NoP-",
+      "Lett",
+      "Int",
+      "Inf",
+      "Conj",
+      "Pron",
+      "Det",
+      "DetP",
+      "Gen",
+      "Ex",
+      "Uncl",
+      "Fore",
+    ],
+  },
+  forceESM: true,
 });
-await app.register(auth);
 
 await app.register(autoLoad, {
   dir: join(dirName, "routes"),
