@@ -33,3 +33,18 @@ export interface JwtUser {
 export interface PDFInfoType {
   [x: string]: string | undefined;
 }
+
+export interface LoginGeneric extends RequestGenericInterface {
+  Body: {
+    email: string;
+    password: string;
+  };
+}
+
+export interface SignupGeneric extends RequestGenericInterface {
+  Body: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+  };
+}
