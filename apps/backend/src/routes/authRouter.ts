@@ -6,31 +6,31 @@ import type { LoginGeneric, SignupGeneric, User } from "../types.js";
 
 const fluentSchema = fluentSchemaObject.default;
 
+const loginBodySchema = fluentSchema
+  .object()
+  .prop("email", fluentSchema.string().format("email").required())
+  .prop(
+    "password",
+    fluentSchema
+      .string()
+      .raw({ transform: ["trim"] })
+      .minLength(8)
+      .required()
+  );
+
+const signupBodySchema = fluentSchema
+  .object()
+  .prop(
+    "confirmPassword",
+    fluentSchema
+      .string()
+      .raw({ transform: ["trim"] })
+      .minLength(8)
+      .required()
+  )
+  .extend(loginBodySchema);
+
 const authRouter = async (fastify: FastifyInstance): Promise<void> => {
-  const loginBodySchema = fluentSchema
-    .object()
-    .prop("email", fluentSchema.string().format("email").required())
-    .prop(
-      "password",
-      fluentSchema
-        .string()
-        .raw({ transform: ["trim"] })
-        .minLength(8)
-        .required()
-    );
-
-  const signupBodySchema = fluentSchema
-    .object()
-    .prop(
-      "confirmPassword",
-      fluentSchema
-        .string()
-        .raw({ transform: ["trim"] })
-        .minLength(8)
-        .required()
-    )
-    .extend(loginBodySchema);
-
   fastify.post<LoginGeneric>(
     "/login",
     { schema: { body: loginBodySchema } },
