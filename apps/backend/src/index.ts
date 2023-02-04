@@ -1,3 +1,5 @@
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import { fastifyMultipart } from "@fastify/multipart";
 import { fastifyFormbody } from "@fastify/formbody";
 import cors from "@fastify/cors";
@@ -7,11 +9,13 @@ import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
 import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
-import wordsRouter from "./routes/wordsRouter.js";
+import autoLoad from "@fastify/autoload";
 import dotenv from "dotenv";
 import corpus from "./plugins/corpus.js";
 import auth from "./plugins/auth.js";
-import authRouter from "./routes/authRouter.js";
+
+const fileName = fileURLToPath(import.meta.url);
+const dirName = dirname(fileName);
 
 dotenv.config();
 
@@ -78,8 +82,10 @@ await app.register(corpus, {
 });
 await app.register(auth);
 
-await app.register(wordsRouter, { prefix: "/words" });
-await app.register(authRouter, { prefix: "/auth" });
+await app.register(autoLoad, {
+  dir: join(dirName, "routes"),
+  forceESM: true,
+});
 
 const start = async (): Promise<void> => {
   try {
