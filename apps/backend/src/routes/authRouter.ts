@@ -1,7 +1,8 @@
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
-import login from "../controllers/auth/login.js";
-import signup from "../controllers/auth/signup.js";
+import { compare, hash } from "bcrypt";
+
+import type { LoginGeneric, SignupGeneric, User } from "../types.js";
 
 const fluentSchema = fluentSchemaObject.default;
 
@@ -30,8 +31,74 @@ const authRouter = async (fastify: FastifyInstance): Promise<void> => {
     )
     .extend(loginBodySchema);
 
-  fastify.post("/login", { schema: { body: loginBodySchema } }, login);
-  fastify.post("/signup", { schema: { body: signupBodySchema } }, signup);
+  fastify.post<LoginGeneric>(
+    "/login",
+    { schema: { body: loginBodySchema } },
+    async function (request, reply) {
+      const { email, password } = request.body;
+      const { db } = this.mongo;
+      const { jwt } = this;
+      if (db === undefined) throw Error("Database Readvocab not found.");
+
+      const userCollection = db.collection<User>("users");
+      const response = await userCollection.findOne({ email });
+
+      if (response === null) {
+        return await reply.code(401).send("Account with email doesn't exist.");
+      }
+
+      const passwordValidity = await compare(password, response.password);
+
+      if (!passwordValidity) {
+        return await reply.code(401).send("Incorrect password.");
+      }
+
+      const token = jwt.sign(response, { expiresIn: "14d" });
+      return await reply.send(token);
+    }
+  );
+
+  fastify.post<SignupGeneric>(
+    "/signup",
+    { schema: { body: signupBodySchema } },
+    async function signup(request, reply) {
+      const { email, password, confirmPassword } = request.body;
+      const { db } = this.mongo;
+      const { jwt } = this;
+      if (db === undefined) throw Error("Database Readvocab not found.");
+
+      if (confirmPassword !== password)
+        return await reply
+          .code(400)
+          .send("Password confirmation doesn't match.");
+
+      const userCollection = db.collection<User>("users");
+      const response = await userCollection.findOne({ email });
+
+      if (response !== null) {
+        return await reply
+          .code(400)
+          .send("Account with that email already exists.");
+      }
+
+      const hashedPassword = await hash(password, 11);
+
+      const insertResult = await userCollection.insertOne({
+        email,
+        password: hashedPassword,
+        savedWords: [],
+      });
+
+      const user = await userCollection.findOne({
+        _id: insertResult.insertedId,
+      });
+      if (user === null)
+        return await reply.code(400).send("User not found after creation.");
+
+      const token = jwt.sign(user, { expiresIn: "14d" });
+      return await reply.code(201).send(token);
+    }
+  );
 };
 
 export default authRouter;
