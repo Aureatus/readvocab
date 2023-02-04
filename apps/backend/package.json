@@ -44,6 +44,7 @@
     "@fastify/autoload": "^5.7.1",
     "@fastify/compress": "^6.2.0",
     "@fastify/cors": "^8.2.0",
+    "@fastify/env": "^4.2.0",
     "@fastify/formbody": "^7.4.0",
     "@fastify/helmet": "^10.1.0",
     "@fastify/jwt": "^6.5.0",

@@ -10,12 +10,11 @@ import { FastifySSEPlugin } from "fastify-sse-v2";
 import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import autoLoad from "@fastify/autoload";
-import dotenv from "dotenv";
+import { fastifyEnv } from "@fastify/env";
+import fluentSchemaObject from "fluent-json-schema";
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = dirname(fileName);
-
-dotenv.config();
 
 const envToLogger = {
   development: {
@@ -40,12 +39,27 @@ const app = fastify({
     plugins: [[ajvKeywords.default, ["transform"]]],
   },
 });
-let port = Number(process.env["PORT"]);
 
-if (isNaN(port)) port = 3000;
+const fluentSchema = fluentSchemaObject.default;
+await app.register(fastifyEnv, {
+  dotenv: true,
+  schema: fluentSchema
+    .object()
+    .prop("PORT", fluentSchema.number().required())
+    .prop("MONGO_URL", fluentSchema.string().required())
+    .prop("JWT_SECRET", fluentSchema.string().required())
+    .valueOf(),
+});
 
-const mongoURL = process.env["MONGO_URL"];
-if (mongoURL === undefined) throw Error("No mongoURL found.");
+declare module "fastify" {
+  interface FastifyInstance {
+    config: {
+      PORT: number;
+      MONGO_URL: string;
+      JWT_SECRET: string;
+    };
+  }
+}
 
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
@@ -53,7 +67,10 @@ await app.register(fastifyMultipart, {
   limits: { files: 1, fileSize: 100000000 },
 });
 await app.register(fastifyFormbody);
-await app.register(fastifyMongodb, { url: mongoURL, database: "Readvocab" });
+await app.register(fastifyMongodb, {
+  url: app.config.MONGO_URL,
+  database: "Readvocab",
+});
 await app.register(cors);
 await app.register(FastifySSEPlugin);
 
@@ -90,7 +107,7 @@ await app.register(autoLoad, {
 
 const start = async (): Promise<void> => {
   try {
-    await app.listen({ host: "0.0.0.0", port });
+    await app.listen({ host: "0.0.0.0", port: app.config.PORT });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
