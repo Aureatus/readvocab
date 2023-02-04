@@ -1,4 +1,5 @@
 # Readvocab
+
 Readvocab is an app that allows users to upload PDF's, and see a descending list of the rarest words found within per the rarity of words in the English language, along with their definitions and grammatical class. To see other features, visit the features subheading.
 
 The finding of rare words is handled by the `corpus-word-freq` npm package, written for this project. It can be found at https://github.com/Aureatus/corpus-word-freq.
@@ -30,7 +31,7 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 - Be able to get a list of most common words.
 
   - Following this, allow users to have separate saved word lists for rare words, and for common words.
-  
+
 - Implement some sort of NLP library to deduce grammatical classes of words from PDF, so we can accurately get the rarity of the specific word used.
 - Allow customisation of what grammatical classes to exclude from returned result. (This one will rely largely on changes made to the corpus-word-freq package)
 
@@ -38,14 +39,13 @@ For goals with relation to the rare words refer to the `corpus-word-freq` readme
 
 ## Known Issues
 
-- Hacky XMLHttpRequest implementation to deal with server sent events results in having to add extra time to any event if it has been less than 150ms since the last event.
-
+- Hacky XMLHttpRequest implementation to deal with server sent events results in having to skip the sending of events if it hasn't yet been 150ms since the last one.
 
   - Reason for this is that for some reason that I haven't yet been able to ascertain, events aren't caught by XMlHttpRequest if it's been less than 140-150ms since the last one.
   - Definitely an issue I want to resolve, but not that pressing, since the user experience with this implementation is still **far** better than just doing a single request for the response and having no loading data.
 
 - Word rarity isn't up to scratch, but this is down to the word data used and the package I'm using to get definitions for words.
-  - Particular offenders currently are `large`, `crisp` and `getting`. All of which are rare words according to the data, but with grammatical classes that aren't classified, so finding a definition for them is tricky. At present, I have the definition getting for words who's grammatical class is NoC( Not otherwise Classified),which the aforementioned terms are, set to nouns. This was the result of a misunderstanding of the grammatical class abbreviations early on.
+  - Particular offenders currently are `large` and `getting`. All of which are rare words according to the data, but with grammatical classes that aren't classified, so finding a definition for them would be extremely tricky. At present, I have the definition getting for words who's grammatical class is NoC( Not otherwise Classified),which the aforementioned terms are, set to nouns. This was the result of a misunderstanding of the grammatical class abbreviations early on.
   - ~~Should be fairly easy to resolve, but to resolve it _well_ will be more difficult. I will first fix it in a way which is quick and efficient, then look onto more robust solution later down the line~~ Quick fix is now up, will create a better solution down the line.
 - Returned words are often not unique to books, due to the abundance of words in the corpus data that have a frequency of 0 per million words. This is an issue that can be resolved in a number of ways, some better for the user, but worse for the predictability of the apps function, and for the devs working on it, others inversely so.
 
