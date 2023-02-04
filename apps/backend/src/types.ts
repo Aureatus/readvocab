@@ -50,3 +50,7 @@ export interface SignupGeneric extends RequestGenericInterface {
     confirmPassword: string;
   };
 }
+
+export interface WordGeneric extends RequestGenericInterface {
+  Body: DefinitionWord;
+}
