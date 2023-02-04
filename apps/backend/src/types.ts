@@ -1,3 +1,5 @@
+import type { RequestGenericInterface } from "fastify";
+
 export interface CorpusWord {
   word: string;
   PoS: string;
