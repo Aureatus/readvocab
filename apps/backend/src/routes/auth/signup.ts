@@ -42,15 +42,12 @@ const signup = async (fastify: FastifyInstance): Promise<void> => {
 
       const hashedPassword = await hash(password, 11);
 
-      const signupResult = await User.create({
+      const user = await User.create({
         email,
         password: hashedPassword,
         savedWords: [],
       });
 
-      const user = await User.findOne({
-        _id: signupResult._id,
-      }).exec();
       if (user === null)
         return await reply.code(400).send("User not found after creation.");
 
