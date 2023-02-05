@@ -26,7 +26,8 @@ const login = async (fastify: FastifyInstance): Promise<void> => {
       const { email, password } = request.body;
       const { jwt } = this;
 
-      const response = await User.findOne({ email }).exec();
+      const response =
+        (await User.findOne({ email }).exec())?.toObject() ?? null;
 
       if (response === null) {
         return await reply.code(401).send("Account with email doesn't exist.");

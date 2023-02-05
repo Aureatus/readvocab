@@ -32,7 +32,8 @@ const signup = async (fastify: FastifyInstance): Promise<void> => {
           .code(400)
           .send("Password confirmation doesn't match.");
 
-      const response = await User.findOne({ email }).exec();
+      const response =
+        (await User.findOne({ email }).exec())?.toObject() ?? null;
 
       if (response !== null) {
         return await reply
@@ -51,7 +52,7 @@ const signup = async (fastify: FastifyInstance): Promise<void> => {
       if (user === null)
         return await reply.code(400).send("User not found after creation.");
 
-      const token = jwt.sign(user, { expiresIn: "14d" });
+      const token = jwt.sign(user.toObject(), { expiresIn: "14d" });
       return await reply.code(201).send(token);
     }
   );
