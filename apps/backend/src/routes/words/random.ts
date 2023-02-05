@@ -1,10 +1,8 @@
-import { Db } from "mongodb";
 import type { FastifyInstance } from "fastify";
 import getRandomResult from "../../helpers/getRandomResult.js";
 
 const random = async (fastify: FastifyInstance): Promise<void> => {
   fastify.get("/random", async function randomWords(_request, reply) {
-    const { db } = this.mongo;
     // ONLY SEND LOADING STATE UPDATE IF TIME ELAPSED FROM LAST LOADING STATE HAS BEEN GREATER THAN 150MS.
     reply.sse(
       (async function* wordSSEGenerator() {
@@ -17,8 +15,7 @@ const random = async (fastify: FastifyInstance): Promise<void> => {
             lastLoadingEventTime = Date.now();
           }
 
-          const cachedResult =
-            db instanceof Db ? await getRandomResult(db) : null;
+          const cachedResult = await getRandomResult();
           if (cachedResult !== null) {
             yield { event: "result", data: JSON.stringify(cachedResult) };
             return;

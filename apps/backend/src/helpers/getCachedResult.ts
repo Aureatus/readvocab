@@ -1,19 +1,13 @@
+import Pdf from "../models/pdf.js";
 import type { DefinitionWord } from "../types.js";
-
-import type { Db } from "mongodb";
 
 const getCachedResult = async (
   title: string,
-  creator: string[],
-  db: Db
+  creator: string[]
 ): Promise<DefinitionWord[] | null> => {
-  const pdfCollection = db.collection<{ data: DefinitionWord[] }>("pdfs");
-  const response = await pdfCollection.findOne(
-    { title, creator },
-    { projection: { data: 1 } }
-  );
+  const test = await Pdf.findOne({ title, creator }, "data").exec();
 
-  const data = response?.data ?? null;
+  const data = test?.data ?? null;
 
   return data;
 };
