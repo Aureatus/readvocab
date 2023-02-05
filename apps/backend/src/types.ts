@@ -26,7 +26,7 @@ export interface UserData {
 }
 
 export interface JwtUser {
-  _id: string;
+  _id: Types.ObjectId;
   email: string;
   password: string;
   savedWords: DefinitionWord[];
