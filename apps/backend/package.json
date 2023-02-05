@@ -48,7 +48,6 @@
     "@fastify/formbody": "^7.4.0",
     "@fastify/helmet": "^10.1.0",
     "@fastify/jwt": "^6.5.0",
-    "@fastify/mongodb": "^6.2.0",
     "@fastify/multipart": "^7.3.0",
     "ajv-keywords": "^5.1.0",
     "bcrypt": "^5.1.0",
