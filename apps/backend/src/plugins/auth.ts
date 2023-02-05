@@ -1,7 +1,6 @@
 import fp from "fastify-plugin";
 import fastifyJwt from "@fastify/jwt";
 import type { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
-import type { WithId } from "mongodb";
 import type { JwtUser, UserData } from "../types.js";
 
 type authenticateFunc = (
@@ -17,7 +16,7 @@ declare module "fastify" {
 
 declare module "@fastify/jwt" {
   interface FastifyJWT {
-    payload: WithId<UserData>;
+    payload: UserData;
     user: JwtUser;
   }
 }
