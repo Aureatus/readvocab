@@ -17,7 +17,7 @@ export interface corpusInstance {
   getMatchedWords: (wordList: string[], desiredMatches: number) => CorpusWord[];
 }
 
-export interface User {
+export interface UserData {
   email: string;
   password: string;
   savedWords: DefinitionWord[];
