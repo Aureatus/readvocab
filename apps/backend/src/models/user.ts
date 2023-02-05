@@ -7,11 +7,14 @@ interface IUser {
   savedWords: DefinitionWord[];
 }
 
-const wordDataSchema = new Schema<DefinitionWord>({
-  word: String,
-  wordClass: String,
-  definition: String,
-});
+const wordDataSchema = new Schema<DefinitionWord>(
+  {
+    word: String,
+    wordClass: String,
+    definition: String,
+  },
+  { _id: false }
+);
 
 const userSchema = new Schema<IUser>({
   email: { type: String, required: true },

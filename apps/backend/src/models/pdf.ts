@@ -7,11 +7,14 @@ interface IPdf {
   data: DefinitionWord[];
 }
 
-const wordDataSchema = new Schema<DefinitionWord>({
-  word: String,
-  wordClass: String,
-  definition: String,
-});
+const wordDataSchema = new Schema<DefinitionWord>(
+  {
+    word: String,
+    wordClass: String,
+    definition: String,
+  },
+  { _id: false }
+);
 
 const pdfSchema = new Schema<IPdf>({
   creator: { type: [String], required: true },
