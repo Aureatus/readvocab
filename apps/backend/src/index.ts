@@ -5,13 +5,13 @@ import { fastifyFormbody } from "@fastify/formbody";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
-import { fastifyMongodb } from "@fastify/mongodb";
 import { FastifySSEPlugin } from "fastify-sse-v2";
 import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import autoLoad from "@fastify/autoload";
 import { fastifyEnv } from "@fastify/env";
 import fluentSchemaObject from "fluent-json-schema";
+import mongoose from "mongoose";
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = dirname(fileName);
@@ -61,16 +61,14 @@ declare module "fastify" {
   }
 }
 
+await mongoose.connect(app.config.MONGO_URL, { dbName: "Readvocab" });
+
 await app.register(fastifyHelmet);
 await app.register(fastifyCompress);
 await app.register(fastifyMultipart, {
   limits: { files: 1, fileSize: 100000000 },
 });
 await app.register(fastifyFormbody);
-await app.register(fastifyMongodb, {
-  url: app.config.MONGO_URL,
-  database: "Readvocab",
-});
 await app.register(cors);
 await app.register(FastifySSEPlugin);
 

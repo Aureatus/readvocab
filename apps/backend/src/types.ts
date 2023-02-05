@@ -1,4 +1,5 @@
 import type { RequestGenericInterface } from "fastify";
+import type { Types } from "mongoose";
 
 export interface CorpusWord {
   word: string;
@@ -17,14 +18,15 @@ export interface corpusInstance {
   getMatchedWords: (wordList: string[], desiredMatches: number) => CorpusWord[];
 }
 
-export interface User {
+export interface UserData {
+  _id: Types.ObjectId;
   email: string;
   password: string;
   savedWords: DefinitionWord[];
 }
 
 export interface JwtUser {
-  _id: string;
+  _id: Types.ObjectId;
   email: string;
   password: string;
   savedWords: DefinitionWord[];

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
-import type { User, WordGeneric } from "../../types.js";
+import type { WordGeneric } from "../../types.js";
 import fluentSchemaObject from "fluent-json-schema";
-import { ObjectId } from "@fastify/mongodb";
+import User from "../../models/user.js";
 
 const fluentSchema = fluentSchemaObject.default;
 
@@ -17,15 +17,8 @@ const save = async (fastify: FastifyInstance): Promise<void> => {
     { onRequest: [fastify.authenticate] },
     async function savedWords(request, reply) {
       const { _id } = request.user;
-      const { db } = this.mongo;
-      if (db === undefined) throw Error("Database Readvocab not found.");
 
-      const userCollection = db.collection<User>("users");
-
-      const response = await userCollection.findOne(
-        { _id: new ObjectId(_id) },
-        { projection: { savedWords: 1 } }
-      );
+      const response = await User.findById(_id, "savedWords").exec();
 
       const data = response?.savedWords ?? null;
 
@@ -38,23 +31,14 @@ const save = async (fastify: FastifyInstance): Promise<void> => {
     { onRequest: [fastify.authenticate], schema: { body: BodySchema } },
     async function saveWord(request, reply) {
       const { _id } = request.user;
-      const { db } = this.mongo;
-      if (db === undefined) throw Error("Database Readvocab not found.");
-
-      const userCollection = db.collection<User>("users");
       const word = request.body;
 
-      const updateResponse = await userCollection.updateOne(
-        { _id: new ObjectId(_id) },
-        { $addToSet: { savedWords: word } }
-      );
+      const updateResponse = await User.findByIdAndUpdate(_id, {
+        $addToSet: { savedWords: word },
+      }).exec();
 
-      if (!updateResponse.acknowledged) {
+      if (updateResponse === null) {
         return await reply.code(500).send("Failed to save word.");
-      }
-
-      if (updateResponse.modifiedCount === 0) {
-        return await reply.code(500).send("Word is already saved!");
       }
 
       return await reply.send();

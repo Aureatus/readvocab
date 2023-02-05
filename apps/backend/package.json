@@ -48,7 +48,6 @@
     "@fastify/formbody": "^7.4.0",
     "@fastify/helmet": "^10.1.0",
     "@fastify/jwt": "^6.5.0",
-    "@fastify/mongodb": "^6.2.0",
     "@fastify/multipart": "^7.3.0",
     "ajv-keywords": "^5.1.0",
     "bcrypt": "^5.1.0",
@@ -58,6 +57,7 @@
     "fastify-plugin": "^4.4.0",
     "fastify-sse-v2": "^3.0.0",
     "fluent-json-schema": "^4.0.0",
+    "mongoose": "^6.9.0",
     "pdfjs-dist": "^3.1.81",
     "wordpos": "^2.1.0"
   }

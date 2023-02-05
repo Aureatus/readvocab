@@ -1,13 +1,10 @@
+import Pdf from "../models/pdf.js";
 import type { DefinitionWord } from "../types.js";
 
-import type { Db } from "mongodb";
-
-const getRandomResult = async (db: Db): Promise<DefinitionWord[] | null> => {
-  const pdfCollection = db.collection<{ data: DefinitionWord[] }>("pdfs");
-  const cursor = pdfCollection.aggregate([{ $sample: { size: 1 } }]);
-  const randomResult = await cursor
-    .project<{ data: DefinitionWord[] }>({ data: 1 })
-    .next();
+const getRandomResult = async (): Promise<DefinitionWord[] | null> => {
+  const documentCount = await Pdf.count();
+  const amountToSkip = Math.floor(Math.random() * documentCount);
+  const randomResult = await Pdf.findOne({}, "data").skip(amountToSkip).exec();
 
   return randomResult?.data ?? null;
 };

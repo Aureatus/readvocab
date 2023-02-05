@@ -1,5 +1,4 @@
 import type { FastifyInstance } from "fastify";
-import { Db } from "mongodb";
 import createCachedResult from "../../helpers/createCachedResult.js";
 import findDefinitions from "../../helpers/findDefinitions.js";
 import findRareWords from "../../helpers/findRareWords.js";
@@ -12,7 +11,7 @@ import type { PDFInfoType } from "../../types.js";
 const words = async (fastify: FastifyInstance): Promise<void> => {
   fastify.post("/", async function words(request, reply) {
     const corpus = this.corpus;
-    const { db } = this.mongo;
+
     const file = await request.file();
     if (file === undefined) throw Error("No file uploaded");
     await file.toBuffer(); // Will throw error if it is over allowed file size.
@@ -44,10 +43,7 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
               : null;
 
           if (title !== null && creatorArray !== null) {
-            const cachedResult =
-              db instanceof Db
-                ? await getCachedResult(title, creatorArray, db)
-                : null;
+            const cachedResult = await getCachedResult(title, creatorArray);
             if (cachedResult !== null) {
               yield { event: "result", data: JSON.stringify(cachedResult) };
               return;
@@ -100,14 +96,7 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
           }
 
           if (title !== null && creatorArray !== null) {
-            if (db instanceof Db) {
-              await createCachedResult(
-                title,
-                creatorArray,
-                db,
-                rareWordObjects
-              );
-            }
+            await createCachedResult(title, creatorArray, rareWordObjects);
           }
           yield { event: "result", data: JSON.stringify(rareWordObjects) };
         } catch (err) {
