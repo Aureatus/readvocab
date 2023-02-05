@@ -1,7 +1,9 @@
 import { compare } from "bcrypt";
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
-import type { LoginGeneric, User } from "../../types.js";
+
+import User from "../../models/user.js";
+import type { LoginGeneric } from "../../types.js";
 
 const fluentSchema = fluentSchemaObject.default;
 export const loginBodySchema = fluentSchema
@@ -22,12 +24,9 @@ const login = async (fastify: FastifyInstance): Promise<void> => {
     { schema: { body: loginBodySchema } },
     async function (request, reply) {
       const { email, password } = request.body;
-      const { db } = this.mongo;
       const { jwt } = this;
-      if (db === undefined) throw Error("Database Readvocab not found.");
 
-      const userCollection = db.collection<User>("users");
-      const response = await userCollection.findOne({ email });
+      const response = await User.findOne({ email }).exec();
 
       if (response === null) {
         return await reply.code(401).send("Account with email doesn't exist.");

@@ -1,8 +1,10 @@
 import { hash } from "bcrypt";
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
-import type { SignupGeneric, User } from "../../types.js";
+
+import User from "../../models/user.js";
 import { loginBodySchema } from "./login.js";
+import type { SignupGeneric } from "../../types.js";
 
 const fluentSchema = fluentSchemaObject.default;
 const signupBodySchema = fluentSchema
@@ -23,17 +25,14 @@ const signup = async (fastify: FastifyInstance): Promise<void> => {
     { schema: { body: signupBodySchema } },
     async function signup(request, reply) {
       const { email, password, confirmPassword } = request.body;
-      const { db } = this.mongo;
       const { jwt } = this;
-      if (db === undefined) throw Error("Database Readvocab not found.");
 
       if (confirmPassword !== password)
         return await reply
           .code(400)
           .send("Password confirmation doesn't match.");
 
-      const userCollection = db.collection<User>("users");
-      const response = await userCollection.findOne({ email });
+      const response = await User.findOne({ email }).exec();
 
       if (response !== null) {
         return await reply
@@ -43,15 +42,15 @@ const signup = async (fastify: FastifyInstance): Promise<void> => {
 
       const hashedPassword = await hash(password, 11);
 
-      const insertResult = await userCollection.insertOne({
+      const signupResult = await User.create({
         email,
         password: hashedPassword,
         savedWords: [],
       });
 
-      const user = await userCollection.findOne({
-        _id: insertResult.insertedId,
-      });
+      const user = await User.findOne({
+        _id: signupResult._id,
+      }).exec();
       if (user === null)
         return await reply.code(400).send("User not found after creation.");
 
