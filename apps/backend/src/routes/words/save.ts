@@ -33,10 +33,9 @@ const save = async (fastify: FastifyInstance): Promise<void> => {
       const { _id } = request.user;
       const word = request.body;
 
-      const updateResponse = await User.findOneAndUpdate(
-        { _id },
-        { $addToSet: { savedWords: word } }
-      ).exec();
+      const updateResponse = await User.findByIdAndUpdate(_id, {
+        $addToSet: { savedWords: word },
+      }).exec();
 
       if (updateResponse === null) {
         return await reply.code(500).send("Failed to save word.");
