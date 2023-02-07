@@ -25,6 +25,8 @@ const pdfSchema = new Schema<IPdf>({
   },
 });
 
+pdfSchema.index({ creator: "text", title: "text" });
+
 const Pdf = model<IPdf>("Pdf", pdfSchema);
 
 export default Pdf;
