@@ -1,4 +1,6 @@
 import type { FastifyInstance } from "fastify";
+import fluentSchemaObject from "fluent-json-schema";
+
 import createCachedResult from "../../helpers/createCachedResult.js";
 import findDefinitions from "../../helpers/findDefinitions.js";
 import findRareWords from "../../helpers/findRareWords.js";
@@ -6,9 +8,29 @@ import getCachedResult from "../../helpers/getCachedResult.js";
 import getDocProxy from "../../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../../helpers/mergeWordsAndDefs.js";
 import wordsFromPDF from "../../helpers/wordsFromPDF.js";
-import type { PDFInfoType } from "../../types.js";
+import Pdf from "../../models/pdf.js";
+
+import type { PDFInfoType, WordQueryGeneric } from "../../types.js";
+
+const fluentSchema = fluentSchemaObject.default;
 
 const words = async (fastify: FastifyInstance): Promise<void> => {
+  const QuerySchema = fluentSchema
+    .object()
+    .prop("id", fluentSchema.string().required());
+
+  fastify.get<WordQueryGeneric>(
+    "/",
+    { schema: { querystring: QuerySchema } },
+    async function saveWord(request, reply) {
+      const { id } = request.query;
+
+      const pdfResult = await Pdf.findById(id, "data -_id");
+
+      return await reply.send(pdfResult?.data);
+    }
+  );
+
   fastify.post("/", async function words(request, reply) {
     const corpus = this.corpus;
 
