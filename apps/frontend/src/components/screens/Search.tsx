@@ -78,9 +78,9 @@ const Search = () => {
 
   if (loading)
     return (
-      <View style={styles.container}>
+      <View style={styles.loadingContainer}>
         <ProgressBar indeterminate style={styles.loadingBar} />
-        <Text>{message}</Text>
+        <Text variant="headlineMedium">{message}</Text>
       </View>
     );
 
@@ -114,6 +114,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     justifyContent: "center",
+  },
+  loadingContainer: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingBar: {
     height: 20,
