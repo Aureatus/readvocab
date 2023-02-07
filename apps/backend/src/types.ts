@@ -57,6 +57,12 @@ export interface WordGeneric extends RequestGenericInterface {
   Body: DefinitionWord;
 }
 
+export interface WordQueryGeneric extends RequestGenericInterface {
+  Querystring: {
+    id: string;
+  };
+}
+
 export interface SearchGeneric extends RequestGenericInterface {
   Querystring: {
     searchTerm: string;
