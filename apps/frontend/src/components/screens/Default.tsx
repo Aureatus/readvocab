@@ -13,6 +13,7 @@ import HeaderRight from "../Header/HeaderRight";
 import useUserContext from "../../library/hooks/useUserContext";
 import SavedWordsContext from "../../library/context/SavedWordsContext";
 import getSavedWords from "../../library/helpers/network/getSavedWords";
+import Search from "./Search";
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
@@ -54,6 +55,19 @@ const Default = () => {
             tabBarIcon: ({ focused, color, size }) => (
               <Ionicons
                 name={focused ? "home" : "home-outline"}
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Screen
+          name="Search"
+          component={Search}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => (
+              <Ionicons
+                name={focused ? "search" : "search-outline"}
                 size={size}
                 color={color}
               />
