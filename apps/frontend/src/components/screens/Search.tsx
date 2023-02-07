@@ -14,6 +14,7 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState<Error | undefined>(undefined);
   const [noResults, setNoResults] = useState(false);
 
   const {
@@ -52,12 +53,18 @@ const Search = () => {
       return setNoResults(false);
     }
     (async () => {
-      const result = getSearchedPDFs(searchQuery);
-      setSearchLoading(true);
-      if ((await result).length === 0) setNoResults(true);
-      if ((await result).length !== 0) setNoResults(false);
-      setSearchResults(await result);
-      setSearchLoading(false);
+      try {
+        const result = getSearchedPDFs(searchQuery);
+        setSearchLoading(true);
+        if ((await result).length === 0) setNoResults(true);
+        if ((await result).length !== 0) setNoResults(false);
+        setSearchResults(await result);
+      } catch (err) {
+        if (err instanceof Error) setSearchError(err);
+        else return;
+      } finally {
+        setSearchLoading(false);
+      }
     })();
   }, [searchQuery]);
 
@@ -74,7 +81,19 @@ const Search = () => {
         textColor: colors.inverseSurface,
       });
     }
-  }, [wordDataError, colors]);
+    if (searchError instanceof Error) {
+      Toast.show(searchError?.message, {
+        position: Toast.positions.TOP,
+        containerStyle: {
+          borderColor: colors.error,
+          borderWidth: 2,
+          backgroundColor: colors.errorContainer,
+          paddingHorizontal: 20,
+        },
+        textColor: colors.inverseSurface,
+      });
+    }
+  }, [wordDataError, searchError, colors]);
 
   if (loading)
     return (
