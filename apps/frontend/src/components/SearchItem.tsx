@@ -17,7 +17,7 @@ const SearchItem = ({
         <Text variant="titleLarge">
           {creator.length > 1
             ? creator.map((e, index) =>
-                !(index === creator.length - 1) ? `${e} & ` : e
+                !(index === creator.length - 1) ? `${e}, ` : e
               )
             : creator}
         </Text>
