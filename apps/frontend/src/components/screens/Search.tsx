@@ -110,6 +110,7 @@ const Search = () => {
         value={searchQuery}
         onChangeText={(query) => setSearchQuery(query)}
         loading={searchLoading}
+        style={styles.searchBar}
       />
       {noResults ? (
         <View style={styles.container}>
@@ -133,6 +134,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     justifyContent: "center",
+  },
+  searchBar: {
+    margin: 20,
   },
   loadingContainer: {
     display: "flex",
