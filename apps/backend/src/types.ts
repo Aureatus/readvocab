@@ -56,3 +56,9 @@ export interface SignupGeneric extends RequestGenericInterface {
 export interface WordGeneric extends RequestGenericInterface {
   Body: DefinitionWord;
 }
+
+export interface SearchGeneric extends RequestGenericInterface {
+  Querystring: {
+    searchTerm: string;
+  };
+}
