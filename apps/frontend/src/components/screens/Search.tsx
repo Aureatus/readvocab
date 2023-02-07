@@ -13,6 +13,7 @@ import type { SearchResult } from "../../types/dataTypes";
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   const {
     setWordData,
@@ -46,7 +47,12 @@ const Search = () => {
 
   useEffect(() => {
     if (searchQuery === "") return;
-    (async () => setSearchResults(await getSearchedPDFs(searchQuery)))();
+    (async () => {
+      const result = getSearchedPDFs(searchQuery);
+      setSearchLoading(true);
+      setSearchResults(await result);
+      setSearchLoading(false);
+    })();
   }, [searchQuery]);
 
   useEffect(() => {
@@ -78,6 +84,7 @@ const Search = () => {
         placeholder="Search PDFs"
         value={searchQuery}
         onChangeText={(query) => setSearchQuery(query)}
+        loading={searchLoading}
       />
       <FlatList
         data={searchResults}
