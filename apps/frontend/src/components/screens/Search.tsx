@@ -73,7 +73,7 @@ const Search = () => {
     );
 
   return (
-    <View style={styles.container}>
+    <View>
       <Searchbar
         placeholder="Search PDFs"
         value={searchQuery}
