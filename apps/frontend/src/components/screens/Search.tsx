@@ -14,6 +14,7 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [noResults, setNoResults] = useState(false);
 
   const {
     setWordData,
@@ -46,10 +47,15 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if (searchQuery === "") setSearchResults([]);
+    if (searchQuery === "") {
+      setSearchResults([]);
+      return setNoResults(false);
+    }
     (async () => {
       const result = getSearchedPDFs(searchQuery);
       setSearchLoading(true);
+      if ((await result).length === 0) setNoResults(true);
+      if ((await result).length !== 0) setNoResults(false);
       setSearchResults(await result);
       setSearchLoading(false);
     })();
@@ -79,18 +85,26 @@ const Search = () => {
     );
 
   return (
-    <View>
+    <View style={styles.container}>
       <Searchbar
         placeholder="Search PDFs"
         value={searchQuery}
         onChangeText={(query) => setSearchQuery(query)}
         loading={searchLoading}
       />
-      <FlatList
-        data={searchResults}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
-      />
+      {noResults ? (
+        <View style={styles.container}>
+          <Text variant="displaySmall" style={styles.noResultsText}>
+            No results found.
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={searchResults}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+        />
+      )}
     </View>
   );
 };
@@ -100,11 +114,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
   },
   loadingBar: {
     height: 20,
     width: Dimensions.get("window").width / 1.5,
+  },
+  noResultsText: {
+    alignSelf: "center",
   },
 });
 
