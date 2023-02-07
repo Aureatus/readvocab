@@ -46,7 +46,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if (searchQuery === "") return;
+    if (searchQuery === "") setSearchResults([]);
     (async () => {
       const result = getSearchedPDFs(searchQuery);
       setSearchLoading(true);
