@@ -11,7 +11,7 @@ import {
 } from "react-native-paper";
 import Toast from "react-native-root-toast";
 
-import getSearchedPDF from "../../library/helpers/network/getSearchedPDF";
+import getSearchedPDFs from "../../library/helpers/network/getSearchedPDFs";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
 
 import type { SearchResult } from "../../types/dataTypes";
@@ -53,7 +53,7 @@ const Search = ({ navigation: { navigate } }: SearchProps) => {
 
   useEffect(() => {
     if (searchQuery === "") return;
-    (async () => setSearchResults(await getSearchedPDF(searchQuery)))();
+    (async () => setSearchResults(await getSearchedPDFs(searchQuery)))();
   }, [searchQuery]);
 
   useEffect(() => {

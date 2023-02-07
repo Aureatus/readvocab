@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 
-const getSearchedPDF = async (searchQuery: string) => {
+const getSearchedPDFs = async (searchQuery: string) => {
   const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
   const url = `${apiUrl}/words/search${
     "?" + new URLSearchParams({ searchTerm: searchQuery })
@@ -24,4 +24,4 @@ const getSearchedPDF = async (searchQuery: string) => {
   return await response.json();
 };
 
-export default getSearchedPDF;
+export default getSearchedPDFs;
