@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import {
-  Button,
-  ProgressBar,
-  Searchbar,
-  Text,
-  useTheme,
-} from "react-native-paper";
+import { ProgressBar, Searchbar, Text, useTheme } from "react-native-paper";
 import Toast from "react-native-root-toast";
 
+import SearchItem from "../SearchItem";
 import getSearchedPDFs from "../../library/helpers/network/getSearchedPDFs";
 import getWordsById from "../../library/helpers/network/getWordsById";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
@@ -31,7 +26,9 @@ const Search = () => {
 
   const renderItem = ({ item }: { item: SearchResult }) => {
     return (
-      <Button
+      <SearchItem
+        title={item.title}
+        creator={item.creator}
         onPress={async () => {
           try {
             setWordDataLoading({ loading: true, message: "Getting words" });
@@ -43,18 +40,7 @@ const Search = () => {
             setWordDataLoading({ loading: false });
           }
         }}
-      >
-        <View>
-          <Text>{item.title}</Text>
-          <Text>
-            {item.creator.length > 1
-              ? item.creator.map((e, index) =>
-                  !(index === item.creator.length - 1) ? `${e} & ` : e
-                )
-              : item.creator}
-          </Text>
-        </View>
-      </Button>
+      />
     );
   };
 
