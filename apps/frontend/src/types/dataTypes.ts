@@ -10,6 +10,12 @@ export type DefinitionWord = {
   definition: string;
 };
 
+export type SearchResult = {
+  _id: string;
+  creator: string[];
+  title: string;
+};
+
 export type LoadingData = {
   loading: boolean;
   message?: string;
