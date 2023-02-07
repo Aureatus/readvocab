@@ -10,6 +10,7 @@ import type {
 
 export type TabParamList = {
   Home: undefined;
+  Search: undefined;
   WordList: undefined;
   SavedList: undefined;
 };
@@ -17,6 +18,8 @@ export type TabParamList = {
 export type HomeProps = BottomTabScreenProps<TabParamList, "Home">;
 
 export type WordListProps = BottomTabScreenProps<TabParamList, "WordList">;
+
+export type SearchProps = BottomTabScreenProps<TabParamList, "Search">;
 
 export type StackParamList = {
   Default: undefined;
