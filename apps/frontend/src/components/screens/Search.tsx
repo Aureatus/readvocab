@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { Searchbar, Text } from "react-native-paper";
+import { Button, Searchbar, Text } from "react-native-paper";
 import getSearchedPDF from "../../library/helpers/network/getSearchedPDF";
 import type { SearchResult } from "../../types/dataTypes";
 const Search = () => {
@@ -9,17 +9,19 @@ const Search = () => {
 
   const renderItem = ({ item }: { item: SearchResult }) => {
     return (
-      <View>
-        <Text>{item._id}</Text>
-        <Text>{item.title}</Text>
-        <Text>
-          {item.creator.length > 1
-            ? item.creator.map((e, index) =>
-                !(index === item.creator.length - 1) ? `${e} & ` : e
-              )
-            : item.creator}
-        </Text>
-      </View>
+      <Button onPress={() => console.log(item._id)}>
+        <View>
+          <Text>{item._id}</Text>
+          <Text>{item.title}</Text>
+          <Text>
+            {item.creator.length > 1
+              ? item.creator.map((e, index) =>
+                  !(index === item.creator.length - 1) ? `${e} & ` : e
+                )
+              : item.creator}
+          </Text>
+        </View>
+      </Button>
     );
   };
 
