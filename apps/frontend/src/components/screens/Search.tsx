@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { Searchbar, Text, useTheme } from "react-native-paper";
-import Toast from "react-native-root-toast";
 
 import type { SearchResult } from "../../types/dataTypes";
 
@@ -9,6 +8,7 @@ import SearchItem from "../SearchItem";
 import getSearchedPDFs from "../../library/helpers/network/getSearchedPDFs";
 import getWordsById from "../../library/helpers/network/getWordsById";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
+import displayError from "../../library/helpers/displayError";
 import LoadingScreen from "../LoadingScreen";
 
 const Search = () => {
@@ -70,31 +70,12 @@ const Search = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    if (wordDataError instanceof Error) {
-      Toast.show(wordDataError?.message, {
-        position: Toast.positions.TOP,
-        containerStyle: {
-          borderColor: colors.error,
-          borderWidth: 2,
-          backgroundColor: colors.errorContainer,
-          paddingHorizontal: 20,
-        },
-        textColor: colors.inverseSurface,
-      });
-    }
-    if (searchError instanceof Error) {
-      Toast.show(searchError?.message, {
-        position: Toast.positions.TOP,
-        containerStyle: {
-          borderColor: colors.error,
-          borderWidth: 2,
-          backgroundColor: colors.errorContainer,
-          paddingHorizontal: 20,
-        },
-        textColor: colors.inverseSurface,
-      });
-    }
-  }, [wordDataError, searchError, colors]);
+    if (wordDataError instanceof Error) displayError(colors, wordDataError);
+  }, [colors, wordDataError]);
+
+  useEffect(() => {
+    if (searchError instanceof Error) displayError(colors, searchError);
+  }, [colors, searchError]);
 
   if (loading) return <LoadingScreen message={message} />;
 
