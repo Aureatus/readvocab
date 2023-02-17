@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import { ProgressBar, Searchbar, Text, useTheme } from "react-native-paper";
+import { View, StyleSheet, FlatList } from "react-native";
+import { Searchbar, Text, useTheme } from "react-native-paper";
 import Toast from "react-native-root-toast";
+
+import type { SearchResult } from "../../types/dataTypes";
 
 import SearchItem from "../SearchItem";
 import getSearchedPDFs from "../../library/helpers/network/getSearchedPDFs";
 import getWordsById from "../../library/helpers/network/getWordsById";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
-
-import type { SearchResult } from "../../types/dataTypes";
+import LoadingScreen from "../LoadingScreen";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -95,13 +96,7 @@ const Search = () => {
     }
   }, [wordDataError, searchError, colors]);
 
-  if (loading)
-    return (
-      <View style={styles.loadingContainer}>
-        <ProgressBar indeterminate style={styles.loadingBar} />
-        <Text variant="headlineMedium">{message}</Text>
-      </View>
-    );
+  if (loading) return <LoadingScreen message={message} />;
 
   return (
     <View style={styles.container}>
@@ -137,16 +132,6 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     margin: 20,
-  },
-  loadingContainer: {
-    display: "flex",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingBar: {
-    height: 20,
-    width: Dimensions.get("window").width / 1.5,
   },
   noResultsText: {
     alignSelf: "center",

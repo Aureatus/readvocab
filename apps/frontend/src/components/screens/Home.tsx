@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import {
-  ProgressBar,
   Button,
   Surface,
   Text,
@@ -17,6 +16,7 @@ import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
+import LoadingScreen from "../LoadingScreen";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
   const {
@@ -53,13 +53,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     }
   }, [wordDataError, colors]);
 
-  if (loading)
-    return (
-      <View style={styles.container}>
-        <ProgressBar indeterminate style={styles.loadingBar} />
-        <Text>{message}</Text>
-      </View>
-    );
+  if (loading) return <LoadingScreen message={message} />;
 
   return (
     <View style={styles.container}>
@@ -145,10 +139,6 @@ const styles = StyleSheet.create({
     padding: Dimensions.get("window").width / 6,
 
     borderRadius: 20,
-  },
-  loadingBar: {
-    height: 20,
-    width: Dimensions.get("window").width / 1.5,
   },
   orText: {
     alignSelf: "center",
