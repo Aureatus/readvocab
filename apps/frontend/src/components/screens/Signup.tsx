@@ -9,12 +9,12 @@ import {
   Divider,
   useTheme,
 } from "react-native-paper";
-import Toast from "react-native-root-toast";
 
 import type { SignupProps } from "../../types/navigationTypes";
 
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/useUserContext";
+import displayError from "../../library/helpers/displayError";
 
 const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {
   const [email, setEmail] = useState("");
@@ -36,19 +36,8 @@ const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {
   const { colors } = useTheme();
 
   useEffect(() => {
-    if (otherError instanceof Error) {
-      Toast.show(otherError?.message, {
-        position: Toast.positions.TOP,
-        containerStyle: {
-          borderColor: colors.error,
-          borderWidth: 2,
-          backgroundColor: colors.errorContainer,
-          paddingHorizontal: 20,
-        },
-        textColor: colors.inverseSurface,
-      });
-    }
-  }, [otherError, colors]);
+    if (otherError instanceof Error) displayError(colors, otherError);
+  }, [colors, otherError]);
 
   return (
     <View style={styles.container}>

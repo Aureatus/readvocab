@@ -8,7 +8,6 @@ import {
   Portal,
   useTheme,
 } from "react-native-paper";
-import Toast from "react-native-root-toast";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
@@ -16,6 +15,7 @@ import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import useWordDataContext from "../../library/hooks/useWordDataContext";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
+import displayError from "../../library/helpers/displayError";
 import LoadingScreen from "../LoadingScreen";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
@@ -39,19 +39,8 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
   }, [wordData]);
 
   useEffect(() => {
-    if (wordDataError instanceof Error) {
-      Toast.show(wordDataError?.message, {
-        position: Toast.positions.TOP,
-        containerStyle: {
-          borderColor: colors.error,
-          borderWidth: 2,
-          backgroundColor: colors.errorContainer,
-          paddingHorizontal: 20,
-        },
-        textColor: colors.inverseSurface,
-      });
-    }
-  }, [wordDataError, colors]);
+    if (wordDataError instanceof Error) displayError(colors, wordDataError);
+  }, [colors, wordDataError]);
 
   if (loading) return <LoadingScreen message={message} />;
 
