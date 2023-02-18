@@ -1,5 +1,5 @@
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text, TouchableRipple } from "react-native-paper";
 
 const SearchItem = ({
   creator,
@@ -11,7 +11,7 @@ const SearchItem = ({
   onPress: () => Promise<void>;
 }) => {
   return (
-    <Button onPress={onPress} mode="text">
+    <TouchableRipple onPress={onPress} style={styles.touchableRipple}>
       <View style={styles.container}>
         <Text variant="headlineMedium">{title}</Text>
         <Text variant="titleLarge">
@@ -22,7 +22,7 @@ const SearchItem = ({
             : creator}
         </Text>
       </View>
-    </Button>
+    </TouchableRipple>
   );
 };
 
@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     width: Dimensions.get("window").width,
+  },
+  touchableRipple: {
+    paddingHorizontal: Dimensions.get("window").width / 60,
   },
 });
 
