@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { Searchbar, Text, useTheme } from "react-native-paper";
 
 import type { SearchResult } from "../../types/dataTypes";
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   searchBar: {
-    margin: 20,
+    margin: Dimensions.get("window").width / 60,
   },
   noResultsText: {
     alignSelf: "center",
