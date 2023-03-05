@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import {
-  Button,
-  Surface,
-  Text,
-  Dialog,
-  Portal,
-  useTheme,
-} from "react-native-paper";
+import { Button, Surface, Text, Dialog, Portal } from "react-native-paper";
 
 import type { HomeProps } from "../../types/navigationTypes";
 
 import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
-import useWordDataContext from "../../library/hooks/useWordDataContext";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
-import displayError from "../../library/helpers/displayError";
+import useWordDataContext from "../../library/hooks/useWordDataContext";
 import LoadingScreen from "../LoadingScreen";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
@@ -24,23 +16,16 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     setWordData,
     wordDataLoading: { loading, message },
     setWordDataLoading,
-    wordDataError,
     setWordDataError,
   } = useWordDataContext();
 
   const [dialogVisible, setDialogVisible] = useState(false);
-
-  const { colors } = useTheme();
 
   useEffect(() => {
     if (wordData.length !== 0) {
       setDialogVisible(true);
     }
   }, [wordData]);
-
-  useEffect(() => {
-    if (wordDataError instanceof Error) displayError(colors, wordDataError);
-  }, [colors, wordDataError]);
 
   if (loading) return <LoadingScreen message={message} />;
 

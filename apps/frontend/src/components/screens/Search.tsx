@@ -22,7 +22,6 @@ const Search = () => {
     setWordData,
     wordDataLoading: { loading, message },
     setWordDataLoading,
-    wordDataError,
     setWordDataError,
   } = useWordDataContext();
 
@@ -68,10 +67,6 @@ const Search = () => {
       }
     })();
   }, [searchQuery]);
-
-  useEffect(() => {
-    if (wordDataError instanceof Error) displayError(colors, wordDataError);
-  }, [colors, wordDataError]);
 
   useEffect(() => {
     if (searchError instanceof Error) displayError(colors, searchError);

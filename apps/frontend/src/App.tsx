@@ -16,17 +16,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootSiblingParent } from "react-native-root-siblings";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import type { DefinitionWord, LoadingData } from "./types/dataTypes";
-
 import WordDataContext from "./library/context/WordDataContext";
 import UserContext from "./library/context/UserContext";
+import ThemeContext from "./library/context/ThemeContext";
+import useThemePreference from "./library/hooks/useThemePreference";
+import useCallbackWordData from "./library/hooks/useCallbackWordData";
 import Login from "./components/screens/Login";
 import Signup from "./components/screens/Signup";
 import Default from "./components/screens/Default";
 import type { StackParamList } from "./types/navigationTypes";
 import type { ThemeProp } from "react-native-paper/lib/typescript/types";
-import ThemeContext from "./library/context/ThemeContext";
-import useThemePreference from "./library/hooks/useThemePreference";
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
@@ -38,11 +37,15 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 export default function App() {
   const [user, setUser] = useState<string | null>(null);
   const { isThemeDark, setIsThemeDark } = useThemePreference();
-  const [wordData, setWordData] = useState<DefinitionWord[]>([]);
-  const [wordDataLoading, setWordDataLoading] = useState<LoadingData>({
-    loading: false,
-  });
-  const [wordDataError, setWordDataError] = useState<Error | undefined>();
+
+  const {
+    wordData,
+    setWordData,
+    wordDataLoading,
+    setWordDataLoading,
+    wordDataError,
+    setWordDataError,
+  } = useCallbackWordData();
 
   const toggleTheme = useCallback(() => {
     return setIsThemeDark(!isThemeDark);
