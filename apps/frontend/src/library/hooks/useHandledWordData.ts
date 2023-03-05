@@ -5,7 +5,7 @@ import type { DefinitionWord, LoadingData } from "../../types/dataTypes";
 
 import displayError from "../helpers/displayError";
 
-const useCallbackWordData = () => {
+const useHandledWordData = () => {
   const { colors } = useTheme();
 
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
@@ -28,4 +28,4 @@ const useCallbackWordData = () => {
   };
 };
 
-export default useCallbackWordData;
+export default useHandledWordData;
