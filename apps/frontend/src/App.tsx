@@ -20,7 +20,7 @@ import WordDataContext from "./library/context/WordDataContext";
 import UserContext from "./library/context/UserContext";
 import ThemeContext from "./library/context/ThemeContext";
 import useThemePreference from "./library/hooks/useThemePreference";
-import useCallbackWordData from "./library/hooks/useCallbackWordData";
+import useCallbackWordData from "./library/hooks/useHandledWordData";
 import Login from "./components/screens/Login";
 import Signup from "./components/screens/Signup";
 import Default from "./components/screens/Default";
