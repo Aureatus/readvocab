@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import {
   Button,
@@ -7,33 +6,30 @@ import {
   Text,
   Surface,
   Divider,
-  useTheme,
 } from "react-native-paper";
 
 import type { LoginProps } from "../../types/navigationTypes";
 
 import login from "../../library/helpers/login";
 import useUserContext from "../../library/hooks/useUserContext";
-import displayError from "../../library/helpers/displayError";
+import useHandledLoginData from "../../library/hooks/useHandledLoginData";
 
 const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState<Error | null>(null);
-
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState<Error | null>(null);
-
-  const [otherError, setOtherError] = useState<Error | null>(null);
-
-  const [loading, setLoading] = useState(false);
+  const {
+    email,
+    setEmail,
+    emailError,
+    setEmailError,
+    password,
+    setPassword,
+    passwordError,
+    setPasswordError,
+    setOtherError,
+    loading,
+    setLoading,
+  } = useHandledLoginData();
 
   const { setUser } = useUserContext();
-
-  const { colors } = useTheme();
-
-  useEffect(() => {
-    if (otherError instanceof Error) displayError(colors, otherError);
-  }, [colors, otherError]);
 
   return (
     <View style={styles.container}>
