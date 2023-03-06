@@ -11,7 +11,7 @@ import {
 import type { LoginProps } from "../../types/navigationTypes";
 
 import login from "../../library/helpers/login";
-import useUserContext from "../../library/hooks/useUserContext";
+import useUserContext from "../../library/hooks/context/useUserContext";
 import useHandledLoginData from "../../library/hooks/useHandledLoginData";
 
 const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {

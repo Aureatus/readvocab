@@ -10,7 +10,7 @@ import WordList from "./WordList";
 import SavedList from "./SavedList";
 import HeaderTitle from "../Header/HeaderTitle";
 import HeaderRight from "../Header/HeaderRight";
-import useUserContext from "../../library/hooks/useUserContext";
+import useUserContext from "../../library/hooks/context/useUserContext";
 import SavedWordsContext from "../../library/context/SavedWordsContext";
 import getSavedWords from "../../library/helpers/network/getSavedWords";
 import Search from "./Search";

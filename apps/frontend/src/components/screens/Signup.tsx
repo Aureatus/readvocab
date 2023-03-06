@@ -11,7 +11,7 @@ import {
 import type { SignupProps } from "../../types/navigationTypes";
 
 import signup from "../../library/helpers/signup";
-import useUserContext from "../../library/hooks/useUserContext";
+import useUserContext from "../../library/hooks/context/useUserContext";
 import useHandledSignupData from "../../library/hooks/useHandledSignupData";
 
 const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {

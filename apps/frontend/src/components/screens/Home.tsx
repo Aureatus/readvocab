@@ -7,7 +7,7 @@ import type { HomeProps } from "../../types/navigationTypes";
 import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
-import useWordDataContext from "../../library/hooks/useWordDataContext";
+import useWordDataContext from "../../library/hooks/context/useWordDataContext";
 import LoadingScreen from "../LoadingScreen";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {

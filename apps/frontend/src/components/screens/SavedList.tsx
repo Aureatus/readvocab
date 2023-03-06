@@ -4,8 +4,8 @@ import { Button, Text } from "react-native-paper";
 import type { DefinitionWord } from "../../types/dataTypes";
 
 import SavedWordItem from "../SavedWordItem";
-import useUserContext from "../../library/hooks/useUserContext";
-import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
+import useUserContext from "../../library/hooks/context/useUserContext";
+import useSavedWordsContext from "../../library/hooks/context/useSavedWordsContext";
 import deleteWord from "../../library/helpers/deleteWord";
 import getSavedWords from "../../library/helpers/network/getSavedWords";
 

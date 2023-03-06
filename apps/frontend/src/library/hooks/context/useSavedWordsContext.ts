@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import SavedWordsContext from "../context/SavedWordsContext";
+import SavedWordsContext from "../../context/SavedWordsContext";
 
 const useSavedWordsContext = () => {
   const context = useContext(SavedWordsContext);

@@ -4,7 +4,7 @@ import { Searchbar, Text } from "react-native-paper";
 import type { SearchResult } from "../../types/dataTypes";
 
 import getWordsById from "../../library/helpers/network/getWordsById";
-import useWordDataContext from "../../library/hooks/useWordDataContext";
+import useWordDataContext from "../../library/hooks/context/useWordDataContext";
 import useHandledSearchData from "../../library/hooks/useHandledSearchData";
 import LoadingScreen from "../LoadingScreen";
 import SearchItem from "../SearchItem";
