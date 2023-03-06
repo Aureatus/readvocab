@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import {
   Button,
@@ -7,37 +6,34 @@ import {
   Text,
   Surface,
   Divider,
-  useTheme,
 } from "react-native-paper";
 
 import type { SignupProps } from "../../types/navigationTypes";
 
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/useUserContext";
-import displayError from "../../library/helpers/displayError";
+import useHandledSignupData from "../../library/hooks/useHandledSignupData";
 
 const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState<Error | null>(null);
-
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState<Error | null>(null);
-
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] =
-    useState<Error | null>(null);
-
-  const [otherError, setOtherError] = useState<Error | null>(null);
-
-  const [loading, setLoading] = useState(false);
+  const {
+    email,
+    setEmail,
+    emailError,
+    setEmailError,
+    password,
+    setPassword,
+    passwordError,
+    setPasswordError,
+    confirmPassword,
+    setConfirmPassword,
+    confirmPasswordError,
+    setConfirmPasswordError,
+    setOtherError,
+    loading,
+    setLoading,
+  } = useHandledSignupData();
 
   const { setUser } = useUserContext();
-
-  const { colors } = useTheme();
-
-  useEffect(() => {
-    if (otherError instanceof Error) displayError(colors, otherError);
-  }, [colors, otherError]);
 
   return (
     <View style={styles.container}>
