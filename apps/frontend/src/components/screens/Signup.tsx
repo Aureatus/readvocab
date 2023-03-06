@@ -12,7 +12,7 @@ import type { SignupProps } from "../../types/navigationTypes";
 
 import signup from "../../library/helpers/signup";
 import useUserContext from "../../library/hooks/context/useUserContext";
-import useHandledSignupData from "../../library/hooks/useHandledSignupData";
+import useSignupData from "../../library/hooks/useSignupData";
 
 const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {
   const {
@@ -31,7 +31,7 @@ const Signup = ({ navigation: { pop, navigate } }: SignupProps) => {
     setOtherError,
     loading,
     setLoading,
-  } = useHandledSignupData();
+  } = useSignupData();
 
   const { setUser } = useUserContext();
 

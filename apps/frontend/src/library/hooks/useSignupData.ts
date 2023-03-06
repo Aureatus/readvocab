@@ -3,7 +3,7 @@ import { useTheme } from "react-native-paper";
 
 import displayError from "../helpers/displayError";
 
-const useHandledSignupData = () => {
+const useSignupData = () => {
   const { colors } = useTheme();
 
   const [email, setEmail] = useState("");
@@ -44,4 +44,4 @@ const useHandledSignupData = () => {
   };
 };
 
-export default useHandledSignupData;
+export default useSignupData;

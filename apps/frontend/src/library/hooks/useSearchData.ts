@@ -6,7 +6,7 @@ import type { SearchResult } from "../../types/dataTypes";
 import displayError from "../helpers/displayError";
 import getSearchedPDFs from "../helpers/network/getSearchedPDFs";
 
-const useHandledSearchData = () => {
+const useSearchData = () => {
   const { colors } = useTheme();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,4 +54,4 @@ const useHandledSearchData = () => {
   };
 };
 
-export default useHandledSearchData;
+export default useSearchData;

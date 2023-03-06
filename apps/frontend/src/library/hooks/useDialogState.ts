@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import type { DefinitionWord } from "../../types/dataTypes";
 
-const useHandledDialogState = (wordData: DefinitionWord[]) => {
+const useDialogState = (wordData: DefinitionWord[]) => {
   const [dialogVisible, setDialogVisible] = useState(false);
 
   useEffect(() => {
@@ -17,4 +17,4 @@ const useHandledDialogState = (wordData: DefinitionWord[]) => {
   };
 };
 
-export default useHandledDialogState;
+export default useDialogState;

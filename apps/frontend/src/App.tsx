@@ -20,7 +20,7 @@ import WordDataContext from "./library/context/WordDataContext";
 import UserContext from "./library/context/UserContext";
 import ThemeContext from "./library/context/ThemeContext";
 import useThemePreference from "./library/hooks/useThemePreference";
-import useHandledWordData from "./library/hooks/useHandledWordData";
+import useWordData from "./library/hooks/useWordData";
 import Login from "./components/screens/Login";
 import Signup from "./components/screens/Signup";
 import Default from "./components/screens/Default";
@@ -45,7 +45,7 @@ export default function App() {
     setWordDataLoading,
     wordDataError,
     setWordDataError,
-  } = useHandledWordData();
+  } = useWordData();
 
   const toggleTheme = useCallback(() => {
     return setIsThemeDark(!isThemeDark);

@@ -5,7 +5,7 @@ import type { SearchResult } from "../../types/dataTypes";
 
 import getWordsById from "../../library/helpers/network/getWordsById";
 import useWordDataContext from "../../library/hooks/context/useWordDataContext";
-import useHandledSearchData from "../../library/hooks/useHandledSearchData";
+import useSearchData from "../../library/hooks/useSearchData";
 import LoadingScreen from "../LoadingScreen";
 import SearchItem from "../SearchItem";
 
@@ -23,7 +23,7 @@ const Search = () => {
     searchResults,
     searchLoading,
     noResults,
-  } = useHandledSearchData();
+  } = useSearchData();
 
   const renderItem = ({ item }: { item: SearchResult }) => {
     return (

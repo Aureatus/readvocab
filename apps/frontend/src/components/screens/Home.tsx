@@ -7,7 +7,7 @@ import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
 import useWordDataContext from "../../library/hooks/context/useWordDataContext";
-import useHandledDialogState from "../../library/hooks/useHandledDialogState";
+import useDialogState from "../../library/hooks/useDialogState";
 import LoadingScreen from "../LoadingScreen";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
@@ -19,7 +19,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     setWordDataError,
   } = useWordDataContext();
 
-  const { dialogVisible, setDialogVisible } = useHandledDialogState(wordData);
+  const { dialogVisible, setDialogVisible } = useDialogState(wordData);
 
   if (loading) return <LoadingScreen message={message} />;
 

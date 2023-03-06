@@ -12,7 +12,7 @@ import type { LoginProps } from "../../types/navigationTypes";
 
 import login from "../../library/helpers/login";
 import useUserContext from "../../library/hooks/context/useUserContext";
-import useHandledLoginData from "../../library/hooks/useHandledLoginData";
+import useLoginData from "../../library/hooks/useLoginData";
 
 const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
   const {
@@ -27,7 +27,7 @@ const Login = ({ navigation: { goBack, navigate } }: LoginProps) => {
     setOtherError,
     loading,
     setLoading,
-  } = useHandledLoginData();
+  } = useLoginData();
 
   const { setUser } = useUserContext();
 

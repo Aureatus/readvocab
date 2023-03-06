@@ -11,14 +11,14 @@ import HeaderTitle from "../Header/HeaderTitle";
 import HeaderRight from "../Header/HeaderRight";
 import useUserContext from "../../library/hooks/context/useUserContext";
 import SavedWordsContext from "../../library/context/SavedWordsContext";
-import useHandledSavedWords from "../../library/hooks/useHandledSavedWords";
+import useSavedWordsData from "../../library/hooks/useSavedWordsData";
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
 const Default = () => {
   const { user } = useUserContext();
   const { savedWords, setSavedWords, savedWordsError, setSavedWordsError } =
-    useHandledSavedWords(user);
+    useSavedWordsData(user);
 
   return (
     <SavedWordsContext.Provider

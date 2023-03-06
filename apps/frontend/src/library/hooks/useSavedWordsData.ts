@@ -4,7 +4,7 @@ import type { DefinitionWord } from "../../types/dataTypes";
 
 import getSavedWords from "../helpers/network/getSavedWords";
 
-const useHandledSavedWords = (user: string | null) => {
+const useSavedWordsData = (user: string | null) => {
   const [savedWords, setSavedWords] = useState<DefinitionWord[]>([]);
   const [savedWordsError, setSavedWordsError] = useState<Error | null>(null);
 
@@ -31,4 +31,4 @@ const useHandledSavedWords = (user: string | null) => {
   };
 };
 
-export default useHandledSavedWords;
+export default useSavedWordsData;

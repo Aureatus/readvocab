@@ -5,7 +5,7 @@ import type { DefinitionWord, LoadingData } from "../../types/dataTypes";
 
 import displayError from "../helpers/displayError";
 
-const useHandledWordData = () => {
+const useWordData = () => {
   const { colors } = useTheme();
 
   const [wordData, setWordData] = useState<DefinitionWord[]>([]);
@@ -28,4 +28,4 @@ const useHandledWordData = () => {
   };
 };
 
-export default useHandledWordData;
+export default useWordData;
