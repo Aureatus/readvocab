@@ -4,10 +4,10 @@ import { Text } from "react-native-paper";
 import type { DefinitionWord } from "../../types/dataTypes";
 
 import WordItem from "../WordItem";
-import useWordDataContext from "../../library/hooks/useWordDataContext";
+import useWordDataContext from "../../library/hooks/context/useWordDataContext";
 import saveWord from "../../library/helpers/saveWord";
-import useUserContext from "../../library/hooks/useUserContext";
-import useSavedWordsContext from "../../library/hooks/useSavedWordsContext";
+import useUserContext from "../../library/hooks/context/useUserContext";
+import useSavedWordsContext from "../../library/hooks/context/useSavedWordsContext";
 import deleteWord from "../../library/helpers/deleteWord";
 
 const WordList = () => {

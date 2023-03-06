@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import WordDataContext from "../context/WordDataContext";
+import WordDataContext from "../../context/WordDataContext";
 
 const useWordDataContext = () => {
   const context = useContext(WordDataContext);

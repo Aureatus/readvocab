@@ -5,8 +5,8 @@ import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 
 import type { HomeScreenNavigationProp } from "../../types/navigationTypes";
 
-import useUserContext from "../../library/hooks/useUserContext";
-import useThemeContext from "../../library/hooks/useThemeContext";
+import useUserContext from "../../library/hooks/context/useUserContext";
+import useThemeContext from "../../library/hooks/context/useThemeContext";
 
 const HeaderRight = () => {
   const { navigate } = useNavigation<HomeScreenNavigationProp>();

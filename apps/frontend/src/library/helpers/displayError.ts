@@ -2,7 +2,7 @@ import Toast from "react-native-root-toast";
 
 import type { MD3Colors } from "react-native-paper/lib/typescript/types";
 
-const useErrorModal = (colors: MD3Colors, error: Error) => {
+const displayError = (colors: MD3Colors, error: Error) => {
   Toast.show(error?.message, {
     position: Toast.positions.TOP,
     containerStyle: {
@@ -15,4 +15,4 @@ const useErrorModal = (colors: MD3Colors, error: Error) => {
   });
 };
 
-export default useErrorModal;
+export default displayError;
