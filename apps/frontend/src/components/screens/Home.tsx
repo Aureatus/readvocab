@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, Surface, Text, Dialog, Portal } from "react-native-paper";
 
@@ -8,6 +7,7 @@ import getFile from "../../library/helpers/getFile";
 import getWords from "../../library/helpers/getWords";
 import getRandomWords from "../../library/helpers/network/getRandomWords";
 import useWordDataContext from "../../library/hooks/context/useWordDataContext";
+import useHandledDialogState from "../../library/hooks/useHandledDialogState";
 import LoadingScreen from "../LoadingScreen";
 
 const Home = ({ navigation: { navigate } }: HomeProps) => {
@@ -19,13 +19,7 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
     setWordDataError,
   } = useWordDataContext();
 
-  const [dialogVisible, setDialogVisible] = useState(false);
-
-  useEffect(() => {
-    if (wordData.length !== 0) {
-      setDialogVisible(true);
-    }
-  }, [wordData]);
+  const { dialogVisible, setDialogVisible } = useHandledDialogState(wordData);
 
   if (loading) return <LoadingScreen message={message} />;
 
