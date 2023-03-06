@@ -1,41 +1,24 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-import type { DefinitionWord } from "../../types/dataTypes";
 import type { TabParamList } from "../../types/navigationTypes";
 
 import Home from "./Home";
 import WordList from "./WordList";
 import SavedList from "./SavedList";
+import Search from "./Search";
 import HeaderTitle from "../Header/HeaderTitle";
 import HeaderRight from "../Header/HeaderRight";
 import useUserContext from "../../library/hooks/context/useUserContext";
 import SavedWordsContext from "../../library/context/SavedWordsContext";
-import getSavedWords from "../../library/helpers/network/getSavedWords";
-import Search from "./Search";
+import useHandledSavedWords from "../../library/hooks/useHandledSavedWords";
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>();
 
 const Default = () => {
   const { user } = useUserContext();
-  const [savedWords, setSavedWords] = useState<DefinitionWord[]>([]);
-  const [savedWordsError, setSavedWordsError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      if (user === null) setSavedWords([]);
-      else {
-        try {
-          const response = await getSavedWords(user);
-          setSavedWords(response);
-          setSavedWordsError(null);
-        } catch (err) {
-          if (err instanceof Error) setSavedWordsError(err);
-        }
-      }
-    })();
-  }, [user]);
+  const { savedWords, setSavedWords, savedWordsError, setSavedWordsError } =
+    useHandledSavedWords(user);
 
   return (
     <SavedWordsContext.Provider
