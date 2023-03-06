@@ -17,56 +17,48 @@ const getWords = async (
   loadingSetter: Dispatch<SetStateAction<LoadingData>>,
   errorSetter: Dispatch<SetStateAction<Error | undefined>>
 ) => {
-  try {
-    const formData = new FormData();
-    // @ts-expect-error Ignore this error, since it's caused by a lack of type definitions for the react native FormData polyfill.
-    formData.append("pdf", file);
+  const formData = new FormData();
+  // @ts-expect-error Ignore this error, since it's caused by a lack of type definitions for the react native FormData polyfill.
+  formData.append("pdf", file);
 
-    const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
-    const url = `${apiUrl}/words`;
+  const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+  const url = `${apiUrl}/words`;
 
-    loadingSetter({ loading: true, message: "Calling API" });
-    const stream = new XMLHttpRequest();
+  loadingSetter({ loading: true, message: "Calling API" });
+  const stream = new XMLHttpRequest();
 
-    let test: undefined | string;
+  let test: undefined | string;
 
-    stream.addEventListener("progress", (e) => {
-      const { response } = e.currentTarget as XMLHttpRequest;
+  stream.addEventListener("progress", (e) => {
+    const { response } = e.currentTarget as XMLHttpRequest;
+    const newData = test === undefined ? response : response.replace(test, "");
 
-      const newData =
-        test === undefined ? response : response.replace(test, "");
+    const formattedData = parseSseTextToJSON(newData);
 
-      const formattedData = parseSseTextToJSON(newData);
+    test = response;
 
-      test = response;
-
-      if (formattedData["event"] === "loading") {
-        loadingSetter({
-          loading: true,
-          message: formattedData["data"] ?? "Loading",
-        });
-      }
-      if (formattedData["event"] === "result") {
-        if (formattedData["data"])
-          dataSetter(JSON.parse(formattedData["data"]));
-        loadingSetter({ loading: false });
-        stream.abort();
-      }
-    });
-
-    stream.addEventListener("error", (e) => {
-      throw e;
-    });
-
-    stream.open("POST", url);
-
-    stream.send(formData);
-  } catch (err) {
-    if (err instanceof Error) {
-      loadingSetter({ loading: false });
-      errorSetter(err);
+    if (formattedData["event"] === "loading") {
+      loadingSetter({
+        loading: true,
+        message: formattedData["data"] ?? "Loading",
+      });
     }
-  }
+    if (formattedData["event"] === "result") {
+      if (formattedData["data"]) dataSetter(JSON.parse(formattedData["data"]));
+      loadingSetter({ loading: false });
+      stream.abort();
+    }
+    if (formattedData["event"] === "error") {
+      loadingSetter({ loading: false });
+      errorSetter(
+        new Error(formattedData["data"] ?? "An unknown error occured")
+      );
+    }
+  });
+
+  stream.open("POST", url);
+
+  stream.send(formData);
 };
 
 export default getWords;
