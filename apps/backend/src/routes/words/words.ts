@@ -33,14 +33,13 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
 
   fastify.post("/", async function words(request, reply) {
     const corpus = this.corpus;
-
-    const file = await request.file();
-    if (file === undefined) throw Error("No file uploaded");
-    await file.toBuffer(); // Will throw error if it is over allowed file size.
-    // ONLY SEND LOADING STATE UPDATE IF TIME ELAPSED FROM LAST LOADING STATE HAS BEEN GREATER THAN 150MS.
     reply.sse(
       (async function* wordSSEGenerator() {
         try {
+          const file = await request.file();
+          if (file === undefined) throw Error("No file uploaded");
+          await file.toBuffer(); // Will throw error if it is over allowed file size.
+          // ONLY SEND LOADING STATE UPDATE IF TIME ELAPSED FROM LAST LOADING STATE HAS BEEN GREATER THAN 150MS.
           let lastLoadingEventTime = Date.now();
 
           yield { event: "loading", data: "Processing PDF" };
