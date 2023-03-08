@@ -22,16 +22,14 @@ Word rarity is based upon List 1.1, the complete list without frequency cut-offs
 - Can upload a PDF and see a list of 20 rare words from it.
 - Can see rare words from a random PDF that is in the database.
 - Can save words if logged in.
+- Can search database for uploaded PDF's.
 
 ## Roadmap
 
 - Let user select an amount of words to get.
 - Support for ebooks, and other formats that a book/long text may come in.
-- Ability to search uploaded PDF's.
 - Be able to get a list of most common words.
-
   - Following this, allow users to have separate saved word lists for rare words, and for common words.
-
 - Implement some sort of NLP library to deduce grammatical classes of words from PDF, so we can accurately get the rarity of the specific word used.
 - Allow customisation of what grammatical classes to exclude from returned result. (This one will rely largely on changes made to the corpus-word-freq package)
 
@@ -49,7 +47,7 @@ For goals with relation to the rare words refer to the `corpus-word-freq` readme
   - ~~Should be fairly easy to resolve, but to resolve it _well_ will be more difficult. I will first fix it in a way which is quick and efficient, then look onto more robust solution later down the line~~ Quick fix is now up, will create a better solution down the line.
 - Returned words are often not unique to books, due to the abundance of words in the corpus data that have a frequency of 0 per million words. This is an issue that can be resolved in a number of ways, some better for the user, but worse for the predictability of the apps function, and for the devs working on it, others inversely so.
 
-  - One of the most promising solutions at present would be to incorporate the diversity of words into the ranking of a words rarity, rather than just its frequency. This would involve using another dataset from the same source as the word frequency data. This issue would be one that is resolved wholly through the `corpus-word-freq` package, rather than the app.
+  - One of the most promising solutions at present would be to incorporate the distinctiveness of words into the ranking of a words rarity, rather than just its frequency. This would involve using another dataset from the same source as the word frequency data. This issue would be one that is resolved wholly through the `corpus-word-freq` package, rather than the app.
   - A quick and easy solution that could be hacked together whilst a better solution is being developed would be to simply get more rare words than required from the corpus, and picking a set amount of random words from it. This wouldn't be an ideal thing to implement for various reasons, so i'll avoid it if possible.
 
 - An issue that isn't a problem yet, but will become one down the line, is the fact that any updated implementations of what a rare word is would invalidate the PDF data already cached on the database, so each improvement would set the user experience back in that area. I haven't thought about this problem too much yet, and as such only have one idea as to how to offset the issues effect.
