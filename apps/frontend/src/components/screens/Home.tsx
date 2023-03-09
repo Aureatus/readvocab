@@ -54,13 +54,13 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
           onPress={() => {
             (async () => {
               try {
-                getRandomWords(
-                  setWordData,
-                  setWordDataLoading,
-                  setWordDataError
-                );
+                setWordDataLoading({ loading: true, message: "Loading" });
+                const words = await getRandomWords();
+                setWordData(words);
               } catch (err) {
                 if (err instanceof Error) setWordDataError(err);
+              } finally {
+                setWordDataLoading({ loading: false });
               }
             })();
           }}

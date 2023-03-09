@@ -1,59 +1,26 @@
 import Constants from "expo-constants";
 
-import type { Dispatch, SetStateAction } from "react";
-import type { DefinitionWord, LoadingData } from "../../../types/dataTypes";
+const getRandomWords = async () => {
+  const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
+  const url = `${apiUrl}/words/random`;
 
-import parseSseTextToJSON from "../../utils/parseSseTextToJSON";
+  const response = await fetch(url, {
+    method: "GET",
+  });
 
-const getRandomWords = async (
-  dataSetter: Dispatch<SetStateAction<DefinitionWord[]>>,
-  loadingSetter: Dispatch<SetStateAction<LoadingData>>,
-  errorSetter: Dispatch<SetStateAction<Error | undefined>>
-) => {
-  try {
-    const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
-    const url = `${apiUrl}/words/random`;
-
-    loadingSetter({ loading: true, message: "Calling API" });
-    const stream = new XMLHttpRequest();
-
-    let test: undefined | string;
-
-    stream.addEventListener("progress", (e) => {
-      const { response } = e.currentTarget as XMLHttpRequest;
-
-      const newData =
-        test === undefined ? response : response.replace(test, "");
-
-      const formattedData = parseSseTextToJSON(newData);
-
-      test = response;
-
-      if (formattedData["event"] === "loading") {
-        loadingSetter({
-          loading: true,
-          message: formattedData["data"] ?? "Loading",
-        });
-      }
-      if (formattedData["event"] === "result") {
-        if (formattedData["data"])
-          dataSetter(JSON.parse(formattedData["data"]));
-
-        loadingSetter({ loading: false });
-        stream.abort();
-      }
-    });
-
-    stream.addEventListener("error", (e) => {
-      throw e;
-    });
-
-    stream.open("GET", url);
-
-    stream.send();
-  } catch (err) {
-    if (err instanceof Error) errorSetter(err);
+  if (!response.ok) {
+    const responseText = await response.text();
+    let error;
+    try {
+      error = JSON.parse(responseText);
+    } catch (err) {
+      error = responseText;
+    }
+    const errorMessage = error.message ?? responseText;
+    throw Error(errorMessage);
   }
+
+  return await response.json();
 };
 
 export default getRandomWords;
