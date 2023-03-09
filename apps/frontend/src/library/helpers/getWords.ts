@@ -1,22 +1,10 @@
 import Constants from "expo-constants";
 
-import type { Dispatch, SetStateAction } from "react";
-import type {
-  DefinitionWord,
-  FileInfo,
-  LoadingData,
-} from "../../types/dataTypes";
-
-import parseSseTextToJSON from "../utils/parseSseTextToJSON";
+import type { FileInfo } from "../../types/dataTypes";
 
 // If platform is web, a File object is supplied, otherwise, an object containing file details is supplied.
 
-const getWords = async (
-  file: File | FileInfo,
-  dataSetter: Dispatch<SetStateAction<DefinitionWord[]>>,
-  loadingSetter: Dispatch<SetStateAction<LoadingData>>,
-  errorSetter: Dispatch<SetStateAction<Error | undefined>>
-) => {
+const getWords = async (file: File | FileInfo) => {
   const formData = new FormData();
   // @ts-expect-error Ignore this error, since it's caused by a lack of type definitions for the react native FormData polyfill.
   formData.append("pdf", file);
@@ -24,41 +12,24 @@ const getWords = async (
   const apiUrl = Constants.expoConfig?.extra?.["apiUrl"];
   const url = `${apiUrl}/words`;
 
-  loadingSetter({ loading: true, message: "Calling API" });
-  const stream = new XMLHttpRequest();
-
-  let test: undefined | string;
-
-  stream.addEventListener("progress", (e) => {
-    const { response } = e.currentTarget as XMLHttpRequest;
-    const newData = test === undefined ? response : response.replace(test, "");
-
-    const formattedData = parseSseTextToJSON(newData);
-
-    test = response;
-
-    if (formattedData["event"] === "loading") {
-      loadingSetter({
-        loading: true,
-        message: formattedData["data"] ?? "Loading",
-      });
-    }
-    if (formattedData["event"] === "result") {
-      if (formattedData["data"]) dataSetter(JSON.parse(formattedData["data"]));
-      loadingSetter({ loading: false });
-      stream.abort();
-    }
-    if (formattedData["event"] === "error") {
-      loadingSetter({ loading: false });
-      errorSetter(
-        new Error(formattedData["data"] ?? "An unknown error occured")
-      );
-    }
+  const response = await fetch(url, {
+    method: "POST",
+    body: formData,
   });
 
-  stream.open("POST", url);
+  if (!response.ok) {
+    const responseText = await response.text();
+    let error;
+    try {
+      error = JSON.parse(responseText);
+    } catch (err) {
+      error = responseText;
+    }
+    const errorMessage = error.message ?? responseText;
+    throw Error(errorMessage);
+  }
 
-  stream.send(formData);
+  return await response.json();
 };
 
 export default getWords;
