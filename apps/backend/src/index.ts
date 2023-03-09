@@ -5,7 +5,6 @@ import { fastifyFormbody } from "@fastify/formbody";
 import cors from "@fastify/cors";
 import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
-import { FastifySSEPlugin } from "fastify-sse-v2";
 import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import autoLoad from "@fastify/autoload";
@@ -70,7 +69,6 @@ await app.register(fastifyMultipart, {
 });
 await app.register(fastifyFormbody);
 await app.register(cors);
-await app.register(FastifySSEPlugin);
 
 await app.register(autoLoad, {
   dir: join(dirName, "plugins"),

@@ -33,14 +33,13 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
               try {
                 const file = await getFile();
                 if (file === undefined) return;
-                getWords(
-                  file,
-                  setWordData,
-                  setWordDataLoading,
-                  setWordDataError
-                );
+                setWordDataLoading({ loading: true, message: "Loading" });
+                const words = await getWords(file);
+                setWordData(words);
               } catch (err) {
                 if (err instanceof Error) setWordDataError(err);
+              } finally {
+                setWordDataLoading({ loading: false });
               }
             })();
           }}
@@ -55,13 +54,13 @@ const Home = ({ navigation: { navigate } }: HomeProps) => {
           onPress={() => {
             (async () => {
               try {
-                getRandomWords(
-                  setWordData,
-                  setWordDataLoading,
-                  setWordDataError
-                );
+                setWordDataLoading({ loading: true, message: "Loading" });
+                const words = await getRandomWords();
+                setWordData(words);
               } catch (err) {
                 if (err instanceof Error) setWordDataError(err);
+              } finally {
+                setWordDataLoading({ loading: false });
               }
             })();
           }}
