@@ -2,7 +2,7 @@
   "name": "readvocab-backend",
   "version": "1.0.0",
   "engines": {
-    "node": "18.12.1"
+    "node": "18.15.0"
   },
   "description": "",
   "main": "src/index.ts",
