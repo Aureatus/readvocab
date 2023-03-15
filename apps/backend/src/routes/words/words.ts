@@ -7,7 +7,7 @@ import findRareWords from "../../helpers/findRareWords.js";
 import getCachedResult from "../../helpers/getCachedResult.js";
 import getDocProxy from "../../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../../helpers/mergeWordsAndDefs.js";
-import wordsFromPDF from "../../helpers/wordsFromPDF.js";
+import { wordsFromPDFThreaded } from "../../helpers/wordsFromPDFThreaded.js";
 import Pdf from "../../models/pdf.js";
 
 import type { PDFInfoType, WordQueryGeneric } from "../../types.js";
@@ -58,7 +58,7 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
       }
     }
 
-    let words = await wordsFromPDF(docProxy);
+    let words: string[] = await wordsFromPDFThreaded(docProxy, fileBuffer);
 
     let rareWords = findRareWords(words, 20, corpus);
 
