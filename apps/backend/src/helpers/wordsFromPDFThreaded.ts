@@ -32,7 +32,7 @@ const wordsFromPDFThreaded = async (
 
     for (let i = 1; i <= threadCount; i++) {
       threads.add(
-        new Worker(`${dirName}./pdfParseWorker.ts`, {
+        new Worker(`${dirName}./pdfParseWorker.js`, {
           workerData: { firstPage, lastPage, file },
         })
       );
