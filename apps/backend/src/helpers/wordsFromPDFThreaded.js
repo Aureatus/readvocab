@@ -27,10 +27,15 @@ if (isMainThread) {
   wordsFromPDFThreaded = async (docProxy, file) => {
     return new Promise((resolve, reject) => {
       const availableThreads = cpus().length - 1;
-      const threadCount = availableThreads >= 4 ? 4 : availableThreads;
-      const threads = new Set();
 
       const docPages = docProxy.numPages;
+      const desiredThreads =
+        docPages < 400 ? 4 : 4 + Math.floor((docPages - 400) / 250);
+      const threadCount =
+        availableThreads >= desiredThreads ? desiredThreads : availableThreads;
+
+      const threads = new Set();
+
       const pageDistribution = Math.floor(docPages / threadCount);
       const pageRemainder = docPages % threadCount;
 
