@@ -1,31 +1,26 @@
-// @ts-nocheck
 import { cpus } from "os";
 import { Worker, isMainThread, workerData, parentPort } from "worker_threads";
 
 import { URL } from "url"; // in Browser, the URL in native accessible on window
 
 import getDocProxy from "./getDocProxy.js";
+import punctuationFilter from "../utils/punctuationFilter.js";
+import removeDuplicates from "../utils/removeDuplicates.js";
+import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api.js";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __filename = new URL("", import.meta.url).pathname;
 
-const punctuationFilter = (wordList) => {
-  const invalidCharRegex = /([^\s\w])/g;
+export let wordsFromPDFThreaded: (
+  docProxy: PDFDocumentProxy,
+  file: any
+) => Promise<string[]>;
 
-  return wordList.replaceAll(invalidCharRegex, " ");
-};
-
-const removeDuplicates = (wordList) => {
-  return [...new Set(wordList)];
-};
-
-export let wordsFromPDFThreaded;
-
-let result = [];
+let result: string[] = [];
 
 if (isMainThread) {
   wordsFromPDFThreaded = async (docProxy, file) => {
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve) => {
       const availableThreads = cpus().length - 1;
 
       const docPages = docProxy.numPages;
@@ -34,7 +29,7 @@ if (isMainThread) {
       const threadCount =
         availableThreads >= desiredThreads ? desiredThreads : availableThreads;
 
-      const threads = new Set();
+      const threads: Set<Worker> = new Set();
 
       const pageDistribution = Math.floor(docPages / threadCount);
       const pageRemainder = docPages % threadCount;
@@ -80,20 +75,16 @@ if (isMainThread) {
   };
 } else {
   const { firstPage, lastPage, file } = workerData;
-  let array = [];
+  let array: string[] = [];
   const docProxy = await getDocProxy(file);
   for (let i = firstPage; i <= lastPage; i++) {
-    try {
-      const page = await docProxy.getPage(i);
-      const pageInfo = await page.getTextContent();
-      const pageText = pageInfo.items.map((item) => {
-        if ("str" in item) return item.str;
-        else return "";
-      });
-      array = array.concat(pageText);
-    } catch (err) {
-      console.log(`${err} pages: ${firstPage} - ${lastPage}`);
-    }
+    const page = await docProxy.getPage(i);
+    const pageInfo = await page.getTextContent();
+    const pageText = pageInfo.items.map((item) => {
+      if ("str" in item) return item.str;
+      else return "";
+    });
+    array = array.concat(pageText);
   }
 
   parentPort?.postMessage(array);
