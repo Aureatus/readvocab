@@ -1,5 +1,8 @@
 {
   "name": "readvocab",
+  "engines": {
+    "node": "18.15.0"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"
