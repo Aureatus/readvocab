@@ -36,6 +36,7 @@ const wordsFromPDFThreaded = async (
 
     for (let i = 1; i <= threadCount; i++) {
       threads.add(
+        // Using eval is FAR FROM IDEAL, but I was having issues passing the my typescript file to the worker, so it will do for now.
         new Worker(
           `(async () => {
             const pkg = require("pdfjs-dist");
