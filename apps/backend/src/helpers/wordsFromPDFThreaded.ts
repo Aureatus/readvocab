@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// @ts-nocheck
 import { cpus } from "os";
-import { Worker } from "worker_threads";
+import { Worker, parentPort, workerData } from "worker_threads";
+import getDocProxy from "./getDocProxy.js";
 
 import punctuationFilter from "../utils/punctuationFilter.js";
 import removeDuplicates from "../utils/removeDuplicates.js";
 import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api.js";
 
-const dirName = new URL(".", import.meta.url).pathname;
+// const dirName = new URL(".", import.meta.url).pathname;
 
 let result: string[] = [];
 
@@ -32,9 +36,42 @@ const wordsFromPDFThreaded = async (
 
     for (let i = 1; i <= threadCount; i++) {
       threads.add(
-        new Worker(`${dirName}./pdfParseWorker.js`, {
-          workerData: { firstPage, lastPage, file },
-        })
+        new Worker(
+          `(async () => {
+            const pkg = require("pdfjs-dist");
+            const { getDocument } = pkg;
+            const { parentPort } = require("worker_threads");
+          
+            const getDocProxy = async (file) => {
+              const doc = await getDocument({
+                data: file,
+                useSystemFonts: true,
+              }).promise;
+              return doc;
+            };
+          
+            const { firstPage, lastPage, file } =
+              require("node:worker_threads").workerData;
+            let array = [];
+            const docProxy = await getDocProxy(file);
+            for (let i = firstPage; i <= lastPage; i++) {
+              const page = await docProxy.getPage(i);
+              const pageInfo = await page.getTextContent();
+              const pageText = pageInfo.items.map((item) => {
+                if ("str" in item) return item.str;
+                else return "";
+              });
+              array = array.concat(pageText);
+            }
+          
+            parentPort?.postMessage(array);
+          })();
+          `,
+          {
+            eval: true,
+            workerData: { firstPage, lastPage, file },
+          }
+        )
       );
       firstPage = lastPage + 1;
       lastPage = firstPage + pageDistribution - 1;
