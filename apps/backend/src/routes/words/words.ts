@@ -1,13 +1,13 @@
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
-
 import createCachedResult from "../../helpers/createCachedResult.js";
+
 import findDefinitions from "../../helpers/findDefinitions.js";
 import findRareWords from "../../helpers/findRareWords.js";
 import getCachedResult from "../../helpers/getCachedResult.js";
 import getDocProxy from "../../helpers/getDocProxy.js";
 import mergeWordsAndDefs from "../../helpers/mergeWordsAndDefs.js";
-import { wordsFromPDFThreaded } from "../../helpers/wordsFromPDFThreaded.js";
+import wordsFromPDFThreaded from "../../helpers/wordsFromPDFThreaded.js";
 import Pdf from "../../models/pdf.js";
 
 import type { PDFInfoType, WordQueryGeneric } from "../../types.js";
