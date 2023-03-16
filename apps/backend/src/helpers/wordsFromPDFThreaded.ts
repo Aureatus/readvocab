@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// @ts-nocheck
 import { cpus } from "os";
-import { Worker, parentPort, workerData } from "worker_threads";
-import getDocProxy from "./getDocProxy.js";
+import { Worker } from "worker_threads";
 
 import punctuationFilter from "../utils/punctuationFilter.js";
 import removeDuplicates from "../utils/removeDuplicates.js";
 import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api.js";
-
-// const dirName = new URL(".", import.meta.url).pathname;
 
 let result: string[] = [];
 
