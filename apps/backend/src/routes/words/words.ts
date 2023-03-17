@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import fluentSchemaObject from "fluent-json-schema";
-import createCachedResult from "../../helpers/createCachedResult.js";
 
+import createCachedResult from "../../helpers/createCachedResult.js";
 import findDefinitions from "../../helpers/findDefinitions.js";
 import findRareWords from "../../helpers/findRareWords.js";
 import getCachedResult from "../../helpers/getCachedResult.js";
@@ -36,12 +36,9 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
 
     const file = await request.file();
     if (file === undefined) throw Error("No file uploaded");
-    await file.toBuffer(); // Will throw error if it is over allowed file size.
-    // ONLY SEND LOADING STATE UPDATE IF TIME ELAPSED FROM LAST LOADING STATE HAS BEEN GREATER THAN 150MS.
-
     const fileBuffer = await file.toBuffer();
-    const docProxy = await getDocProxy(fileBuffer);
 
+    const docProxy = await getDocProxy(fileBuffer.buffer);
     const docMetadata = (await docProxy.getMetadata()) ?? null;
     const info = docMetadata.info as PDFInfoType;
     const title = info["Title"] !== undefined ? info["Title"] : null;
@@ -58,7 +55,10 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
       }
     }
 
-    let words: string[] = await wordsFromPDFThreaded(docProxy, fileBuffer);
+    let words: string[] = await wordsFromPDFThreaded(
+      docProxy,
+      fileBuffer.buffer
+    );
 
     let rareWords = findRareWords(words, 20, corpus);
 
