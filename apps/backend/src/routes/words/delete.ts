@@ -1,9 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import type { WordGeneric } from "../../types.js";
-import fluentSchemaObject from "fluent-json-schema";
+import fluentSchema from "fluent-json-schema";
 import User from "../../models/user.js";
-
-const fluentSchema = fluentSchemaObject.default;
 
 const deleteWord = async (fastify: FastifyInstance): Promise<void> => {
   const BodySchema = fluentSchema

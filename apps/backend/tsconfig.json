@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "moduleResolution": "Node16",
     "sourceMap": true,
     "outDir": "dist",
     "allowJs": true
