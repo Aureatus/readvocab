@@ -1,11 +1,10 @@
 import { compare } from "bcrypt";
 import type { FastifyInstance } from "fastify";
-import fluentSchemaObject from "fluent-json-schema";
+import fluentSchema from "fluent-json-schema";
 
 import User from "../../models/user.js";
 import type { LoginGeneric } from "../../types.js";
 
-const fluentSchema = fluentSchemaObject.default;
 export const loginBodySchema = fluentSchema
   .object()
   .prop("email", fluentSchema.string().format("email").required())

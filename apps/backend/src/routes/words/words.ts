@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import fluentSchemaObject from "fluent-json-schema";
+import fluentSchema from "fluent-json-schema";
 
 import createCachedResult from "../../helpers/createCachedResult.js";
 import findDefinitions from "../../helpers/findDefinitions.js";
@@ -11,8 +11,6 @@ import wordsFromPDFThreaded from "../../helpers/wordsFromPDFThreaded.js";
 import Pdf from "../../models/pdf.js";
 
 import type { PDFInfoType, WordQueryGeneric } from "../../types.js";
-
-const fluentSchema = fluentSchemaObject.default;
 
 const words = async (fastify: FastifyInstance): Promise<void> => {
   const QuerySchema = fluentSchema
@@ -36,6 +34,7 @@ const words = async (fastify: FastifyInstance): Promise<void> => {
 
     const file = await request.file();
     if (file === undefined) throw Error("No file uploaded");
+    //  Converting to buffer is slow.
     const fileBuffer = await file.toBuffer();
 
     const docProxy = await getDocProxy(fileBuffer.buffer);

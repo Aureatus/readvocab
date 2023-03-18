@@ -1,9 +1,7 @@
 import type { FastifyInstance } from "fastify";
-import fluentSchemaObject from "fluent-json-schema";
+import fluentSchema from "fluent-json-schema";
 import Pdf from "../../models/pdf.js";
 import type { SearchGeneric } from "../../types.js";
-
-const fluentSchema = fluentSchemaObject.default;
 
 const searchPDF = async (fastify: FastifyInstance): Promise<void> => {
   const QuerySchema = fluentSchema

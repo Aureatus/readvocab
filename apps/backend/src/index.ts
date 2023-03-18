@@ -9,7 +9,7 @@ import ajvKeywords from "ajv-keywords";
 import fastifyHelmet from "@fastify/helmet";
 import autoLoad from "@fastify/autoload";
 import { fastifyEnv } from "@fastify/env";
-import fluentSchemaObject from "fluent-json-schema";
+import fluentSchema from "fluent-json-schema";
 import mongoose from "mongoose";
 
 const fileName = fileURLToPath(import.meta.url);
@@ -35,11 +35,10 @@ const environment =
 const app = fastify({
   logger: envToLogger[environment],
   ajv: {
-    plugins: [[ajvKeywords.default, ["transform"]]],
+    plugins: [[ajvKeywords, ["transform"]]],
   },
 });
 
-const fluentSchema = fluentSchemaObject.default;
 await app.register(fastifyEnv, {
   dotenv: true,
   schema: fluentSchema
