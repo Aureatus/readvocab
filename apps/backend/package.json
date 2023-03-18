@@ -10,15 +10,12 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "devserve": "ts-node-esm src/index.ts",
-    "dev": "railway run nodemon",
+    "compile": "concurrently \"npx tsc --watch\" \"nodemon\"",
+    "dev": "railway run npm run compile",
     "lint": "eslint --fix . --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore && prettier -w . --ignore-path .gitignore"
   },
   "nodemonConfig": {
-    "watch": [
-      "src"
-    ],
-    "exec": "npm run devserve",
+    "exec": "npm run start",
     "ext": "ts"
   },
   "keywords": [],
