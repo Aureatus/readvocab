@@ -5,6 +5,8 @@ import punctuationFilter from "../utils/punctuationFilter.js";
 import removeDuplicates from "../utils/removeDuplicates.js";
 import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api.js";
 
+const dirName = new URL(".", import.meta.url).pathname;
+
 let result: string[] = [];
 
 const wordsFromPDFThreaded = async (
@@ -31,42 +33,9 @@ const wordsFromPDFThreaded = async (
     for (let i = 1; i <= threadCount; i++) {
       threads.add(
         // Using eval is FAR FROM IDEAL, but I was having issues passing the my typescript file to the worker, so it will do for now.
-        new Worker(
-          `(async () => {
-            const pkg = require("pdfjs-dist");
-            const { getDocument } = pkg;
-            const { parentPort } = require("worker_threads");
-          
-            const getDocProxy = async (file) => {
-              const doc = await getDocument({
-                data: file,
-                useSystemFonts: true,
-              }).promise;
-              return doc;
-            };
-          
-            const { firstPage, lastPage, file } =
-              require("node:worker_threads").workerData;
-            let array = [];
-            const docProxy = await getDocProxy(file);
-            for (let i = firstPage; i <= lastPage; i++) {
-              const page = await docProxy.getPage(i);
-              const pageInfo = await page.getTextContent();
-              const pageText = pageInfo.items.map((item) => {
-                if ("str" in item) return item.str;
-                else return "";
-              });
-              array = array.concat(pageText);
-            }
-          
-            parentPort?.postMessage(array);
-          })();
-          `,
-          {
-            eval: true,
-            workerData: { firstPage, lastPage, file },
-          }
-        )
+        new Worker(`${dirName}pdfParseWorker.js`, {
+          workerData: { firstPage, lastPage, file },
+        })
       );
       firstPage = lastPage + 1;
       lastPage = firstPage + pageDistribution - 1;
