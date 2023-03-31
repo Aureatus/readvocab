@@ -1,4 +1,4 @@
-import pkg, { PDFDocumentProxy } from "pdfjs-dist";
+import pkg, { type PDFDocumentProxy } from "pdfjs-dist";
 
 const { getDocument } = pkg;
 

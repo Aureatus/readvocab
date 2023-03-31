@@ -6,5 +6,9 @@
   "include": ["src"],
   "exclude": ["node_modules", "dist"],
   "ts-node": { "files": true },
-  "extends": "@tsconfig/node18-strictest-esm/tsconfig.json"
+  "extends": [
+    "@tsconfig/strictest/tsconfig",
+    "@tsconfig/node18/tsconfig",
+    "@tsconfig/esm/tsconfig"
+  ]
 }
